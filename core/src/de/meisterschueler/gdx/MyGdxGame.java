@@ -86,6 +86,11 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	private Debounce rightPedal;
 	private Debounce leftPedal;
+	private MidiOutput midiOutput;
+
+	public MyGdxGame(MidiOutput midiOutput) {
+		this.midiOutput = midiOutput;
+	}
 
 	@Override
 	public void create () {
@@ -111,19 +116,18 @@ public class MyGdxGame extends ApplicationAdapter {
 
 			@Override
 			public void execute(boolean state) {
-				// TODO Auto-generated method stub
-				
+				// TODO Auto-generated method stub	
 			}
 		};
 	}
-
+	
 	@Override
 	public void render () {
 		if (currentEffect != null)
 			currentEffect.onRender();
 	}
 
-	public void onMidiNoteOn(NoteOn noteOn) {
+	public void onMidiNoteOn(NoteOn noteOn) {		
 		if (currentEffect != null)
 			currentEffect.onMidiNoteOn(noteOn);
 	}
@@ -163,5 +167,18 @@ public class MyGdxGame extends ApplicationAdapter {
 			currentEffect = new ScrollEffect(shapeRenderer, spriteBatch);
 		}
 		currentEffect.onCreate();
+		
+		new Thread() {
+			public void run() {
+				midiOutput.sendNoteOn(new NoteOn(0, 108, 60));
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				midiOutput.sendNoteOff(new NoteOff(0, 108, 60));
+			}
+		}.start();
 	}
 }

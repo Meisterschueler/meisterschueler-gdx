@@ -30,6 +30,7 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import de.meisterschueler.basic.ControlChange;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
+import de.meisterschueler.gdx.MidiOutput;
 import de.meisterschueler.gdx.MyGdxGame;
 
 /**
@@ -39,7 +40,7 @@ import de.meisterschueler.gdx.MyGdxGame;
  * 
  * @author K.Shoji
  */
-public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceDetachedListener, OnMidiDeviceAttachedListener, OnMidiInputEventListener {
+public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceDetachedListener, OnMidiDeviceAttachedListener, OnMidiInputEventListener, MidiOutput {
 	/**
 	 * Implementation for single device connections.
 	 * 
@@ -165,7 +166,7 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
 		//cfg.useGL20 = false;
-		initialize(new MyGdxGame(), cfg);
+		initialize(new MyGdxGame(this), cfg);
 		
 		UsbManager usbManager = (UsbManager) getApplicationContext().getSystemService(Context.USB_SERVICE);
 		deviceAttachedListener = new OnMidiDeviceAttachedListenerImpl(usbManager);
@@ -359,6 +360,22 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	public void onDeviceDetached(UsbDevice usbDevice) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	/* (non-Javadoc)
+	 * @see de.meisterschueler.gdx.android.MidiOutputFuck#sendNoteOn(de.meisterschueler.basic.NoteOn)
+	 */
+	@Override
+	public void sendNoteOn(NoteOn noteOn) {
+		getMidiOutputDevice().sendMidiNoteOn(noteOn.getCable(), noteOn.getChannel(), noteOn.getNote(), noteOn.getVelocity());
+	}
+	
+	/* (non-Javadoc)
+	 * @see de.meisterschueler.gdx.android.MidiOutputFuck#sendNoteOff(de.meisterschueler.basic.NoteOff)
+	 */
+	@Override
+	public void sendNoteOff(NoteOff noteOff) {
+		getMidiOutputDevice().sendMidiNoteOff(noteOff.getCable(), noteOff.getChannel(), noteOff.getNote(), noteOff.getVelocity());
 	}
 }
 
