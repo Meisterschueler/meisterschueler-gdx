@@ -63,7 +63,7 @@ public class LegatoEffect extends Effect {
 		
 		for (int i=1; i<clusters.size(); i++) {
 			shapeRenderer.begin(ShapeType.Filled);
-			int overlap = clusters.get(i-1).toX - clusters.get(i).fromX; // negativ: lŸcke, positiv: legato
+			int overlap = clusters.get(i-1).toX - clusters.get(i).fromX; // negativ: gap, positiv: legato
 			if (overlap < 0) {
 				shapeRenderer.setColor(0, 0.2f, 0, 1);
 				shapeRenderer.rect(clusters.get(i-1).toX, 0, -overlap, Gdx.graphics.getHeight());

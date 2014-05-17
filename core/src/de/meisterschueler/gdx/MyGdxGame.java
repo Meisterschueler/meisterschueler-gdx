@@ -84,8 +84,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	private ShapeRenderer shapeRenderer;
 	private SpriteBatch spriteBatch;
 
-	private Debounce rechtesPedal;
-	private Debounce linkesPedal;
+	private Debounce rightPedal;
+	private Debounce leftPedal;
 
 	@Override
 	public void create () {
@@ -98,7 +98,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		MyInputProcessor inputProcessor = new MyInputProcessor();
 		Gdx.input.setInputProcessor(inputProcessor);
 
-		linkesPedal = new Debounce(100, 10) {
+		leftPedal = new Debounce(100, 10) {
 
 			@Override
 			public void execute(boolean state) {
@@ -107,7 +107,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			}
 		};
 
-		rechtesPedal = new Debounce(100, 10) {
+		rightPedal = new Debounce(100, 10) {
 
 			@Override
 			public void execute(boolean state) {
@@ -137,16 +137,16 @@ public class MyGdxGame extends ApplicationAdapter {
 		switch (controlChange.getFunction()) {
 		case 64:
 			if (controlChange.getValue() == 127) {
-				rechtesPedal.hit(true);
+				rightPedal.hit(true);
 			} else {
-				rechtesPedal.hit(false);
+				rightPedal.hit(false);
 			}
 			break;
 		case 67:
 			if (controlChange.getValue() == 127) {
-				linkesPedal.hit(true);
+				leftPedal.hit(true);
 			} else {
-				linkesPedal.hit(false);
+				leftPedal.hit(false);
 			}
 			break;
 		}
