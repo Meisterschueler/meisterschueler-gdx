@@ -1,6 +1,5 @@
 meisterschueler-gdx
 ===================
-Meisterschüler
 
 Realtime visualization of MIDI events (over USB) for Android
 
