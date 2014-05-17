@@ -84,30 +84,46 @@ public class MyGdxGame extends ApplicationAdapter {
 	private ShapeRenderer shapeRenderer;
 	private SpriteBatch spriteBatch;
 
+	private Debounce rechtesPedal;
+	private Debounce linkesPedal;
 
 	@Override
 	public void create () {
 		shapeRenderer = new ShapeRenderer();
 		spriteBatch = new SpriteBatch();
-		
+
 		currentEffect = new ScrollEffect(shapeRenderer, spriteBatch);
 		currentEffect.onCreate();
 
 		MyInputProcessor inputProcessor = new MyInputProcessor();
 		Gdx.input.setInputProcessor(inputProcessor);
+
+		linkesPedal = new Debounce(100, 10) {
+
+			@Override
+			public void execute(boolean state) {
+				if (state)
+					changeEffect();
+			}
+		};
+
+		rechtesPedal = new Debounce(100, 10) {
+
+			@Override
+			public void execute(boolean state) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
 	}
 
 	@Override
 	public void render () {
-
 		if (currentEffect != null)
 			currentEffect.onRender();
 	}
 
 	public void onMidiNoteOn(NoteOn noteOn) {
-		if (noteOn.getNote() == 96) {
-			changeEffect();
-		}
 		if (currentEffect != null)
 			currentEffect.onMidiNoteOn(noteOn);
 	}
@@ -118,7 +134,22 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	public void onMidiControlChange(ControlChange controlChange) {
-		changeEffect();		
+		switch (controlChange.getFunction()) {
+		case 64:
+			if (controlChange.getValue() == 127) {
+				rechtesPedal.hit(true);
+			} else {
+				rechtesPedal.hit(false);
+			}
+			break;
+		case 67:
+			if (controlChange.getValue() == 127) {
+				linkesPedal.hit(true);
+			} else {
+				linkesPedal.hit(false);
+			}
+			break;
+		}
 	}
 
 	private void changeEffect() {
