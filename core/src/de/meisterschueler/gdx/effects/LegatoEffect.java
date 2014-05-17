@@ -15,20 +15,22 @@ import de.meisterschueler.basic.MidiPair;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 
-public class ClusterEffect extends Effect {
+public class LegatoEffect extends Effect {
 
-	public ClusterEffect(ShapeRenderer shapeRenderer, SpriteBatch spriteBatch) {
+	public LegatoEffect(ShapeRenderer shapeRenderer, SpriteBatch spriteBatch) {
 		super(shapeRenderer, spriteBatch);
 	}
 
 	public class MidiPairXY extends MidiPair {
 		private int fromX;
 		private int toX;
+		private int y;
 
-		public MidiPairXY(NoteOn noteOn, int fromX, int toX) {
+		public MidiPairXY(NoteOn noteOn, int x, int y) {
 			super(noteOn);
-			this.fromX = fromX;
-			this.toX = toX;
+			this.fromX = x;
+			this.toX = x;
+			this.y = y;
 		}
 	}
 
@@ -56,45 +58,80 @@ public class ClusterEffect extends Effect {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		spriteBatch.begin();
-		font.draw(spriteBatch, "ClusterEffect", 20, 20);
+		font.draw(spriteBatch, "LegatoEffect", 20, 20);
 		spriteBatch.end();
+		
+		for (int i=1; i<clusters.size(); i++) {
+			shapeRenderer.begin(ShapeType.Filled);
+			int overlap = clusters.get(i-1).toX - clusters.get(i).fromX; // negativ: lŸcke, positiv: legato
+			if (overlap < 0) {
+				shapeRenderer.setColor(0, 0.2f, 0, 1);
+				shapeRenderer.rect(clusters.get(i-1).toX, 0, -overlap, Gdx.graphics.getHeight());
+			} else {
+				shapeRenderer.setColor(0.2f, 0, 0, 1);
+				shapeRenderer.rect(clusters.get(i).fromX, 0, overlap, Gdx.graphics.getHeight());
+			}			
+			
+			shapeRenderer.end();
+		}
 
-		int initX = Gdx.graphics.getWidth();
-		float delta = SPEED*Gdx.graphics.getDeltaTime();
+		int velocitySum = 0;
+		int count = 0; 
 		for (ClusterXY cluster : clusters) {
-			List<MidiPairXY> midiPairs = cluster.midiPairs;
-			for (int i=0; i<midiPairs.size(); i++) {
-				MidiPairXY midiPair = midiPairs.get(i);
-				if (midiPair.getNoteOff() == null) {
-					midiPair.toX = initX;
-				}
-				
+			for (MidiPairXY midiPair : cluster.midiPairs) {
+				velocitySum += midiPair.getNoteOn().getVelocity();
+				count++;
+			}
+		}
+		int meanVelocity = (count > 0) ? velocitySum / count : 0;
+
+		float delta = SPEED*Gdx.graphics.getDeltaTime();
+		float rectHight = Gdx.graphics.getHeight()/128f;
+		for (ClusterXY cluster : clusters) {
+			for (MidiPairXY midiPair : cluster.midiPairs) {
 				shapeRenderer.begin(ShapeType.Filled);
 
-				shapeRenderer.setColor(Color.RED);
-				shapeRenderer.rect(midiPair.fromX, i*20, midiPair.toX-midiPair.fromX, (i+1)*20);
+				Color color = getSpectralColor(midiPair.getNoteOn().getVelocity(), meanVelocity-20, meanVelocity+20, 5, 1);			
+				shapeRenderer.setColor(color);
+
+				if (midiPair.getNoteOff() == null) {
+					shapeRenderer.rect(midiPair.fromX, midiPair.y, Gdx.graphics.getWidth()-midiPair.fromX, rectHight);
+				} else {
+					shapeRenderer.rect(midiPair.fromX, midiPair.y, midiPair.toX-midiPair.fromX, rectHight);
+				}
+
 				shapeRenderer.end();
-				
+
 				midiPair.fromX -= delta;
 				midiPair.toX -= delta;
 			}
+			
 			cluster.fromX -= delta;
 			cluster.toX -= delta;
+			
+			if (cluster.toX < 0) {
+				clusters.remove(cluster);
+			}
 		}
 	}
 
 	@Override
 	public void onMidiNoteOn(NoteOn noteOn) {
 		int initX = Gdx.graphics.getWidth();
+		int y = (int) ((noteOn.getNote()/128.0) * Gdx.graphics.getHeight());
 		if (clusters.isEmpty()) {
-			ClusterXY bubble = new ClusterXY(new MidiPairXY(noteOn, initX, initX));
-			clusters.add(bubble);
+			ClusterXY cluster = new ClusterXY(new MidiPairXY(noteOn, initX, y));
+			cluster.fromX = initX;
+			clusters.add(cluster);
 		} else {
 			ClusterXY lastMidiPairCluster = clusters.get(clusters.size()-1);
 			if (noteOn.getTime() - lastMidiPairCluster.time > CLUSTER_GAP) {
-				clusters.add(new ClusterXY(new MidiPairXY(noteOn, initX, initX)));
+				ClusterXY cluster = new ClusterXY(new MidiPairXY(noteOn, initX, y));
+				cluster.fromX = initX;
+				clusters.add(cluster);
 			} else {
-				lastMidiPairCluster.midiPairs.add(new MidiPairXY(noteOn, initX, initX));
+				lastMidiPairCluster.toX = initX;
+				lastMidiPairCluster.midiPairs.add(new MidiPairXY(noteOn, initX, y));
 			}
 		}
 	}

@@ -15,7 +15,7 @@ import de.meisterschueler.basic.ControlChange;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.effects.BubblesEffect;
-import de.meisterschueler.gdx.effects.ClusterEffect;
+import de.meisterschueler.gdx.effects.LegatoEffect;
 import de.meisterschueler.gdx.effects.Effect;
 import de.meisterschueler.gdx.effects.ScrollEffect;
 import de.meisterschueler.gdx.effects.TextEffect;
@@ -156,8 +156,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		if (currentEffect instanceof ScrollEffect) {
 			currentEffect = new BubblesEffect(shapeRenderer, spriteBatch);
 		} else if (currentEffect instanceof BubblesEffect) {
-			currentEffect = new ClusterEffect(shapeRenderer, spriteBatch);
-		} else if (currentEffect instanceof ClusterEffect) {
+			currentEffect = new LegatoEffect(shapeRenderer, spriteBatch);
+		} else if (currentEffect instanceof LegatoEffect) {
 			currentEffect = new TextEffect(shapeRenderer, spriteBatch);
 		} else if (currentEffect instanceof TextEffect) {
 			currentEffect = new ScrollEffect(shapeRenderer, spriteBatch);
