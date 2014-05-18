@@ -98,7 +98,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		spriteBatch = new SpriteBatch();
 
 		currentEffect = new ScrollEffect(shapeRenderer, spriteBatch);
-		currentEffect.onCreate();
 
 		MyInputProcessor inputProcessor = new MyInputProcessor();
 		Gdx.input.setInputProcessor(inputProcessor);
@@ -166,7 +165,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		} else if (currentEffect instanceof TextEffect) {
 			currentEffect = new ScrollEffect(shapeRenderer, spriteBatch);
 		}
-		currentEffect.onCreate();
 		
 		new Thread() {
 			public void run() {

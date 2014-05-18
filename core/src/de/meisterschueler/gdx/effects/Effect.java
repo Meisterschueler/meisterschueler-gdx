@@ -22,7 +22,6 @@ public abstract class Effect {
 		font.setColor(Color.WHITE);
 	}
 
-    public void onCreate() {};
 	public abstract void onRender();
     public abstract void onMidiNoteOn(NoteOn noteOn);
     public abstract void onMidiNoteOff(NoteOff noteOff);
