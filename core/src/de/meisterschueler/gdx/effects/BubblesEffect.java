@@ -24,13 +24,6 @@ public class BubblesEffect extends Effect {
 	int[][] keyCounter = new int[128][128];
 
 	List<MidiPair> midiPairs = new CopyOnWriteArrayList<MidiPair>();
-	int bubbleAppear;
-
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		bubbleAppear = Gdx.graphics.getWidth() - 20;
-	}
 
 	@Override
 	public void onRender() {
