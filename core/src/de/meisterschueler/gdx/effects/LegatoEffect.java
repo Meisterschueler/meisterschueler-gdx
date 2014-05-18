@@ -62,14 +62,16 @@ public class LegatoEffect extends Effect {
 		spriteBatch.end();
 		
 		for (int i=1; i<clusters.size(); i++) {
+			ClusterXY act = clusters.get(i);
+			ClusterXY pre = clusters.get(i-1);
 			shapeRenderer.begin(ShapeType.Filled);
-			int overlap = clusters.get(i-1).toX - clusters.get(i).fromX; // negativ: gap, positiv: legato
+			int overlap = pre.toX - act.fromX; // negativ: gap, positiv: legato
 			if (overlap < 0) {
 				shapeRenderer.setColor(0, 0.2f, 0, 1);
-				shapeRenderer.rect(clusters.get(i-1).toX, 0, -overlap, Gdx.graphics.getHeight());
+				shapeRenderer.rect(pre.toX, 0, -overlap, Gdx.graphics.getHeight());
 			} else {
 				shapeRenderer.setColor(0.2f, 0, 0, 1);
-				shapeRenderer.rect(clusters.get(i).fromX, 0, overlap, Gdx.graphics.getHeight());
+				shapeRenderer.rect(act.fromX, 0, overlap, Gdx.graphics.getHeight());
 			}			
 			
 			shapeRenderer.end();
@@ -88,6 +90,7 @@ public class LegatoEffect extends Effect {
 		float delta = SPEED*Gdx.graphics.getDeltaTime();
 		float rectHight = Gdx.graphics.getHeight()/128f;
 		for (ClusterXY cluster : clusters) {
+			boolean clusterFinished = true;
 			for (MidiPairXY midiPair : cluster.midiPairs) {
 				shapeRenderer.begin(ShapeType.Filled);
 
@@ -96,6 +99,7 @@ public class LegatoEffect extends Effect {
 
 				if (midiPair.getNoteOff() == null) {
 					shapeRenderer.rect(midiPair.fromX, midiPair.y, Gdx.graphics.getWidth()-midiPair.fromX, rectHight);
+					clusterFinished = false;
 				} else {
 					shapeRenderer.rect(midiPair.fromX, midiPair.y, midiPair.toX-midiPair.fromX, rectHight);
 				}
@@ -104,6 +108,10 @@ public class LegatoEffect extends Effect {
 
 				midiPair.fromX -= delta;
 				midiPair.toX -= delta;
+			}
+			
+			if (!clusterFinished) {
+				cluster.toX = Gdx.graphics.getWidth();
 			}
 			
 			cluster.fromX -= delta;
