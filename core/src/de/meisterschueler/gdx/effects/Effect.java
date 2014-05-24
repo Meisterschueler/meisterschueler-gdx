@@ -14,12 +14,10 @@ public abstract class Effect {
 	protected SpriteBatch spriteBatch;
 	protected BitmapFont font;
     
-    public Effect(ShapeRenderer shapeRenderer, SpriteBatch spriteBatch) {
+    public Effect(ShapeRenderer shapeRenderer, SpriteBatch spriteBatch, BitmapFont font) {
 		this.shapeRenderer = shapeRenderer;
 		this.spriteBatch = spriteBatch;
-		
-		font = new BitmapFont();
-		font.setColor(Color.WHITE);
+		this.font = font;
 	}
 
 	public abstract void onRender();

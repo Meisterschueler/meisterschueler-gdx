@@ -6,6 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -16,8 +17,8 @@ import de.meisterschueler.basic.NoteOn;
 
 public class BubblesEffect extends Effect {
 
-	public BubblesEffect(ShapeRenderer shapeRenderer, SpriteBatch spriteBatch) {
-		super(shapeRenderer, spriteBatch);
+	public BubblesEffect(ShapeRenderer shapeRenderer, SpriteBatch spriteBatch, BitmapFont font) {
+		super(shapeRenderer, spriteBatch, font);
 	}
 
 	boolean[] keyPressed = new boolean[128];

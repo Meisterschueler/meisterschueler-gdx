@@ -2,6 +2,7 @@ package de.meisterschueler.gdx.effects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -10,8 +11,8 @@ import de.meisterschueler.basic.NoteOn;
 
 public class TextEffect extends Effect {
 
-	public TextEffect(ShapeRenderer shapeRenderer, SpriteBatch spriteBatch) {
-		super(shapeRenderer, spriteBatch);
+	public TextEffect(ShapeRenderer shapeRenderer, SpriteBatch spriteBatch, BitmapFont font) {
+		super(shapeRenderer, spriteBatch, font);
 	}
 
 	@Override

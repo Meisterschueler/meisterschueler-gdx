@@ -8,6 +8,8 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -15,8 +17,8 @@ import de.meisterschueler.basic.ControlChange;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.effects.BubblesEffect;
-import de.meisterschueler.gdx.effects.LegatoEffect;
 import de.meisterschueler.gdx.effects.Effect;
+import de.meisterschueler.gdx.effects.LegatoEffect;
 import de.meisterschueler.gdx.effects.ScrollEffect;
 import de.meisterschueler.gdx.effects.TextEffect;
 
@@ -83,6 +85,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Effect currentEffect;
 	private ShapeRenderer shapeRenderer;
 	private SpriteBatch spriteBatch;
+	private BitmapFont font;
 
 	private Debounce rightPedal;
 	private Debounce leftPedal;
@@ -96,8 +99,10 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void create () {
 		shapeRenderer = new ShapeRenderer();
 		spriteBatch = new SpriteBatch();
+		font = new BitmapFont();
+		font.setColor(Color.WHITE);
 
-		currentEffect = new ScrollEffect(shapeRenderer, spriteBatch);
+		currentEffect = new ScrollEffect(shapeRenderer, spriteBatch, font);
 
 		MyInputProcessor inputProcessor = new MyInputProcessor();
 		Gdx.input.setInputProcessor(inputProcessor);
@@ -157,13 +162,13 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	private void changeEffect() {
 		if (currentEffect instanceof ScrollEffect) {
-			currentEffect = new BubblesEffect(shapeRenderer, spriteBatch);
+			currentEffect = new BubblesEffect(shapeRenderer, spriteBatch, font);
 		} else if (currentEffect instanceof BubblesEffect) {
-			currentEffect = new LegatoEffect(shapeRenderer, spriteBatch);
+			currentEffect = new LegatoEffect(shapeRenderer, spriteBatch, font);
 		} else if (currentEffect instanceof LegatoEffect) {
-			currentEffect = new TextEffect(shapeRenderer, spriteBatch);
+			currentEffect = new TextEffect(shapeRenderer, spriteBatch, font);
 		} else if (currentEffect instanceof TextEffect) {
-			currentEffect = new ScrollEffect(shapeRenderer, spriteBatch);
+			currentEffect = new ScrollEffect(shapeRenderer, spriteBatch, font);
 		}
 		
 		new Thread() {
