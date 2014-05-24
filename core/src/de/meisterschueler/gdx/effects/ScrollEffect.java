@@ -39,10 +39,6 @@ public class ScrollEffect extends Effect {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		spriteBatch.begin();
-		font.draw(spriteBatch, "ScrollEffect", 20, 20);
-		spriteBatch.end();
-		
 		int velocitySum = 0;
 		for (Bubble bubble : bubbles) {
 			velocitySum += bubble.noteOn.getVelocity();
@@ -71,6 +67,10 @@ public class ScrollEffect extends Effect {
 				bubbles.remove(bubble);
 			}
 		}
+		
+		spriteBatch.begin();
+		font.draw(spriteBatch, "ScrollEffect", 20, 20);
+		spriteBatch.end();
 	}
 
 	@Override

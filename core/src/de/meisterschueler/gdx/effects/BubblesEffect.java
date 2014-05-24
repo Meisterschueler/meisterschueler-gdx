@@ -30,10 +30,6 @@ public class BubblesEffect extends Effect {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		spriteBatch.begin();
-		font.draw(spriteBatch, "BubblesEffect", 20, 20);
-		spriteBatch.end();
-
 		long currentTime = System.currentTimeMillis();
 		for (MidiPair midiPair : midiPairs) {
 			int x = (int) ((midiPair.getNoteOn().getNote()/128.0) * Gdx.graphics.getWidth());
@@ -54,6 +50,10 @@ public class BubblesEffect extends Effect {
 			shapeRenderer.circle(x, y, 10);
 			shapeRenderer.end();
 		}
+		
+		spriteBatch.begin();
+		font.draw(spriteBatch, "BubblesEffect", 20, 20);
+		spriteBatch.end();
 	}
 
 	@Override

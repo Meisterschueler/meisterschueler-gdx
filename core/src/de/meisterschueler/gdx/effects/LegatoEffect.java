@@ -56,10 +56,6 @@ public class LegatoEffect extends Effect {
 	public void onRender() {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		spriteBatch.begin();
-		font.draw(spriteBatch, "LegatoEffect", 20, 20);
-		spriteBatch.end();
 		
 		for (int i=1; i<clusters.size(); i++) {
 			ClusterXY act = clusters.get(i);
@@ -121,6 +117,10 @@ public class LegatoEffect extends Effect {
 				clusters.remove(cluster);
 			}
 		}
+		
+		spriteBatch.begin();
+		font.draw(spriteBatch, "LegatoEffect", 20, 20);
+		spriteBatch.end();
 	}
 
 	@Override
