@@ -1,6 +1,5 @@
 package de.meisterschueler.gdx.effects;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -37,7 +36,7 @@ public class LegatoEffect extends Effect {
 
 	public class ClusterXY {
 		public long time;
-		public List<MidiPairXY> midiPairs = new ArrayList<MidiPairXY>();
+		public List<MidiPairXY> midiPairs = new CopyOnWriteArrayList<MidiPairXY>();
 		private int fromX;
 		private int toX;
 
