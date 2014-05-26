@@ -124,7 +124,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			}
 		};
 	}
-	
+
 	@Override
 	public void render () {
 		if (currentEffect != null)
@@ -132,8 +132,14 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	public void onMidiNoteOn(NoteOn noteOn) {		
-		if (currentEffect != null)
-			currentEffect.onMidiNoteOn(noteOn);
+		if (currentEffect != null) {
+			if (noteOn.getVelocity() > 0) {
+				currentEffect.onMidiNoteOn(noteOn);
+			} else {
+				NoteOff noteOff = new NoteOff(noteOn.getTime(), noteOn.getCable(), noteOn.getChannel(), noteOn.getNote(), noteOn.getVelocity());
+				currentEffect.onMidiNoteOff(noteOff);
+			}
+		}
 	}
 
 	public void onMidiNoteOff(NoteOff noteOff) {
@@ -170,7 +176,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		} else if (currentEffect instanceof TextEffect) {
 			currentEffect = new ScrollEffect(shapeRenderer, spriteBatch, font);
 		}
-		
+
 		new Thread() {
 			public void run() {
 				midiOutput.sendNoteOn(new NoteOn(0, 108, 60));
