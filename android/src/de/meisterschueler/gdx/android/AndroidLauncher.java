@@ -48,7 +48,7 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	 */
 	final class OnMidiDeviceAttachedListenerImpl implements OnMidiDeviceAttachedListener {
 		private final UsbManager usbManager;
-		
+
 		/**
 		 * constructor
 		 * 
@@ -57,7 +57,7 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 		public OnMidiDeviceAttachedListenerImpl(UsbManager usbManager) {
 			this.usbManager = usbManager;
 		}
-		
+
 		/*
 		 * (non-Javadoc)
 		 * @see jp.kshoji.driver.midi.listener.OnMidiDeviceAttachedListener#onDeviceAttached(android.hardware.usb.UsbDevice, android.hardware.usb.UsbInterface)
@@ -73,25 +73,25 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 			if (deviceConnection == null) {
 				return;
 			}
-			
+
 			List<DeviceFilter> deviceFilters = DeviceFilter.getDeviceFilters(getApplicationContext());
 
 			Set<MidiInputDevice> foundInputDevices = UsbMidiDeviceUtils.findMidiInputDevices(attachedDevice, deviceConnection, deviceFilters, AndroidLauncher.this);
 			if (foundInputDevices.size() > 0) {
 				midiInputDevice = (MidiInputDevice) foundInputDevices.toArray()[0];
 			}
-			
+
 			Set<MidiOutputDevice> foundOutputDevices = UsbMidiDeviceUtils.findMidiOutputDevices(attachedDevice, deviceConnection, deviceFilters);
 			if (foundOutputDevices.size() > 0) {
 				midiOutputDevice = (MidiOutputDevice) foundOutputDevices.toArray()[0];
 			}
-			
+
 			Log.d(Constants.TAG, "Device " + attachedDevice.getDeviceName() + " has been attached.");
-			
+
 			AndroidLauncher.this.onDeviceAttached(attachedDevice);
 		}
 	}
-	
+
 	/**
 	 * Implementation for single device connections.
 	 * 
@@ -104,7 +104,7 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 		 */
 		@Override
 		public synchronized void onDeviceDetached(final UsbDevice detachedDevice) {
-			
+
 			AsyncTask<UsbDevice, Void, Void> task = new AsyncTask<UsbDevice, Void, Void>() {
 
 				@Override
@@ -112,27 +112,27 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 					if (params == null || params.length < 1) {
 						return null;
 					}
-					
+
 					UsbDevice usbDevice = params[0];
-					
+
 					if (midiInputDevice != null) {
 						midiInputDevice.stop();
 						midiInputDevice = null;
 					}
-					
+
 					if (midiOutputDevice != null) {
 						midiOutputDevice.stop();
 						midiOutputDevice = null;
 					}
-					
+
 					if (deviceConnection != null) {
 						deviceConnection.close();
 						deviceConnection = null;
 					}
 					device = null;
-					
+
 					Log.d(Constants.TAG, "Device " + usbDevice.getDeviceName() + " has been detached.");
-					
+
 					Message message = Message.obtain(deviceDetachedHandler);
 					message.obj = usbDevice;
 					deviceDetachedHandler.sendMessage(message);
@@ -142,9 +142,9 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 			task.execute(detachedDevice);
 		}
 	}
-	
-	
-	
+
+
+
 	UsbDevice device = null;
 	UsbDeviceConnection deviceConnection = null;
 	MidiInputDevice midiInputDevice = null;
@@ -162,16 +162,16 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
 		//cfg.useGL20 = false;
 		initialize(new MyGdxGame(this), cfg);
-		
+
 		UsbManager usbManager = (UsbManager) getApplicationContext().getSystemService(Context.USB_SERVICE);
 		deviceAttachedListener = new OnMidiDeviceAttachedListenerImpl(usbManager);
 		deviceDetachedListener = new OnMidiDeviceDetachedListenerImpl(); 
-		
+
 		deviceDetachedHandler = new Handler(new Callback() {
 			/*
 			 * (non-Javadoc)
@@ -187,7 +187,7 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 
 		deviceConnectionWatcher = new MidiDeviceConnectionWatcher(getApplicationContext(), usbManager, deviceAttachedListener, deviceDetachedListener);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see android.app.Activity#onDestroy()
@@ -195,19 +195,19 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		
+
 		if (deviceConnectionWatcher != null) {
 			deviceConnectionWatcher.stop();
 		}
 		deviceConnectionWatcher = null;
-		
+
 		if (midiInputDevice != null) {
 			midiInputDevice.stop();
 			midiInputDevice = null;
 		}
-		
+
 		midiOutputDevice = null;
-		
+
 		deviceConnection = null;
 	}
 
@@ -220,12 +220,12 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 		if (midiInputDevice != null) {
 			midiInputDevice.suspend();
 		}
-		
+
 		if (midiOutputDevice != null) {
 			midiOutputDevice.suspend();
 		}
 	}
-	
+
 	/**
 	 * Resumes from {@link #suspendMidiDevices()}
 	 */
@@ -233,7 +233,7 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 		if (midiInputDevice != null) {
 			midiInputDevice.resume();
 		}
-		
+
 		if (midiOutputDevice != null) {
 			midiOutputDevice.resume();
 		}
@@ -249,7 +249,7 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 		if (deviceConnectionWatcher != null) {
 			deviceConnectionWatcher.checkConnectedDevicesImmediately();
 		}
-		
+
 		return midiOutputDevice;
 	}
 
@@ -263,43 +263,48 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	@Override
 	public void onMidiNoteOn(MidiInputDevice sender, int cable, int channel,
 			int note, int velocity) {
-		NoteOn noteOn = new NoteOn(System.currentTimeMillis(), cable, channel, note, velocity);
-		((MyGdxGame)listener).onMidiNoteOn(noteOn);
+		if (velocity > 0) {
+			NoteOn noteOn = new NoteOn(System.currentTimeMillis(), cable, channel, note, velocity);
+			((MyGdxGame)listener).onMidiNoteOn(noteOn);
+		} else {
+			NoteOff noteOff = new NoteOff(System.currentTimeMillis(), cable, channel, note, velocity);
+			((MyGdxGame)listener).onMidiNoteOff(noteOff);
+		}
 	}
 
 	@Override
 	public void onMidiMiscellaneousFunctionCodes(MidiInputDevice sender,
 			int cable, int byte1, int byte2, int byte3) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onMidiCableEvents(MidiInputDevice sender, int cable, int byte1,
 			int byte2, int byte3) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onMidiSystemCommonMessage(MidiInputDevice sender, int cable,
 			byte[] bytes) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onMidiSystemExclusive(MidiInputDevice sender, int cable,
 			byte[] systemExclusive) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onMidiPolyphonicAftertouch(MidiInputDevice sender, int cable,
 			int channel, int note, int pressure) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -313,55 +318,55 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	public void onMidiProgramChange(MidiInputDevice sender, int cable,
 			int channel, int program) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onMidiChannelAftertouch(MidiInputDevice sender, int cable,
 			int channel, int pressure) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onMidiPitchWheel(MidiInputDevice sender, int cable,
 			int channel, int amount) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onMidiSingleByte(MidiInputDevice sender, int cable, int byte1) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onMidiRPNReceived(MidiInputDevice sender, int cable,
 			int channel, int function, int valueMSB, int valueLSB) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onMidiNRPNReceived(MidiInputDevice sender, int cable,
 			int channel, int function, int valueMSB, int valueLSB) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onDeviceAttached(UsbDevice usbDevice) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onDeviceDetached(UsbDevice usbDevice) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see de.meisterschueler.gdx.android.MidiOutputFuck#sendNoteOn(de.meisterschueler.basic.NoteOn)
 	 */
@@ -369,7 +374,7 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	public void sendNoteOn(NoteOn noteOn) {
 		getMidiOutputDevice().sendMidiNoteOn(noteOn.getCable(), noteOn.getChannel(), noteOn.getNote(), noteOn.getVelocity());
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see de.meisterschueler.gdx.android.MidiOutputFuck#sendNoteOff(de.meisterschueler.basic.NoteOff)
 	 */

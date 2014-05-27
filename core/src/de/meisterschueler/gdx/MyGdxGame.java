@@ -132,14 +132,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	public void onMidiNoteOn(NoteOn noteOn) {		
-		if (currentEffect != null) {
-			if (noteOn.getVelocity() > 0) {
-				currentEffect.onMidiNoteOn(noteOn);
-			} else {
-				NoteOff noteOff = new NoteOff(noteOn.getTime(), noteOn.getCable(), noteOn.getChannel(), noteOn.getNote(), noteOn.getVelocity());
-				currentEffect.onMidiNoteOff(noteOff);
-			}
-		}
+		if (currentEffect != null)
+			currentEffect.onMidiNoteOn(noteOn);
 	}
 
 	public void onMidiNoteOff(NoteOff noteOff) {
