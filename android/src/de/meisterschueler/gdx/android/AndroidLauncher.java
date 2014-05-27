@@ -28,10 +28,11 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
 import de.meisterschueler.basic.ControlChange;
+import de.meisterschueler.basic.Derepeater;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
-import de.meisterschueler.gdx.MidiOutput;
 import de.meisterschueler.gdx.Meisterschueler;
+import de.meisterschueler.gdx.MidiOutput;
 
 /**
  * base Activity for using USB MIDI interface.
@@ -253,23 +254,30 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 		return midiOutputDevice;
 	}
 
+	private Derepeater derepeater = new Derepeater() {
+
+		@Override
+		public void onNoteOn(NoteOn noteOn) {
+			((Meisterschueler)listener).onMidiNoteOn(noteOn);
+		}
+
+		@Override
+		public void onNoteOff(NoteOff noteOff) {
+			((Meisterschueler)listener).onMidiNoteOff(noteOff);
+		}
+
+	};
+
 	@Override
 	public void onMidiNoteOff(MidiInputDevice sender, int cable, int channel,
 			int note, int velocity) {
-		NoteOff noteOff = new NoteOff(System.currentTimeMillis(), cable, channel, note, velocity);
-		((Meisterschueler)listener).onMidiNoteOff(noteOff);
+		derepeater.noteOffEvent(cable, channel, note, velocity);
 	}
 
 	@Override
 	public void onMidiNoteOn(MidiInputDevice sender, int cable, int channel,
 			int note, int velocity) {
-		if (velocity > 0) {
-			NoteOn noteOn = new NoteOn(System.currentTimeMillis(), cable, channel, note, velocity);
-			((Meisterschueler)listener).onMidiNoteOn(noteOn);
-		} else {
-			NoteOff noteOff = new NoteOff(System.currentTimeMillis(), cable, channel, note, velocity);
-			((Meisterschueler)listener).onMidiNoteOff(noteOff);
-		}
+		derepeater.noteOnEvent(cable, channel, note, velocity);
 	}
 
 	@Override
