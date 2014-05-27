@@ -6,12 +6,12 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.MidiOutput;
-import de.meisterschueler.gdx.MyGdxGame;
+import de.meisterschueler.gdx.Meisterschueler;
 
 public class DesktopLauncher {	
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new MyGdxGame(new MidiOutput() {
+		new LwjglApplication(new Meisterschueler(new MidiOutput() {
 
 			@Override
 			public void sendNoteOn(NoteOn noteOn) {

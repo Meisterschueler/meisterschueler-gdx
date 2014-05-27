@@ -22,7 +22,7 @@ import de.meisterschueler.gdx.effects.LegatoEffect;
 import de.meisterschueler.gdx.effects.ScrollEffect;
 import de.meisterschueler.gdx.effects.TextEffect;
 
-public class MyGdxGame extends ApplicationAdapter {
+public class Meisterschueler extends ApplicationAdapter {
 	private static final Map<Integer, Integer> noteMap;
 	static {
 		Map<Integer, Integer> tempMap = new HashMap<Integer, Integer>();
@@ -91,7 +91,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Debounce leftPedal;
 	private MidiOutput midiOutput;
 
-	public MyGdxGame(MidiOutput midiOutput) {
+	public Meisterschueler(MidiOutput midiOutput) {
 		this.midiOutput = midiOutput;
 	}
 

@@ -31,7 +31,7 @@ import de.meisterschueler.basic.ControlChange;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.MidiOutput;
-import de.meisterschueler.gdx.MyGdxGame;
+import de.meisterschueler.gdx.Meisterschueler;
 
 /**
  * base Activity for using USB MIDI interface.
@@ -166,7 +166,7 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
 		//cfg.useGL20 = false;
-		initialize(new MyGdxGame(this), cfg);
+		initialize(new Meisterschueler(this), cfg);
 
 		UsbManager usbManager = (UsbManager) getApplicationContext().getSystemService(Context.USB_SERVICE);
 		deviceAttachedListener = new OnMidiDeviceAttachedListenerImpl(usbManager);
@@ -257,7 +257,7 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	public void onMidiNoteOff(MidiInputDevice sender, int cable, int channel,
 			int note, int velocity) {
 		NoteOff noteOff = new NoteOff(System.currentTimeMillis(), cable, channel, note, velocity);
-		((MyGdxGame)listener).onMidiNoteOff(noteOff);
+		((Meisterschueler)listener).onMidiNoteOff(noteOff);
 	}
 
 	@Override
@@ -265,10 +265,10 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 			int note, int velocity) {
 		if (velocity > 0) {
 			NoteOn noteOn = new NoteOn(System.currentTimeMillis(), cable, channel, note, velocity);
-			((MyGdxGame)listener).onMidiNoteOn(noteOn);
+			((Meisterschueler)listener).onMidiNoteOn(noteOn);
 		} else {
 			NoteOff noteOff = new NoteOff(System.currentTimeMillis(), cable, channel, note, velocity);
-			((MyGdxGame)listener).onMidiNoteOff(noteOff);
+			((Meisterschueler)listener).onMidiNoteOff(noteOff);
 		}
 	}
 
@@ -311,7 +311,7 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	public void onMidiControlChange(MidiInputDevice sender, int cable,
 			int channel, int function, int value) {
 		ControlChange controlChange = new ControlChange(System.currentTimeMillis(), cable, channel, function, value);
-		((MyGdxGame)listener).onMidiControlChange(controlChange);
+		((Meisterschueler)listener).onMidiControlChange(controlChange);
 	}
 
 	@Override
