@@ -50,6 +50,16 @@ public class DerepeaterTest {
 		derepeater.noteOnEvent(new NoteOn(0, 0, 0,  40, 85));
 		derepeater.noteOnEvent(new NoteOn(0, 0, 0,  40, 90));
 		assertEquals(counterNoteOn[40], 1);
+		
+		// Repeat notes
+		derepeater.noteOnEvent(new NoteOn(0, 0, 0,  50, 64));
+		derepeater.noteOffEvent(new NoteOff(0, 0, 0,  50, 64));
+		derepeater.noteOnEvent(new NoteOn(0, 0, 0,  50, 64));
+		derepeater.noteOffEvent(new NoteOff(0, 0, 0,  50, 64));
+		derepeater.noteOnEvent(new NoteOn(0, 0, 0,  50, 64));
+		derepeater.noteOffEvent(new NoteOff(0, 0, 0,  50, 64));
+		assertEquals(counterNoteOn[50], 3);
+		assertEquals(counterNoteOff[50], 3);
 
 		assertFalse(fail);
 	}
