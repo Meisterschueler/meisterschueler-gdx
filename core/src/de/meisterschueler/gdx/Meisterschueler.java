@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import de.meisterschueler.basic.ControlChange;
+import de.meisterschueler.basic.Derepeater;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.effects.BubblesEffect;
@@ -130,15 +131,29 @@ public class Meisterschueler extends ApplicationAdapter {
 		if (currentEffect != null)
 			currentEffect.onRender();
 	}
+	
+	private Derepeater derepeater = new Derepeater() {
+
+		@Override
+		public void onNoteOn(NoteOn noteOn) {
+			if (currentEffect != null)
+				currentEffect.onMidiNoteOn(noteOn);
+		}
+
+		@Override
+		public void onNoteOff(NoteOff noteOff) {
+			if (currentEffect != null)
+				currentEffect.onMidiNoteOff(noteOff);
+		}
+
+	};
 
 	public void onMidiNoteOn(NoteOn noteOn) {		
-		if (currentEffect != null)
-			currentEffect.onMidiNoteOn(noteOn);
+		derepeater.noteOnEvent(noteOn);
 	}
 
 	public void onMidiNoteOff(NoteOff noteOff) {
-		if (currentEffect != null)
-			currentEffect.onMidiNoteOff(noteOff);
+		derepeater.noteOffEvent(noteOff);
 	}
 
 	public void onMidiControlChange(ControlChange controlChange) {

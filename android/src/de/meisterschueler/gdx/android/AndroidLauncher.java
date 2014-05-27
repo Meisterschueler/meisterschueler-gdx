@@ -254,30 +254,18 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 		return midiOutputDevice;
 	}
 
-	private Derepeater derepeater = new Derepeater() {
-
-		@Override
-		public void onNoteOn(NoteOn noteOn) {
-			((Meisterschueler)listener).onMidiNoteOn(noteOn);
-		}
-
-		@Override
-		public void onNoteOff(NoteOff noteOff) {
-			((Meisterschueler)listener).onMidiNoteOff(noteOff);
-		}
-
-	};
-
 	@Override
 	public void onMidiNoteOff(MidiInputDevice sender, int cable, int channel,
 			int note, int velocity) {
-		derepeater.noteOffEvent(cable, channel, note, velocity);
+		NoteOff noteOff = new NoteOff(System.currentTimeMillis(), cable, channel, note, velocity);
+		((Meisterschueler)listener).onMidiNoteOff(noteOff);
 	}
 
 	@Override
 	public void onMidiNoteOn(MidiInputDevice sender, int cable, int channel,
 			int note, int velocity) {
-		derepeater.noteOnEvent(cable, channel, note, velocity);
+		NoteOn noteOn = new NoteOn(System.currentTimeMillis(), cable, channel, note, velocity);
+		((Meisterschueler)listener).onMidiNoteOn(noteOn);
 	}
 
 	@Override
