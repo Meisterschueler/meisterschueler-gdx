@@ -12,15 +12,16 @@ public abstract class Derepeater {
 		if (noteOn.getVelocity() > 0 && !pressed[noteOn.getNote()]) {
 			pressed[noteOn.getNote()] = true;
 			onNoteOn(noteOn);
+		} else if (noteOn.getVelocity() > 0 && pressed[noteOn.getNote()]) {
+			noteOffEvent(new NoteOff(noteOn.getTime(), noteOn.getCable(), noteOn.getChannel(), noteOn.getNote(), noteOn.getVelocity()));
+			onNoteOn(noteOn);
 		} else if (noteOn.getVelocity() == 0) {
 			noteOffEvent(new NoteOff(noteOn.getTime(), noteOn.getCable(), noteOn.getChannel(), noteOn.getNote(), noteOn.getVelocity()));
 		}
 	}
 
 	public void noteOffEvent(NoteOff noteOff) {
-		if (pressed[noteOff.getNote()]) {
-			pressed[noteOff.getNote()] = false;
-			onNoteOff(noteOff);
-		}
+		pressed[noteOff.getNote()] = false;
+		onNoteOff(noteOff);
 	}
 }

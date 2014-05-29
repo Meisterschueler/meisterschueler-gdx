@@ -10,13 +10,11 @@ import de.meisterschueler.basic.NoteOn;
 
 public class DerepeaterTest {
 
-	private boolean fail = false;
 	private int counterNoteOn[] = new int[128];
 	private int counterNoteOff[] = new int[128];
 
 	@Test
 	public void test() {
-
 
 		Derepeater derepeater = new Derepeater() {
 
@@ -46,11 +44,9 @@ public class DerepeaterTest {
 		// Multiple NoteOnEvents
 		derepeater.noteOnEvent(new NoteOn(0, 0, 0,  40, 64));
 		derepeater.noteOnEvent(new NoteOn(0, 0, 0,  40, 70));
-		derepeater.noteOnEvent(new NoteOn(0, 0, 0,  40, 80));
-		derepeater.noteOnEvent(new NoteOn(0, 0, 0,  40, 85));
-		derepeater.noteOnEvent(new NoteOn(0, 0, 0,  40, 90));
-		assertEquals(counterNoteOn[40], 1);
-		
+		assertEquals(counterNoteOn[40], 2);
+		assertEquals(counterNoteOff[40], 1);
+
 		// Repeat notes
 		derepeater.noteOnEvent(new NoteOn(0, 0, 0,  50, 64));
 		derepeater.noteOffEvent(new NoteOff(0, 0, 0,  50, 64));
@@ -60,12 +56,10 @@ public class DerepeaterTest {
 		derepeater.noteOffEvent(new NoteOff(0, 0, 0,  50, 64));
 		assertEquals(counterNoteOn[50], 3);
 		assertEquals(counterNoteOff[50], 3);
-		
+
 		// NoteOff without NoteOn
 		derepeater.noteOffEvent(new NoteOff(0, 0, 0,  60, 64));
-		assertEquals(counterNoteOff[60], 0);
-
-		assertFalse(fail);
+		assertEquals(counterNoteOn[60], 0);
+		assertEquals(counterNoteOff[60], 1);
 	}
-
 }
