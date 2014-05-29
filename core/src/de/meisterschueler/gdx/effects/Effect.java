@@ -1,5 +1,6 @@
 package de.meisterschueler.gdx.effects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,13 +19,14 @@ public abstract class Effect {
 		this.shapeRenderer = shapeRenderer;
 		this.spriteBatch = spriteBatch;
 		this.font = font;
+		
+		Gdx.graphics.setContinuousRendering(true);
 	}
 
 	public abstract void onRender();
     public abstract void onMidiNoteOn(NoteOn noteOn);
     public abstract void onMidiNoteOff(NoteOff noteOff);
-	public void onMidiControlChange(ControlChange controlChange) {};
-    
+	public abstract void onMidiControlChange(ControlChange controlChange);
     
 	Color getSpectralColor(float value, float vMin, float vMax, float cMin, float cMax) {
 		Color color = new Color(0, 0, 0, 0);

@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
+import de.meisterschueler.basic.ControlChange;
 import de.meisterschueler.basic.MidiPair;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
@@ -39,6 +40,7 @@ public class LegatoEffect extends Effect {
 		public List<MidiPairXY> midiPairs = new CopyOnWriteArrayList<MidiPairXY>();
 		private int fromX;
 		private int toX;
+		public boolean remove;
 
 		public ClusterXY(MidiPairXY midiPairXY) {
 			this.time = midiPairXY.getNoteOn().getTime();
@@ -114,7 +116,7 @@ public class LegatoEffect extends Effect {
 			cluster.toX -= delta;
 			
 			if (cluster.toX < 0) {
-				clusters.remove(cluster);
+				cluster.remove = true;
 			}
 		}
 		
@@ -124,28 +126,33 @@ public class LegatoEffect extends Effect {
 	}
 
 	@Override
-	public void onMidiNoteOn(NoteOn noteOn) {
-		int initX = Gdx.graphics.getWidth();
+	public synchronized void onMidiNoteOn(NoteOn noteOn) {
+		int width = Gdx.graphics.getWidth();
 		int y = (int) ((noteOn.getNote()/128.0) * Gdx.graphics.getHeight());
 		if (clusters.isEmpty()) {
-			ClusterXY cluster = new ClusterXY(new MidiPairXY(noteOn, initX, y));
-			cluster.fromX = initX;
+			ClusterXY cluster = new ClusterXY(new MidiPairXY(noteOn, width, y));
+			cluster.fromX = width;
 			clusters.add(cluster);
 		} else {
 			ClusterXY lastMidiPairCluster = clusters.get(clusters.size()-1);
 			if (noteOn.getTime() - lastMidiPairCluster.time > CLUSTER_GAP) {
-				ClusterXY cluster = new ClusterXY(new MidiPairXY(noteOn, initX, y));
-				cluster.fromX = initX;
+				ClusterXY cluster = new ClusterXY(new MidiPairXY(noteOn, width, y));
+				cluster.fromX = width;
 				clusters.add(cluster);
 			} else {
-				lastMidiPairCluster.toX = initX;
-				lastMidiPairCluster.midiPairs.add(new MidiPairXY(noteOn, initX, y));
+				lastMidiPairCluster.toX = width;
+				lastMidiPairCluster.midiPairs.add(new MidiPairXY(noteOn, width, y));
 			}
+		}
+		
+		for (ClusterXY cluster : clusters) {
+			if (cluster.remove) 
+				clusters.remove(cluster);
 		}
 	}
 
 	@Override
-	public void onMidiNoteOff(NoteOff noteOff) {
+	public synchronized void onMidiNoteOff(NoteOff noteOff) {
 		int initX = Gdx.graphics.getWidth();
 		for (int i=clusters.size()-1; i>=0; i--) {
 			for (MidiPairXY midiPair : clusters.get(i).midiPairs) {
@@ -158,5 +165,11 @@ public class LegatoEffect extends Effect {
 			}
 		}
 		Gdx.app.log("WTF", "Got NoteOff and couldnt find a appropriate noteOn");
+	}
+
+	@Override
+	public void onMidiControlChange(ControlChange controlChange) {
+		// TODO Auto-generated method stub
+		
 	}
 }

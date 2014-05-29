@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
+import de.meisterschueler.basic.ControlChange;
 import de.meisterschueler.basic.MidiPair;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
@@ -75,5 +76,11 @@ public class BubblesEffect extends Effect {
 				return;
 			}
 		}
+	}
+
+	@Override
+	public void onMidiControlChange(ControlChange controlChange) {
+		// TODO Auto-generated method stub
+		
 	}
 }
