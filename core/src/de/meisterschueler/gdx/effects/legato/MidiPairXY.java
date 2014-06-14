@@ -1,4 +1,4 @@
-package de.meisterschueler.gdx.effects;
+package de.meisterschueler.gdx.effects.legato;
 
 import de.meisterschueler.basic.MidiPair;
 import de.meisterschueler.basic.NoteOn;

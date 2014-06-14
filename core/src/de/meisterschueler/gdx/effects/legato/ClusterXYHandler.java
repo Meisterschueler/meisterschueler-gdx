@@ -1,12 +1,10 @@
-package de.meisterschueler.gdx;
+package de.meisterschueler.gdx.effects.legato;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
-import de.meisterschueler.gdx.effects.ClusterXY;
-import de.meisterschueler.gdx.effects.MidiPairXY;
 
 public class ClusterXYHandler {
 	private static final long CLUSTER_GAP = 50;

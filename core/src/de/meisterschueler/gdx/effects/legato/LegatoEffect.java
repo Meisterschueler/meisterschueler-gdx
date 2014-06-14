@@ -1,4 +1,4 @@
-package de.meisterschueler.gdx.effects;
+package de.meisterschueler.gdx.effects.legato;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import de.meisterschueler.basic.MidiPairCluster;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.ClusterHandler;
-import de.meisterschueler.gdx.ClusterXYHandler;
+import de.meisterschueler.gdx.effects.Effect;
 
 public class LegatoEffect extends Effect {
 

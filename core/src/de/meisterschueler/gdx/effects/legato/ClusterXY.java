@@ -1,4 +1,4 @@
-package de.meisterschueler.gdx.effects;
+package de.meisterschueler.gdx.effects.legato;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;

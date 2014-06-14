@@ -19,11 +19,11 @@ import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.effects.BubblesEffect;
 import de.meisterschueler.gdx.effects.Effect;
-import de.meisterschueler.gdx.effects.LegatoEffect;
-import de.meisterschueler.gdx.effects.LegatoEffect2;
 import de.meisterschueler.gdx.effects.ScrollEffect;
 import de.meisterschueler.gdx.effects.SpectrumEffect;
 import de.meisterschueler.gdx.effects.TextEffect;
+import de.meisterschueler.gdx.effects.legato.LegatoEffect;
+import de.meisterschueler.gdx.effects.legato.LegatoEffect2;
 
 public class Meisterschueler extends ApplicationAdapter {
 	private static final Map<Integer, Integer> noteMap;
