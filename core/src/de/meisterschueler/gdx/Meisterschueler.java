@@ -20,7 +20,9 @@ import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.effects.BubblesEffect;
 import de.meisterschueler.gdx.effects.Effect;
 import de.meisterschueler.gdx.effects.LegatoEffect;
+import de.meisterschueler.gdx.effects.LegatoEffect2;
 import de.meisterschueler.gdx.effects.ScrollEffect;
+import de.meisterschueler.gdx.effects.SpectrumEffect;
 import de.meisterschueler.gdx.effects.TextEffect;
 
 public class Meisterschueler extends ApplicationAdapter {
@@ -83,55 +85,6 @@ public class Meisterschueler extends ApplicationAdapter {
 		}
 	}
 
-	private Effect currentEffect;
-	private ShapeRenderer shapeRenderer;
-	private SpriteBatch spriteBatch;
-	private BitmapFont font;
-
-	private Debounce rightPedal;
-	private Debounce leftPedal;
-	private MidiOutput midiOutput;
-
-	public Meisterschueler(MidiOutput midiOutput) {
-		this.midiOutput = midiOutput;
-	}
-
-	@Override
-	public void create () {
-		shapeRenderer = new ShapeRenderer();
-		spriteBatch = new SpriteBatch();
-		font = new BitmapFont();
-		font.setColor(Color.WHITE);
-
-		currentEffect = new ScrollEffect(shapeRenderer, spriteBatch, font);
-
-		MyInputProcessor inputProcessor = new MyInputProcessor();
-		Gdx.input.setInputProcessor(inputProcessor);
-
-		leftPedal = new Debounce(100, 10) {
-
-			@Override
-			public void execute(boolean state) {
-				if (state)
-					changeEffect();
-			}
-		};
-
-		rightPedal = new Debounce(100, 10) {
-
-			@Override
-			public void execute(boolean state) {
-				// TODO Auto-generated method stub	
-			}
-		};
-	}
-
-	@Override
-	public void render () {
-		if (currentEffect != null)
-			currentEffect.onRender();
-	}
-	
 	private Derepeater derepeater = new Derepeater() {
 
 		@Override
@@ -145,8 +98,59 @@ public class Meisterschueler extends ApplicationAdapter {
 			if (currentEffect != null)
 				currentEffect.onMidiNoteOff(noteOff);
 		}
-
 	};
+
+	private Effect currentEffect;
+	private ShapeRenderer shapeRenderer;
+	private SpriteBatch spriteBatch;
+	private BitmapFont font;
+
+	private Debounce rightPedal;
+	private Debounce leftPedal;
+	private MidiOutputService midiOutputService;
+
+	public Meisterschueler(MidiOutput midiOutput) {
+		midiOutputService = new MidiOutputService(midiOutput);
+	}
+
+	@Override
+	public void create () {
+		shapeRenderer = new ShapeRenderer();
+		spriteBatch = new SpriteBatch();
+		font = new BitmapFont();
+		font.setColor(Color.WHITE);
+
+		currentEffect = new LegatoEffect(shapeRenderer, spriteBatch, font);
+
+		MyInputProcessor inputProcessor = new MyInputProcessor();
+		Gdx.input.setInputProcessor(inputProcessor);
+
+		leftPedal = new Debounce(100, 10) {
+
+			@Override
+			public void execute(boolean set) {
+				if (set && rightPedal.isSet())
+					changeEffect();
+				else if (set)
+					currentEffect.onRender();
+			}
+		};
+
+		rightPedal = new Debounce(100, 10) {
+
+			@Override
+			public void execute(boolean set) {
+				if (set && leftPedal.isSet())
+					changeEffect();
+			}
+		};
+	}
+
+	@Override
+	public void render () {
+		if (currentEffect != null)
+			currentEffect.onRender();
+	}
 
 	public void onMidiNoteOn(NoteOn noteOn) {		
 		derepeater.noteOnEvent(noteOn);
@@ -175,8 +179,17 @@ public class Meisterschueler extends ApplicationAdapter {
 		}
 	}
 
+	public void onDeviceAttached(String usbDeviceName) {
+		midiOutputService.dideldii();
+	}
+
+	public void onDeviceDetached(String deviceName) {
+	}
+
 	private void changeEffect() {
-		if (currentEffect instanceof ScrollEffect) {
+		if (currentEffect instanceof SpectrumEffect) {
+			currentEffect = new ScrollEffect(shapeRenderer, spriteBatch, font);
+		} else if (currentEffect instanceof ScrollEffect) {
 			currentEffect = new BubblesEffect(shapeRenderer, spriteBatch, font);
 		} else if (currentEffect instanceof BubblesEffect) {
 			currentEffect = new LegatoEffect(shapeRenderer, spriteBatch, font);
@@ -186,17 +199,6 @@ public class Meisterschueler extends ApplicationAdapter {
 			currentEffect = new ScrollEffect(shapeRenderer, spriteBatch, font);
 		}
 
-		new Thread() {
-			public void run() {
-				midiOutput.sendNoteOn(new NoteOn(0, 108, 60));
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				midiOutput.sendNoteOff(new NoteOff(0, 108, 60));
-			}
-		}.start();
+		midiOutputService.ping();
 	}
 }

@@ -27,6 +27,7 @@ public abstract class Effect {
     public abstract void onMidiNoteOn(NoteOn noteOn);
     public abstract void onMidiNoteOff(NoteOff noteOff);
 	public abstract void onMidiControlChange(ControlChange controlChange);
+	public void onReset() {};
     
 	Color getSpectralColor(float value, float vMin, float vMax, float cMin, float cMax) {
 		Color color = new Color(0, 0, 0, 0);
