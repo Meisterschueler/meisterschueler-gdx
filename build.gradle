@@ -4,7 +4,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.9+'
+        classpath 'com.android.tools.build:gradle:0.10+'
     }
 }
 
@@ -15,8 +15,8 @@ allprojects {
     version = '1.0'
     ext {
         appName = 'meisterschueler-gdx'
-        gdxVersion = '1.0.0'
-        roboVMVersion = '0.0.11'
+        gdxVersion = '1.0.1'
+        roboVMVersion = '0.0.12'
     }
 
     repositories {
@@ -63,6 +63,7 @@ project(":core") {
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        compile "com.github.rwl:jtransforms:2.4.0"
     }
 }
 
