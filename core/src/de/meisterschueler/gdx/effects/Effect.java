@@ -29,7 +29,7 @@ public abstract class Effect {
 	public abstract void onMidiControlChange(ControlChange controlChange);
 	public void onReset() {};
     
-	Color getSpectralColor(float value, float vMin, float vMax, float cMin, float cMax) {
+	protected Color getSpectralColor(float value, float vMin, float vMax, float cMin, float cMax) {
 		Color color = new Color(0, 0, 0, 0);
 
 		float normValue = (Math.min(vMax, Math.max(value, vMin)) - vMin) / (vMax-vMin);
