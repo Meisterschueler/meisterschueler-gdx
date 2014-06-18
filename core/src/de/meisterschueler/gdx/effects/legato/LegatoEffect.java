@@ -23,6 +23,8 @@ public class LegatoEffect extends Effect {
 
 	public LegatoEffect(ShapeRenderer shapeRenderer, SpriteBatch spriteBatch, BitmapFont font) {
 		super(shapeRenderer, spriteBatch, font);
+
+		texture = new Texture(Gdx.graphics.getWidth(), 1, Pixmap.Format.RGBA8888);
 	}
 
 	private static final float SPEED = 100;
@@ -34,6 +36,9 @@ public class LegatoEffect extends Effect {
 	private long staccato;
 
 	private boolean startWithBlackRegion = true;
+
+	private Texture texture;
+
 
 	@Override
 	public void onRender() {
@@ -65,17 +70,17 @@ public class LegatoEffect extends Effect {
 				c = new Color(0, 0.2f, 0, 1);
 			} else if (c.a <= 0.1) {
 				c = Color.BLACK;
-			} else if (c.a <= 0.2) {
+			} else if (c.a <= 0.19) {
 				c = new Color(0.2f, 0, 0, 1);
-			} else if (c.a <= 0.3) {
+			} else if (c.a <= 0.26) {
 				c = new Color(0.4f, 0, 0, 1);
-			} else if (c.a <= 0.4){
+			} else if (c.a <= 0.33){
 				c = new Color(0.6f, 0, 0, 1);
-			} else if (c.a <= 0.5){
+			} else if (c.a <= 0.40){
 				c = new Color(0.8f, 0, 0, 1);
 			} else {
 				c = new Color(1, 0, 0, 1);
-			} 
+			}
 
 			pixmap.drawPixel(i, 0, Color.rgba8888(c));
 		}
@@ -92,9 +97,13 @@ public class LegatoEffect extends Effect {
 			}
 		}
 
+		texture.draw(pixmap, 0, 0);
+
 		spriteBatch.begin();
-		spriteBatch.draw(new Texture(pixmap), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		spriteBatch.draw(texture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		spriteBatch.end();
+
+		pixmap.dispose();
 
 		// Calc color
 		int velocitySum = 0;
@@ -110,10 +119,10 @@ public class LegatoEffect extends Effect {
 		// draw notes
 		float delta = SPEED*Gdx.graphics.getDeltaTime();
 		float rectHight = Gdx.graphics.getHeight()/128f;
+		shapeRenderer.begin(ShapeType.Filled);
 		for (ClusterXY cluster : clusters) {
 			boolean clusterFinished = true;
 			for (MidiPairXY midiPair : cluster.getMidiPairs()) {
-				shapeRenderer.begin(ShapeType.Filled);
 
 				Color color = getSpectralColor(midiPair.getNoteOn().getVelocity(), meanVelocity-20, meanVelocity+20, 5, 1);			
 				shapeRenderer.setColor(color);
@@ -124,8 +133,6 @@ public class LegatoEffect extends Effect {
 				} else {
 					shapeRenderer.rect(midiPair.fromX, midiPair.y, midiPair.toX-midiPair.fromX, rectHight);
 				}
-
-				shapeRenderer.end();
 
 				midiPair.fromX -= delta;
 				midiPair.toX -= delta;
@@ -142,16 +149,23 @@ public class LegatoEffect extends Effect {
 				clusterXYHandler.removeCluster(cluster);
 			}
 		}
+		shapeRenderer.end();
 
 		// Draw statistics
 		spriteBatch.begin();
-		font.draw(spriteBatch, "Legato:   " + legato, 20, Gdx.graphics.getHeight()-20);
-		font.draw(spriteBatch, "Staccato: " + staccato, 20, Gdx.graphics.getHeight()-40);
+		font.draw(spriteBatch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 20, Gdx.graphics.getHeight()-20);
+		//font.draw(spriteBatch, "Legato:   " + legato, 20, Gdx.graphics.getHeight()-40);
+		//font.draw(spriteBatch, "Staccato: " + staccato, 20, Gdx.graphics.getHeight()-60);
 		spriteBatch.end();
 
 		spriteBatch.begin();
 		font.draw(spriteBatch, "LegatoEffect", 20, 20);
 		spriteBatch.end();
+	}
+
+	@Override
+	public void onDispose() {
+		texture.dispose();
 	}
 
 	@Override

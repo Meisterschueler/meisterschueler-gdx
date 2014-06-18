@@ -23,7 +23,6 @@ import de.meisterschueler.gdx.effects.ScrollEffect;
 import de.meisterschueler.gdx.effects.SpectrumEffect;
 import de.meisterschueler.gdx.effects.TextEffect;
 import de.meisterschueler.gdx.effects.legato.LegatoEffect;
-import de.meisterschueler.gdx.effects.legato.LegatoEffect2;
 
 public class Meisterschueler extends ApplicationAdapter {
 	private static final Map<Integer, Integer> noteMap;
@@ -131,7 +130,7 @@ public class Meisterschueler extends ApplicationAdapter {
 			public void execute(boolean set) {
 				if (set && rightPedal.isSet())
 					changeEffect();
-				else if (set)
+				else if (set && currentEffect instanceof TextEffect)
 					currentEffect.onRender();
 			}
 		};
@@ -150,6 +149,12 @@ public class Meisterschueler extends ApplicationAdapter {
 	public void render () {
 		if (currentEffect != null)
 			currentEffect.onRender();
+	}
+
+	@Override
+	public void dispose() {
+		if (currentEffect != null)
+			currentEffect.onDispose();
 	}
 
 	public void onMidiNoteOn(NoteOn noteOn) {		

@@ -24,6 +24,8 @@ public abstract class Effect {
 	}
 
 	public abstract void onRender();
+	public void onDispose() {};
+	
     public abstract void onMidiNoteOn(NoteOn noteOn);
     public abstract void onMidiNoteOff(NoteOff noteOff);
 	public abstract void onMidiControlChange(ControlChange controlChange);
