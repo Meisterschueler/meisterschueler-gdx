@@ -51,4 +51,8 @@ public abstract class Debounce {
 			debounceInstance.checkExecute();
 		}
 	}
+
+	public boolean isSet() {
+		return state;
+	}
 }

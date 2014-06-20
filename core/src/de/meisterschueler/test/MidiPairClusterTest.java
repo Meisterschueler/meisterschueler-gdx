@@ -16,7 +16,7 @@ public class MidiPairClusterTest {
 		MidiPair midiPair = new MidiPair(noteOn);
 		MidiPairCluster midiPairCluster = new MidiPairCluster(midiPair);
 		
-		assertEquals(noteOn.getTime(), midiPairCluster.getTime());
+		assertEquals(noteOn.getTime(), midiPairCluster.getStart());
 	}
 
 }
