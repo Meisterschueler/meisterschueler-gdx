@@ -10,7 +10,8 @@ public abstract class Debounce {
 	private long lastHit = 0;
 	private long debounceDelay = 0;
 	private long checkDelay = 0;
-	private boolean state;
+	private boolean inputState;
+	private boolean outputState;
 
 	public abstract void execute(boolean state);
 
@@ -27,14 +28,15 @@ public abstract class Debounce {
 		}
 		this.timer = new Timer("Debounce", true);
 		this.timer.schedule(new DebounceTask(this), 0, checkDelay);
-		this.state = state;
+		this.inputState = state;
 	}
 
 	private void checkExecute(){
 		if((System.currentTimeMillis() - lastHit) > debounceDelay){
 			this.timer.cancel();
 			this.timer = null;
-			execute(state);
+			outputState = inputState;
+			execute(outputState);
 		}
 	}
 
@@ -53,6 +55,6 @@ public abstract class Debounce {
 	}
 
 	public boolean isSet() {
-		return state;
+		return outputState;
 	}
 }

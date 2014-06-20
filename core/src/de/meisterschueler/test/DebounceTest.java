@@ -11,7 +11,7 @@ public class DebounceTest {
 	@Test
 	public void test() throws InterruptedException {
 
-		Debounce linkesPedal = new Debounce(100, 10) {
+		Debounce pedal = new Debounce(100, 10) {
 
 			@Override
 			public void execute(boolean state) {
@@ -20,17 +20,24 @@ public class DebounceTest {
 			}
 		};
 		
-		linkesPedal.hit(true);
-		linkesPedal.hit(false);
-		
-		assertFalse(pressed);	
+		pedal.hit(true);
+		assertFalse(pedal.isSet());
+		pedal.hit(false);
+		assertFalse(pedal.isSet());
+	
+		assertFalse(pressed);
 		Thread.sleep(100);
 		assertFalse(pressed);
 		
-		linkesPedal.hit(true);
+		pedal.hit(true);
+		assertFalse(pedal.isSet());
 		assertFalse(pressed);
-		Thread.sleep(200);
+		Thread.sleep(110);
 		assertTrue(pressed);
+		assertTrue(pedal.isSet());
+		
+		pedal.hit(false);
+		assertTrue(pressed);
+		assertTrue(pedal.isSet());
 	}
-
 }
