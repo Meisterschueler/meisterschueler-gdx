@@ -46,16 +46,28 @@ public class LegatoEffect extends Effect {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 
+		List<NoteRectangle> noteOnRectangles = clusterXYHandler.getNoteOnRectangles();
+		List<NoteRectangle> noteOffRectangles = clusterXYHandler.getNoteOffRectangles();
 		List<ClusterXY> clusters = clusterXYHandler.getMidiPairClusters();
 
-		//		// Draw legato/staccato bars
-		//		shapeRenderer.begin(ShapeType.Filled);
-		//		for (ClusterXY cluster : clusters) {
-		//			shapeRenderer.setColor(1, 0, 0, 0.1f);
-		//			shapeRenderer.rect(cluster.fromX, 0, cluster.toX-cluster.fromX, Gdx.graphics.getHeight());
-		//		}
-		//		shapeRenderer.end();
+		float delta = SPEED*Gdx.graphics.getDeltaTime();
+		drawLegatoStaccatoBars(clusters);
+		drawOverlapRegions(noteOnRectangles, noteOffRectangles, delta);
+		drawNotes(clusters, delta);
 
+		// Draw statistics
+		spriteBatch.begin();
+		font.draw(spriteBatch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 20, Gdx.graphics.getHeight()-20);
+		//font.draw(spriteBatch, "Legato:   " + legato, 20, Gdx.graphics.getHeight()-40);
+		//font.draw(spriteBatch, "Staccato: " + staccato, 20, Gdx.graphics.getHeight()-60);
+		spriteBatch.end();
+
+		spriteBatch.begin();
+		font.draw(spriteBatch, "LegatoEffect", 20, 20);
+		spriteBatch.end();
+	}
+
+	private void drawLegatoStaccatoBars(List<ClusterXY> clusters) {
 		// Draw legato/staccato bars
 		Pixmap pixmap = new Pixmap(Gdx.graphics.getWidth(), 1, Pixmap.Format.RGBA8888);
 		pixmap.setColor(1, 0, 0, 0.1f);
@@ -104,7 +116,9 @@ public class LegatoEffect extends Effect {
 		spriteBatch.end();
 
 		pixmap.dispose();
+	}
 
+	private void drawNotes(List<ClusterXY> clusters, float delta) {
 		// Calc color
 		int velocitySum = 0;
 		int count = 0; 
@@ -117,14 +131,14 @@ public class LegatoEffect extends Effect {
 		int meanVelocity = (count > 0) ? velocitySum / count : 0;
 
 		// draw notes
-		float delta = SPEED*Gdx.graphics.getDeltaTime();
 		float rectHight = Gdx.graphics.getHeight()/128f;
 		shapeRenderer.begin(ShapeType.Filled);
 		for (ClusterXY cluster : clusters) {
 			boolean clusterFinished = true;
 			for (MidiPairXY midiPair : cluster.getMidiPairs()) {
 
-				Color color = getSpectralColor(midiPair.getNoteOn().getVelocity(), meanVelocity-20, meanVelocity+20, 5, 1);			
+				Color color = null;
+				color = getSpectralColor(midiPair.getNoteOn().getVelocity(), meanVelocity-20, meanVelocity+20, 5, 1);	
 				shapeRenderer.setColor(color);
 
 				if (midiPair.getNoteOff() == null) {
@@ -150,17 +164,31 @@ public class LegatoEffect extends Effect {
 			}
 		}
 		shapeRenderer.end();
+	}
 
-		// Draw statistics
-		spriteBatch.begin();
-		font.draw(spriteBatch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 20, Gdx.graphics.getHeight()-20);
-		//font.draw(spriteBatch, "Legato:   " + legato, 20, Gdx.graphics.getHeight()-40);
-		//font.draw(spriteBatch, "Staccato: " + staccato, 20, Gdx.graphics.getHeight()-60);
-		spriteBatch.end();
-
-		spriteBatch.begin();
-		font.draw(spriteBatch, "LegatoEffect", 20, 20);
-		spriteBatch.end();
+	private void drawOverlapRegions(List<NoteRectangle> noteOnRectangles, List<NoteRectangle> noteOffRectangles, float delta) {		
+		shapeRenderer.begin(ShapeType.Filled);
+		shapeRenderer.setColor(Color.WHITE);
+		
+		for (NoteRectangle noteRectangle : noteOnRectangles) {
+			shapeRenderer.rect(noteRectangle.x, noteRectangle.y, noteRectangle.width, noteRectangle.height);
+			noteRectangle.setX((int)(noteRectangle.x - delta));
+			
+			if (noteRectangle.x + noteRectangle.width < 0) {
+				clusterXYHandler.removeNoteOnRectangle(noteRectangle);
+			}
+		}
+		
+		for (NoteRectangle noteRectangle : noteOffRectangles) {
+			shapeRenderer.rect(noteRectangle.x, noteRectangle.y, noteRectangle.width, noteRectangle.height);
+			noteRectangle.setX((int)(noteRectangle.x - delta));
+			
+			if (noteRectangle.x + noteRectangle.width < 0) {
+				clusterXYHandler.removeNoteOffRectangle(noteRectangle);
+			}
+		}
+		
+		shapeRenderer.end();
 	}
 
 	@Override
@@ -170,9 +198,9 @@ public class LegatoEffect extends Effect {
 
 	@Override
 	public synchronized void onMidiNoteOn(NoteOn noteOn) {
-		int width = Gdx.graphics.getWidth();
+		int x = Gdx.graphics.getWidth();
 		int y = (int) ((noteOn.getNote()/128.0) * Gdx.graphics.getHeight());
-		clusterXYHandler.onMidiNoteOn(noteOn, width, y);
+		clusterXYHandler.onMidiNoteOn(noteOn, x, y);
 
 		clusterHandler.onMidiNoteOn(noteOn);
 		updateStatistics();
@@ -180,8 +208,9 @@ public class LegatoEffect extends Effect {
 
 	@Override
 	public synchronized void onMidiNoteOff(NoteOff noteOff) {
-		int initX = Gdx.graphics.getWidth();
-		clusterXYHandler.onMidiNoteOff(noteOff, initX);
+		int x = Gdx.graphics.getWidth();
+		int y = (int) ((noteOff.getNote()/128.0) * Gdx.graphics.getHeight());
+		clusterXYHandler.onMidiNoteOff(noteOff, x, y);
 
 		clusterHandler.onMidiNoteOff(noteOff);
 		updateStatistics();
