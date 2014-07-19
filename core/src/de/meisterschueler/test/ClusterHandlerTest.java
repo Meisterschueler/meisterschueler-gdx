@@ -21,18 +21,40 @@ public class ClusterHandlerTest {
 		assertTrue(clusterHandler.getMidiPairClusters().get(0).getStart() == 10);
 		assertTrue(clusterHandler.getMidiPairClusters().get(0).getEnd() == 20);
 		
+		assertTrue(clusterHandler.getNoteOnClusters().size() == 1);
+		assertTrue(clusterHandler.getNoteOnClusters().get(0).getTime() == 10);
+		
+		assertTrue(clusterHandler.getNoteOffClusters().size() == 1);
+		assertTrue(clusterHandler.getNoteOffClusters().get(0).getTime() == 20);
+		
+		
+		
 		clusterHandler.onMidiNoteOn(new NoteOn(70, 50, 20));
 		assertTrue(clusterHandler.getMidiPairClusters().size() == 2);
 		
+		assertTrue(clusterHandler.getNoteOnClusters().size() == 2);
+		
+		assertTrue(clusterHandler.getNoteOffClusters().size() == 1);
+		
+		
+		
 		clusterHandler.onMidiNoteOn(new NoteOn(72, 51, 20));
 		clusterHandler.onMidiNoteOff(new NoteOff(73, 51, 64));
+		
 		assertTrue(clusterHandler.getMidiPairClusters().size() == 2);
 		
-		MidiPairCluster cluster0 = clusterHandler.getMidiPairClusters().get(0);
-		clusterHandler.removeCluster(cluster0);
-		assertTrue(clusterHandler.getMidiPairClusters().size() == 1);
+		assertTrue(clusterHandler.getNoteOnClusters().size() == 2);
+		
+		assertTrue(clusterHandler.getNoteOffClusters().size() == 2);
+		
+		
 		
 		clusterHandler.clear();
+		
 		assertTrue(clusterHandler.getMidiPairClusters().size() == 0);
+		
+		assertTrue(clusterHandler.getNoteOnClusters().size() == 0);
+		
+		assertTrue(clusterHandler.getNoteOffClusters().size() == 0);
 	}
 }

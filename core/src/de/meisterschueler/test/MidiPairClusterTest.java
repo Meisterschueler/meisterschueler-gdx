@@ -1,6 +1,7 @@
 package de.meisterschueler.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -17,6 +18,7 @@ public class MidiPairClusterTest {
 		MidiPairCluster midiPairCluster = new MidiPairCluster(midiPair);
 		
 		assertEquals(noteOn.getTime(), midiPairCluster.getStart());
+		assertTrue(midiPairCluster.getMidiPairs() != null && midiPairCluster.getMidiPairs().size() == 1);
 	}
 
 }
