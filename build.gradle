@@ -15,8 +15,8 @@ allprojects {
     version = '1.0'
     ext {
         appName = 'meisterschueler-gdx'
-        gdxVersion = '1.0.1'
-        roboVMVersion = '0.0.12'
+        gdxVersion = '1.3.1'
+        roboVMVersion = '0.0.14'
     }
 
     repositories {
@@ -53,6 +53,9 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
+        
+        compile files('../../USB-MIDI-Driver/MIDIDriver/bin/mididriver.jar')
+        compile 'com.google.android.gms:play-services:5.+'
     }
 }
 
