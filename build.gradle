@@ -4,7 +4,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.10+'
+        classpath 'com.android.tools.build:gradle:0.12.2'
     }
 }
 
@@ -55,7 +55,7 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
         
         compile files('../../USB-MIDI-Driver/MIDIDriver/bin/mididriver.jar')
-        compile 'com.google.android.gms:play-services:5.+'
+        compile "com.google.android.gms:play-services:5.+"
     }
 }
 
