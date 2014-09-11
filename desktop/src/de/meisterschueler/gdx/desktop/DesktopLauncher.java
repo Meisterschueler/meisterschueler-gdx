@@ -9,13 +9,15 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import de.meisterschueler.basic.MidiLogPlayer;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
-import de.meisterschueler.gdx.MidiOutput;
 import de.meisterschueler.gdx.Meisterschueler;
+import de.meisterschueler.gdx.MidiOutput;
+import de.meisterschueler.gpgs.ScoreService;
 
 public class DesktopLauncher {	
 	public static void main (String[] arg) {
+		ScoreService scoreService = new ScoreServiceDesktop();
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		LwjglApplication application = new LwjglApplication(new Meisterschueler(new MidiOutput() {
+		LwjglApplication application = new LwjglApplication(new Meisterschueler(scoreService, new MidiOutput() {
 
 			@Override
 			public void sendNoteOn(NoteOn noteOn) {

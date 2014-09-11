@@ -15,11 +15,19 @@ import de.meisterschueler.basic.ControlChange;
 import de.meisterschueler.basic.MidiPair;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
+import de.meisterschueler.gdx.Utils;
 
-public class BubblesEffect extends Effect {
+public class BubblesEffect extends MidiScreen {
 
-	public BubblesEffect(ShapeRenderer shapeRenderer, SpriteBatch spriteBatch, BitmapFont font) {
-		super(shapeRenderer, spriteBatch, font);
+	private ShapeRenderer shapeRenderer;
+	private SpriteBatch spriteBatch;
+	private BitmapFont font;
+
+	public BubblesEffect() {
+		shapeRenderer = new ShapeRenderer();
+		spriteBatch = new SpriteBatch();
+		font = new BitmapFont();
+		font.setColor(Color.WHITE);
 	}
 
 	boolean[] keyPressed = new boolean[128];
@@ -28,7 +36,7 @@ public class BubblesEffect extends Effect {
 	List<MidiPair> midiPairs = new CopyOnWriteArrayList<MidiPair>();
 
 	@Override
-	public void onRender() {
+	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -40,11 +48,11 @@ public class BubblesEffect extends Effect {
 			shapeRenderer.begin(ShapeType.Filled);
 			Color color = new Color(1, 0, 0, 1);
 			if (midiPair.getNoteOff() != null) {
-				long delta = currentTime - midiPair.getNoteOff().getTime();
-				float value = (float)delta;
-				color = getSpectralColor(value, 0, 500, 1, 0);
+				long length = currentTime - midiPair.getNoteOff().getTime();
+				float value = (float)length;
+				color = Utils.getSpectralColor(value, 0, 500, 1, 0);
 
-				if (delta > 500) {
+				if (length > 500) {
 					midiPairs.remove(midiPair);
 				}
 			}

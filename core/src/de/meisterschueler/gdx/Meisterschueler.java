@@ -4,27 +4,25 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.Screen;
 
 import de.meisterschueler.basic.ControlChange;
 import de.meisterschueler.basic.Derepeater;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.effects.BubblesEffect;
-import de.meisterschueler.gdx.effects.Effect;
+import de.meisterschueler.gdx.effects.MidiScreen;
 import de.meisterschueler.gdx.effects.ScrollEffect;
 import de.meisterschueler.gdx.effects.SpectrumEffect;
 import de.meisterschueler.gdx.effects.TextEffect;
 import de.meisterschueler.gdx.effects.legato.LegatoEffect;
+import de.meisterschueler.gpgs.ScoreService;
 
-public class Meisterschueler extends ApplicationAdapter {
+public class Meisterschueler extends Game {
 	private static final Map<Integer, Integer> noteMap;
 	static {
 		Map<Integer, Integer> tempMap = new HashMap<Integer, Integer>();
@@ -88,41 +86,33 @@ public class Meisterschueler extends ApplicationAdapter {
 
 		@Override
 		public void onNoteOn(NoteOn noteOn) {
-			if (currentEffect != null)
-				currentEffect.onMidiNoteOn(noteOn);
+			if (getScreen() instanceof MidiScreen)
+				((MidiScreen)getScreen()).onMidiNoteOn(noteOn);
 		}
 
 		@Override
 		public void onNoteOff(NoteOff noteOff) {
-			if (currentEffect != null)
-				currentEffect.onMidiNoteOff(noteOff);
+			if (getScreen() instanceof MidiScreen)
+				((MidiScreen)getScreen()).onMidiNoteOff(noteOff);
 		}
 	};
 
-	private Effect currentEffect;
-	private ShapeRenderer shapeRenderer;
-	private SpriteBatch spriteBatch;
-	private BitmapFont font;
-
 	private Debounce rightPedal;
 	private Debounce leftPedal;
+	private ScoreService scoreService;
 	private MidiOutputService midiOutputService;
 
-	public Meisterschueler(MidiOutput midiOutput) {
+	public Meisterschueler(ScoreService scoreService, MidiOutput midiOutput) {
+		this.scoreService = scoreService;
 		midiOutputService = new MidiOutputService(midiOutput);
 	}
 
 	@Override
 	public void create () {
-		shapeRenderer = new ShapeRenderer();
-		spriteBatch = new SpriteBatch();
-		font = new BitmapFont();
-		font.setColor(Color.WHITE);
-
-		currentEffect = new LegatoEffect(shapeRenderer, spriteBatch, font);
-
 		MyInputProcessor inputProcessor = new MyInputProcessor();
 		Gdx.input.setInputProcessor(inputProcessor);
+		
+		setScreen(new ScrollEffect());
 
 		leftPedal = new Debounce(100, 10) {
 
@@ -130,8 +120,6 @@ public class Meisterschueler extends ApplicationAdapter {
 			public void execute(boolean set) {
 				if (set && rightPedal.isSet())
 					changeEffect();
-				else if (set && currentEffect instanceof TextEffect)
-					currentEffect.onRender();
 			}
 		};
 
@@ -143,18 +131,6 @@ public class Meisterschueler extends ApplicationAdapter {
 					changeEffect();
 			}
 		};
-	}
-
-	@Override
-	public void render () {
-		if (currentEffect != null)
-			currentEffect.onRender();
-	}
-
-	@Override
-	public void dispose() {
-		if (currentEffect != null)
-			currentEffect.onDispose();
 	}
 
 	public void onMidiNoteOn(NoteOn noteOn) {		
@@ -192,16 +168,17 @@ public class Meisterschueler extends ApplicationAdapter {
 	}
 
 	private void changeEffect() {
-		if (currentEffect instanceof SpectrumEffect) {
-			currentEffect = new ScrollEffect(shapeRenderer, spriteBatch, font);
-		} else if (currentEffect instanceof ScrollEffect) {
-			currentEffect = new BubblesEffect(shapeRenderer, spriteBatch, font);
-		} else if (currentEffect instanceof BubblesEffect) {
-			currentEffect = new LegatoEffect(shapeRenderer, spriteBatch, font);
-		} else if (currentEffect instanceof LegatoEffect) {
-			currentEffect = new TextEffect(shapeRenderer, spriteBatch, font);
-		} else if (currentEffect instanceof TextEffect) {
-			currentEffect = new ScrollEffect(shapeRenderer, spriteBatch, font);
+		Screen screen = getScreen();
+		if (screen instanceof SpectrumEffect) {
+			setScreen(new ScrollEffect());
+		} else if (screen instanceof ScrollEffect) {
+			setScreen(new BubblesEffect());
+		} else if (screen instanceof BubblesEffect) {
+			setScreen(new LegatoEffect());
+		} else if (screen instanceof LegatoEffect) {
+			setScreen(new TextEffect());
+		} else if (screen instanceof TextEffect) {
+			setScreen(new ScrollEffect());
 		}
 
 		midiOutputService.ping();

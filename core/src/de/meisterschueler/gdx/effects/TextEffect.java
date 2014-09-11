@@ -15,18 +15,24 @@ import de.meisterschueler.basic.ControlChange;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 
-public class TextEffect extends Effect {
+public class TextEffect extends MidiScreen {
 
 	List<String> strings = new ArrayList<String>();
 	List<AbstractChannelEvent> events = new ArrayList<AbstractChannelEvent>();
+	
+	private ShapeRenderer shapeRenderer;
+	private SpriteBatch spriteBatch;
+	private BitmapFont font;
 
-	public TextEffect(ShapeRenderer shapeRenderer, SpriteBatch spriteBatch, BitmapFont font) {
-		super(shapeRenderer, spriteBatch, font);
-		Gdx.graphics.setContinuousRendering(false);
+	public TextEffect() {
+		shapeRenderer = new ShapeRenderer();
+		spriteBatch = new SpriteBatch();
+		font = new BitmapFont();
+		font.setColor(Color.WHITE);
 	}
-
+	
 	@Override
-	public void onRender() {
+	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -65,19 +71,16 @@ public class TextEffect extends Effect {
 	@Override
 	public void onMidiNoteOn(NoteOn noteOn) {
 		events.add(0, noteOn);
-		Gdx.graphics.requestRendering();
 	}
 
 	@Override
 	public void onMidiNoteOff(NoteOff noteOff) {
 		events.add(0, noteOff);
-		Gdx.graphics.requestRendering();
 	}
 
 	@Override
 	public void onMidiControlChange(ControlChange controlChange) {
 		events.add(0, controlChange);
-		Gdx.graphics.requestRendering();
 	}
 
 	private String timeToString(Long time) {

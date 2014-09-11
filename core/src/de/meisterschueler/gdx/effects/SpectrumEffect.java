@@ -19,7 +19,7 @@ import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 import edu.emory.mathcs.jtransforms.fft.FloatFFT_1D;
 
-public class SpectrumEffect extends Effect {	
+public class SpectrumEffect extends MidiScreen {	
 
 	private AudioRecorder recorder;
 	private float[] spectrum;
@@ -34,9 +34,15 @@ public class SpectrumEffect extends Effect {
 	String FILE = "data/justice-new-lands.mp3";
 	boolean playing = false;
 	
-	public SpectrumEffect(ShapeRenderer shapeRenderer, SpriteBatch spriteBatch,
-			BitmapFont font) {
-		super(shapeRenderer, spriteBatch, font);
+	private ShapeRenderer shapeRenderer;
+	private SpriteBatch spriteBatch;
+	private BitmapFont font;
+	
+	public SpectrumEffect() {
+		shapeRenderer = new ShapeRenderer();
+		spriteBatch = new SpriteBatch();
+		font = new BitmapFont();
+		font.setColor(Color.WHITE);
 		
 		Gdx.graphics.setContinuousRendering(false);
 
@@ -61,7 +67,7 @@ public class SpectrumEffect extends Effect {
 
 
 	@Override
-	public void onRender() {
+	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 

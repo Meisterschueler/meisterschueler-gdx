@@ -26,12 +26,16 @@ import android.view.WindowManager;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.google.android.gms.games.Games;
+import com.google.example.games.basegameutils.GameHelper;
+import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 
 import de.meisterschueler.basic.ControlChange;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.Meisterschueler;
 import de.meisterschueler.gdx.MidiOutput;
+import de.meisterschueler.gpgs.ScoreService;
 
 /**
  * base Activity for using USB MIDI interface.
@@ -40,7 +44,7 @@ import de.meisterschueler.gdx.MidiOutput;
  * 
  * @author K.Shoji
  */
-public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceDetachedListener, OnMidiDeviceAttachedListener, OnMidiInputEventListener, MidiOutput {
+public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceDetachedListener, OnMidiDeviceAttachedListener, OnMidiInputEventListener, MidiOutput, GameHelperListener, ScoreService {	
 	/**
 	 * Implementation for single device connections.
 	 * 
@@ -144,7 +148,7 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	}
 
 
-
+	// MIDI
 	UsbDevice device = null;
 	UsbDeviceConnection deviceConnection = null;
 	MidiInputDevice midiInputDevice = null;
@@ -154,6 +158,8 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	Handler deviceDetachedHandler = null;
 	private MidiDeviceConnectionWatcher deviceConnectionWatcher = null;
 
+	// GPGS
+	private GameHelper gameHelper;
 
 	/*
 	 * (non-Javadoc)
@@ -163,10 +169,16 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		if (gameHelper == null) {
+			gameHelper = new GameHelper(this, GameHelper.CLIENT_GAMES);
+			gameHelper.enableDebugLog(true);
+		}
+		gameHelper.setup(this);
+		
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
 		//cfg.useGL20 = false;
-		initialize(new Meisterschueler(this), cfg);
+		initialize(new Meisterschueler(this, this), cfg);
 
 		UsbManager usbManager = (UsbManager) getApplicationContext().getSystemService(Context.USB_SERVICE);
 		deviceAttachedListener = new OnMidiDeviceAttachedListenerImpl(usbManager);
@@ -376,6 +388,62 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	@Override
 	public void sendNoteOff(NoteOff noteOff) {
 		getMidiOutputDevice().sendMidiNoteOff(noteOff.getCable(), noteOff.getChannel(), noteOff.getNote(), noteOff.getVelocity());
+	}
+
+	@Override
+	public boolean getSignedInGPGS() {
+		return gameHelper.isSignedIn();
+	}
+
+	@Override
+	public void loginGPGS() {
+		try {
+			runOnUiThread(new Runnable(){
+				public void run() {
+					gameHelper.beginUserInitiatedSignIn();
+				}
+			});
+		} catch (final Exception ex) {
+		}
+	}
+
+	@Override
+	public void submitScoreGPGS(int score) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void unlockAchievementGPGS(String achievementId) {
+		Games.Achievements.unlock(gameHelper.getApiClient(), achievementId);
+	}
+
+	@Override
+	public void getLeaderboardGPGS() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void getAchievementsGPGS() {
+		if (gameHelper.isSignedIn()) {
+			startActivityForResult(Games.Achievements.getAchievementsIntent(gameHelper.getApiClient()), 101);
+		}
+		else if (!gameHelper.isConnecting()) {
+			loginGPGS();
+		}
+	}
+
+	@Override
+	public void onSignInFailed() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onSignInSucceeded() {
+		// TODO Auto-generated method stub
+
 	}
 }
 

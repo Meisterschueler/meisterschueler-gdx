@@ -11,15 +11,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
-import de.meisterschueler.basic.ControlChange;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
+import de.meisterschueler.gdx.Utils;
 
-public class ScrollEffect extends Effect {
-
-	public ScrollEffect(ShapeRenderer shapeRenderer, SpriteBatch spriteBatch, BitmapFont font) {
-		super(shapeRenderer, spriteBatch, font);
-	}
+public class ScrollEffect extends MidiScreen {
 
 	public class Bubble {
 		public Bubble(NoteOn noteOn) {
@@ -35,9 +31,20 @@ public class ScrollEffect extends Effect {
 
 	List<Bubble> bubbles = new CopyOnWriteArrayList<Bubble>();
 	private float bubbleSpeed = 100;
+	
+	private ShapeRenderer shapeRenderer;
+	private SpriteBatch spriteBatch;
+	private BitmapFont font;
+	
+	public ScrollEffect() {
+		shapeRenderer = new ShapeRenderer();
+		spriteBatch = new SpriteBatch();
+		font = new BitmapFont();
+		font.setColor(Color.WHITE);
+	}
 
 	@Override
-	public void onRender() {
+	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
@@ -51,7 +58,7 @@ public class ScrollEffect extends Effect {
 		for (Bubble bubble : bubbles) {
 			shapeRenderer.begin(ShapeType.Filled);
 			
-			Color color = getSpectralColor(bubble.noteOn.getVelocity(), meanVelocity-20, meanVelocity+20, 5, 1);			
+			Color color = Utils.getSpectralColor(bubble.noteOn.getVelocity(), meanVelocity-20, meanVelocity+20, 5, 1);			
 			shapeRenderer.setColor(color);
 			
 			if (bubble.noteOff == null) {
@@ -94,11 +101,4 @@ public class ScrollEffect extends Effect {
 			}
 		}
 	}
-
-	@Override
-	public void onMidiControlChange(ControlChange controlChange) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
