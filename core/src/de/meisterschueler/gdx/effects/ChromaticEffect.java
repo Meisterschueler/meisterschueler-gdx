@@ -47,7 +47,7 @@ public class ChromaticEffect extends MidiScreen {
 	private void init() {
 		status = Status.READY;
 		current = lowest-1;
-		keys = new boolean[8];
+		keys = new boolean[uppest-lowest+1];
 		deltaTime = 0;
 	}
 
