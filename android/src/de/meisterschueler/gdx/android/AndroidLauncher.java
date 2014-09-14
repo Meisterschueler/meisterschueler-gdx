@@ -174,7 +174,7 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 			gameHelper.enableDebugLog(true);
 		}
 		gameHelper.setup(this);
-		
+
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
 		//cfg.useGL20 = false;
@@ -422,11 +422,10 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	@Override
 	public void getLeaderboardGPGS(String id) {
 		if (gameHelper.isSignedIn()) {
-            startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(), id), 100);
-        }
-        else if (!gameHelper.isConnecting()) {
-            loginGPGS();
-        }
+			startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(), id), 100);
+		} else if (!gameHelper.isConnecting()) {
+			loginGPGS();
+		}
 	}
 
 	@Override
@@ -450,6 +449,15 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	@Override
 	public void submitScoreGPGS_chromatic(int score) {
 		Games.Leaderboards.submitScore(gameHelper.getApiClient(), getString(R.string.achievement_chromatic_master), score);
+	}
+
+	@Override
+	public void getLeaderboardGPGS_chromatic() {
+		if (gameHelper.isSignedIn()) {
+			startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(), getString(R.string.leaderboard_chromatic)), 100);
+		} else if (!gameHelper.isConnecting()) {
+			loginGPGS();
+		}
 	}
 }
 

@@ -24,8 +24,10 @@ public class MainMenu implements Screen {
 	private TextureAtlas atlas;
 	private Table table;
 	private Button buttonScrollingNotes;
-	private Button buttonExit;
 	private TextButton buttonChromaticContest;
+	private TextButton buttonHighscores;
+	private TextButton buttonAchievments;
+	private Button buttonExit;
 
 	public MainMenu() {
 		stage = new Stage();
@@ -52,6 +54,24 @@ public class MainMenu implements Screen {
 			}
 		});
 		
+		buttonHighscores = new TextButton("HIGHSCORES", skin);
+		buttonHighscores.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				ScoreService scoreService = ((Meisterschueler)Gdx.app.getApplicationListener()).getScoreService();
+				scoreService.getLeaderboardGPGS_chromatic();
+			}
+		});
+		
+		buttonAchievments = new TextButton("ACHIEVMENTS", skin);
+		buttonAchievments.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				ScoreService scoreService = ((Meisterschueler)Gdx.app.getApplicationListener()).getScoreService();
+				scoreService.getAchievementsGPGS();
+			}
+		});
+		
 		buttonExit = new TextButton("EXIT", skin);
 		buttonExit.addListener(new ClickListener() {
 			@Override
@@ -62,11 +82,15 @@ public class MainMenu implements Screen {
 		
 		table = new Table();
 		table.setFillParent(true);
-		table.add(buttonScrollingNotes);
+		table.add(buttonScrollingNotes).prefSize(200, 40);
 		table.row();
-		table.add(buttonChromaticContest);
+		table.add(buttonChromaticContest).prefSize(200, 40).padBottom(10);
 		table.row();
-		table.add(buttonExit);	
+		table.add(buttonHighscores).prefSize(200, 40);
+		table.row();
+		table.add(buttonAchievments).prefSize(200, 40).padBottom(10);
+		table.row();
+		table.add(buttonExit).prefSize(200, 40);	
 		
 	    stage.addActor(table);
 	}

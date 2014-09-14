@@ -9,4 +9,5 @@ public interface ScoreService {
 	public void getAchievementsGPGS();
 	
 	public void submitScoreGPGS_chromatic(int score);
+	public void getLeaderboardGPGS_chromatic();
 }

@@ -39,4 +39,9 @@ public class ScoreServiceDesktop implements ScoreService {
 	public void submitScoreGPGS_chromatic(int score) {
 		System.out.println("GPGS: submitScoreGPGS_chromatic score:" + score);
 	}
+
+	@Override
+	public void getLeaderboardGPGS_chromatic() {
+		System.out.println("GPGS: getLeaderboardGPGS_chromatic");
+	}
 }
