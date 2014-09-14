@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import de.meisterschueler.basic.AbstractChannelEvent;
 import de.meisterschueler.basic.ControlChange;
@@ -20,12 +19,10 @@ public class TextEffect extends MidiScreen {
 	List<String> strings = new ArrayList<String>();
 	List<AbstractChannelEvent> events = new ArrayList<AbstractChannelEvent>();
 	
-	private ShapeRenderer shapeRenderer;
 	private SpriteBatch spriteBatch;
 	private BitmapFont font;
 
 	public TextEffect() {
-		shapeRenderer = new ShapeRenderer();
 		spriteBatch = new SpriteBatch();
 		font = new BitmapFont();
 		font.setColor(Color.WHITE);

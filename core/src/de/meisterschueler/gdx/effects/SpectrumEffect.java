@@ -138,24 +138,4 @@ public class SpectrumEffect extends MidiScreen {
 
 		return audioFloats;
 	}
-
-	@Override
-	public void onMidiNoteOn(NoteOn noteOn) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onMidiNoteOff(NoteOff noteOff) {
-		// TODO Auto-generated method stub
-
-	}
-
-
-	@Override
-	public void onMidiControlChange(ControlChange controlChange) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

@@ -85,10 +85,4 @@ public class BubblesEffect extends MidiScreen {
 			}
 		}
 	}
-
-	@Override
-	public void onMidiControlChange(ControlChange controlChange) {
-		// TODO Auto-generated method stub
-		
-	}
 }
