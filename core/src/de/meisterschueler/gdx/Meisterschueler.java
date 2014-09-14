@@ -38,9 +38,16 @@ public class Meisterschueler extends Game {
 	private ScoreService scoreService;
 	private MidiOutputService midiOutputService;
 
-	public Meisterschueler(ScoreService scoreService, MidiOutput midiOutput) {
-		this.scoreService = scoreService;
+	public Meisterschueler(MidiOutput midiOutput) {
 		midiOutputService = new MidiOutputService(midiOutput);
+	}
+	
+	public ScoreService getScoreService() {
+		return scoreService;
+	}
+	
+	public void setScoreService(ScoreService scoreService) {
+		this.scoreService = scoreService;
 	}
 
 	@Override

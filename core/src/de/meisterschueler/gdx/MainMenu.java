@@ -13,7 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import de.meisterschueler.gdx.effects.ChromaticEffect;
 import de.meisterschueler.gdx.effects.ScrollEffect;
+import de.meisterschueler.gpgs.ScoreService;
 
 public class MainMenu implements Screen {
 
@@ -45,7 +47,8 @@ public class MainMenu implements Screen {
 		buttonChromaticContest.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				((Game)Gdx.app.getApplicationListener()).setScreen(new ScrollEffect());
+				ScoreService scoreService = ((Meisterschueler)Gdx.app.getApplicationListener()).getScoreService();
+				((Game)Gdx.app.getApplicationListener()).setScreen(new ChromaticEffect(scoreService));
 			}
 		});
 		
