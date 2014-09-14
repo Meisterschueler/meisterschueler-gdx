@@ -17,7 +17,7 @@ public class ScoreServiceDesktop implements ScoreService {
 
 	@Override
 	public void submitScoreGPGS(int score) {
-		System.out.println("GPGS: submitScoreGPGS");
+		System.out.println("GPGS: submitScoreGPGS " + score);
 	}
 
 	@Override
