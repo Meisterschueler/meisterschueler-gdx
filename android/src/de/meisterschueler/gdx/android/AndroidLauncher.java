@@ -178,7 +178,9 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
 		//cfg.useGL20 = false;
-		initialize(new Meisterschueler(this, this), cfg);
+		Meisterschueler meisterschueler = new Meisterschueler(this);
+		meisterschueler.setScoreService(this);
+		initialize(meisterschueler, cfg);
 
 		UsbManager usbManager = (UsbManager) getApplicationContext().getSystemService(Context.USB_SERVICE);
 		deviceAttachedListener = new OnMidiDeviceAttachedListenerImpl(usbManager);
@@ -408,9 +410,8 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	}
 
 	@Override
-	public void submitScoreGPGS(int score) {
-		// TODO Auto-generated method stub
-
+	public void submitScoreGPGS(int score, String id) {
+		Games.Leaderboards.submitScore(gameHelper.getApiClient(), id, score);
 	}
 
 	@Override
@@ -419,9 +420,13 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	}
 
 	@Override
-	public void getLeaderboardGPGS() {
-		// TODO Auto-generated method stub
-
+	public void getLeaderboardGPGS(String id) {
+		if (gameHelper.isSignedIn()) {
+            startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(), id), 100);
+        }
+        else if (!gameHelper.isConnecting()) {
+            loginGPGS();
+        }
 	}
 
 	@Override
@@ -436,14 +441,15 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 
 	@Override
 	public void onSignInFailed() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onSignInSucceeded() {
-		// TODO Auto-generated method stub
+	}
 
+	@Override
+	public void submitScoreGPGS_chromatic(int score) {
+		Games.Leaderboards.submitScore(gameHelper.getApiClient(), getString(R.string.achievement_chromatic_master), score);
 	}
 }
 

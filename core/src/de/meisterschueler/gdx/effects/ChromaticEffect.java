@@ -97,7 +97,7 @@ public class ChromaticEffect extends MidiScreen {
 
 			if (deltaTime >= 0 && deltaTime <= 2147483647) {
 				int delta = (int)deltaTime;
-				scoreService.submitScoreGPGS(delta);
+				scoreService.submitScoreGPGS_chromatic(delta);
 
 				Timer.schedule(new Task() {
 					@Override

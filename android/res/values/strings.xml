@@ -3,4 +3,29 @@
 
     <string name="app_name">meisterschueler-gdx</string>
 
+    <!-- Google Play Game Services -->
+    <string name="app_id">378886593174</string>
+    
+    <string name="achievement_chromatic_master">CgkIlrWau4MLEAIQEQ</string>
+    <string name="achievement_chromatic_master_staccato">CgkIlrWau4MLEAIQEw</string>
+    <string name="achievement_chromatic_master_legato">CgkIlrWau4MLEAIQFA</string>
+    <string name="achievement_hanon_beginner">CgkIlrWau4MLEAIQAQ</string>
+    <string name="achievement_hanon_intermediate">CgkIlrWau4MLEAIQAw</string>
+    <string name="achievement_hanon_advanced">CgkIlrWau4MLEAIQBA</string>
+    <string name="achievement_hanon_expert">CgkIlrWau4MLEAIQDA</string>
+    <string name="achievement_hanon_expert_fluent">CgkIlrWau4MLEAIQCw</string>
+    <string name="achievement_hanon_multikey_beginner">CgkIlrWau4MLEAIQAg</string>
+    
+    <string name="leaderboard_chromatic">CgkIlrWau4MLEAIQDw</string>
+    <string name="leaderboard_chromatic_legato">CgkIlrWau4MLEAIQFQ</string>
+    <string name="leaderboard_chromatic_staccato">CgkIlrWau4MLEAIQFg</string>
+    <string name="leaderboard_complete_playing_time">CgkIlrWau4MLEAIQBQ</string>
+    <string name="leaderboard_complete_hanon_practice_time">CgkIlrWau4MLEAIQBg</string>
+    
+    <string name="event_started_chromatic_scale">CgkIlrWau4MLEAIQEg</string>
+    <string name="event_finished_chromatic_scale">CgkIlrWau4MLEAIQEA</string>
+    <string name="event_finished_hanon_no._1">CgkIlrWau4MLEAIQBw</string>
+    <string name="event_finished_hanon_no._2">CgkIlrWau4MLEAIQCA</string>
+    <string name="event_finished_hanon_no._3">CgkIlrWau4MLEAIQCQ</string>
+
 </resources>

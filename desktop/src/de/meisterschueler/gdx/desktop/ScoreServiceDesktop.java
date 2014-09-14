@@ -16,8 +16,8 @@ public class ScoreServiceDesktop implements ScoreService {
 	}
 
 	@Override
-	public void submitScoreGPGS(int score) {
-		System.out.println("GPGS: submitScoreGPGS " + score);
+	public void submitScoreGPGS(int score, String id) {
+		System.out.println("GPGS: submitScoreGPGS score:" + score + " id:" + id);
 	}
 
 	@Override
@@ -26,8 +26,8 @@ public class ScoreServiceDesktop implements ScoreService {
 	}
 
 	@Override
-	public void getLeaderboardGPGS() {
-		System.out.println("GPGS: getLeaderboardGPGS");
+	public void getLeaderboardGPGS(String id) {
+		System.out.println("GPGS: getLeaderboardGPGS " + id);
 	}
 
 	@Override
@@ -35,4 +35,8 @@ public class ScoreServiceDesktop implements ScoreService {
 		System.out.println("GPGS: getAchievementsGPGS");
 	}
 
+	@Override
+	public void submitScoreGPGS_chromatic(int score) {
+		System.out.println("GPGS: submitScoreGPGS_chromatic score:" + score);
+	}
 }
