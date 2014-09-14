@@ -37,11 +37,12 @@ public class MidiScreen extends InputAdapter implements Screen {
 	
 	public MidiScreen() {
 		Gdx.input.setInputProcessor(this);
+		Gdx.input.setCatchBackKey(true);
 	}
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if (keycode == Keys.ESCAPE) {
+		if (keycode == Keys.ESCAPE || keycode == Keys.BACK) {
 			((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenu());
 		}
 		
