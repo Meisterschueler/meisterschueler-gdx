@@ -36,6 +36,7 @@ public class MainMenu implements Screen {
 		stage = new Stage();
 
 		Gdx.input.setInputProcessor(stage);
+		Gdx.input.setCatchBackKey(false);
 
 		atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
 		skin = new Skin(Gdx.files.internal("uiskin.json"), atlas);
@@ -125,7 +126,6 @@ public class MainMenu implements Screen {
 		
 		stage.act(delta);
 		stage.draw();
-		
 	}
 
 	@Override
@@ -135,26 +135,18 @@ public class MainMenu implements Screen {
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
