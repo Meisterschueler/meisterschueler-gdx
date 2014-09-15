@@ -1,4 +1,4 @@
-package de.meisterschueler.gdx.effects;
+package de.meisterschueler.gdx.screens;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import de.meisterschueler.basic.ControlChange;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 
-public class TextEffect extends MidiScreen {
+public class MidiStreamScreen extends MidiScreen {
 
 	List<String> strings = new ArrayList<String>();
 	List<AbstractChannelEvent> events = new ArrayList<AbstractChannelEvent>();
@@ -22,7 +22,7 @@ public class TextEffect extends MidiScreen {
 	private SpriteBatch spriteBatch;
 	private BitmapFont font;
 
-	public TextEffect() {
+	public MidiStreamScreen() {
 		spriteBatch = new SpriteBatch();
 		font = new BitmapFont();
 		font.setColor(Color.WHITE);

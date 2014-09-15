@@ -1,4 +1,4 @@
-package de.meisterschueler.gdx.effects.legato;
+package de.meisterschueler.gdx.screens.legato;
 
 import com.badlogic.gdx.math.Rectangle;
 

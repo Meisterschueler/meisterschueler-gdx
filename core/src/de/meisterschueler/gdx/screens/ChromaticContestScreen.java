@@ -1,4 +1,4 @@
-package de.meisterschueler.gdx.effects;
+package de.meisterschueler.gdx.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Timer.Task;
 import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gpgs.ScoreService;
 
-public class ChromaticEffect extends MidiScreen {
+public class ChromaticContestScreen extends MidiScreen {
 
 	int lowest = 48;
 	int current = 0;
@@ -33,7 +33,7 @@ public class ChromaticEffect extends MidiScreen {
 	private SpriteBatch spriteBatch;
 	private BitmapFont font;
 
-	public ChromaticEffect(ScoreService scoreService) {
+	public ChromaticContestScreen(ScoreService scoreService) {
 		this.scoreService = scoreService;
 
 		shapeRenderer = new ShapeRenderer();

@@ -1,4 +1,4 @@
-package de.meisterschueler.gdx.effects.legato;
+package de.meisterschueler.gdx.screens.legato;
 
 import java.util.List;
 
@@ -18,15 +18,15 @@ import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.ClusterHandler;
 import de.meisterschueler.gdx.Utils;
-import de.meisterschueler.gdx.effects.MidiScreen;
+import de.meisterschueler.gdx.screens.MidiScreen;
 
-public class LegatoEffect extends MidiScreen {
+public class LegatoScreen extends MidiScreen {
 
 	private ShapeRenderer shapeRenderer;
 	private SpriteBatch spriteBatch;
 	private BitmapFont font;
 
-	public LegatoEffect() {
+	public LegatoScreen() {
 		shapeRenderer = new ShapeRenderer();
 		spriteBatch = new SpriteBatch();
 		font = new BitmapFont();

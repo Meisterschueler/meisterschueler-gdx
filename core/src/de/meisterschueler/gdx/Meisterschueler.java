@@ -7,13 +7,13 @@ import de.meisterschueler.basic.ControlChange;
 import de.meisterschueler.basic.Derepeater;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
-import de.meisterschueler.gdx.effects.BubblesEffect;
-import de.meisterschueler.gdx.effects.ChromaticEffect;
-import de.meisterschueler.gdx.effects.MidiScreen;
-import de.meisterschueler.gdx.effects.ScrollEffect;
-import de.meisterschueler.gdx.effects.SpectrumEffect;
-import de.meisterschueler.gdx.effects.TextEffect;
-import de.meisterschueler.gdx.effects.legato.LegatoEffect;
+import de.meisterschueler.gdx.screens.BubblesScreen;
+import de.meisterschueler.gdx.screens.ChromaticContestScreen;
+import de.meisterschueler.gdx.screens.MidiScreen;
+import de.meisterschueler.gdx.screens.MidiStreamScreen;
+import de.meisterschueler.gdx.screens.ScrollEffect;
+import de.meisterschueler.gdx.screens.SpectrumEffect;
+import de.meisterschueler.gdx.screens.legato.LegatoScreen;
 import de.meisterschueler.gpgs.ScoreService;
 
 public class Meisterschueler extends Game {
@@ -113,14 +113,14 @@ public class Meisterschueler extends Game {
 		if (screen instanceof SpectrumEffect) {
 			setScreen(new ScrollEffect());
 		} else if (screen instanceof ScrollEffect) {
-			setScreen(new BubblesEffect());
-		} else if (screen instanceof BubblesEffect) {
-			setScreen(new LegatoEffect());
-		} else if (screen instanceof LegatoEffect) {
-			setScreen(new TextEffect());
-		} else if (screen instanceof TextEffect) {
-			setScreen(new ChromaticEffect(scoreService));
-		} else if (screen instanceof ChromaticEffect) {
+			setScreen(new BubblesScreen());
+		} else if (screen instanceof BubblesScreen) {
+			setScreen(new LegatoScreen());
+		} else if (screen instanceof LegatoScreen) {
+			setScreen(new MidiStreamScreen());
+		} else if (screen instanceof MidiStreamScreen) {
+			setScreen(new ChromaticContestScreen(scoreService));
+		} else if (screen instanceof ChromaticContestScreen) {
 			setScreen(new ScrollEffect());
 		}
 

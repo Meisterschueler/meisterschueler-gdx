@@ -1,4 +1,4 @@
-package de.meisterschueler.gdx.effects;
+package de.meisterschueler.gdx.screens;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -17,13 +17,13 @@ import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.Utils;
 
-public class BubblesEffect extends MidiScreen {
+public class BubblesScreen extends MidiScreen {
 
 	private ShapeRenderer shapeRenderer;
 	private SpriteBatch spriteBatch;
 	private BitmapFont font;
 
-	public BubblesEffect() {
+	public BubblesScreen() {
 		shapeRenderer = new ShapeRenderer();
 		spriteBatch = new SpriteBatch();
 		font = new BitmapFont();

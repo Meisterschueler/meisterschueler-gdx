@@ -7,14 +7,15 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import de.meisterschueler.gdx.effects.ChromaticEffect;
-import de.meisterschueler.gdx.effects.ScrollEffect;
+import de.meisterschueler.gdx.screens.BubblesScreen;
+import de.meisterschueler.gdx.screens.ChromaticContestScreen;
+import de.meisterschueler.gdx.screens.MidiStreamScreen;
+import de.meisterschueler.gdx.screens.legato.LegatoScreen;
 import de.meisterschueler.gpgs.ScoreService;
 
 public class MainMenu implements Screen {
@@ -23,11 +24,13 @@ public class MainMenu implements Screen {
 	private Skin skin;
 	private TextureAtlas atlas;
 	private Table table;
-	private Button buttonScrollingNotes;
+	private TextButton buttonLegatoTrainer;
+	private TextButton buttonBubbles;
+	private TextButton buttonMidiStream;
 	private TextButton buttonChromaticContest;
 	private TextButton buttonHighscores;
 	private TextButton buttonAchievments;
-	private Button buttonExit;
+	private TextButton buttonExit;
 
 	public MainMenu() {
 		stage = new Stage();
@@ -37,11 +40,27 @@ public class MainMenu implements Screen {
 		atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
 		skin = new Skin(Gdx.files.internal("uiskin.json"), atlas);
 		
-		buttonScrollingNotes = new TextButton("SCROLLING NOTES", skin);
-		buttonScrollingNotes.addListener(new ClickListener() {
+		buttonLegatoTrainer = new TextButton("LEGATO TRAINER", skin);
+		buttonLegatoTrainer.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				((Game)Gdx.app.getApplicationListener()).setScreen(new ScrollEffect());
+				((Game)Gdx.app.getApplicationListener()).setScreen(new LegatoScreen());
+			}
+		});
+		
+		buttonBubbles = new TextButton("BUBBLES", skin);
+		buttonBubbles.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				((Game)Gdx.app.getApplicationListener()).setScreen(new BubblesScreen());
+			}
+		});
+		
+		buttonMidiStream = new TextButton("MIDI STREAM", skin);
+		buttonMidiStream.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				((Game)Gdx.app.getApplicationListener()).setScreen(new MidiStreamScreen());
 			}
 		});
 
@@ -50,7 +69,7 @@ public class MainMenu implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				ScoreService scoreService = ((Meisterschueler)Gdx.app.getApplicationListener()).getScoreService();
-				((Game)Gdx.app.getApplicationListener()).setScreen(new ChromaticEffect(scoreService));
+				((Game)Gdx.app.getApplicationListener()).setScreen(new ChromaticContestScreen(scoreService));
 			}
 		});
 		
@@ -82,9 +101,13 @@ public class MainMenu implements Screen {
 		
 		table = new Table();
 		table.setFillParent(true);
-		table.add(buttonScrollingNotes).prefSize(200, 40);
+		table.add(buttonLegatoTrainer).prefSize(200, 40);
 		table.row();
-		table.add(buttonChromaticContest).prefSize(200, 40).padBottom(10);
+		table.add(buttonBubbles).prefSize(200, 40);
+		table.row();
+		table.add(buttonMidiStream).prefSize(200, 40).padBottom(10);
+		table.row();
+		table.add(buttonChromaticContest).prefSize(200, 40);
 		table.row();
 		table.add(buttonHighscores).prefSize(200, 40);
 		table.row();

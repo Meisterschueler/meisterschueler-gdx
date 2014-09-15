@@ -1,4 +1,4 @@
-package de.meisterschueler.gdx.effects;
+package de.meisterschueler.gdx.screens;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
