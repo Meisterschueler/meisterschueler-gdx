@@ -36,12 +36,12 @@ public class MainMenu implements Screen {
 		stage = new Stage();
 
 		Gdx.input.setInputProcessor(stage);
-		Gdx.input.setCatchBackKey(false);
+		Gdx.input.setCatchBackKey(true);
 
 		atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
 		skin = new Skin(Gdx.files.internal("uiskin.json"), atlas);
 		
-		buttonLegatoTrainer = new TextButton("LEGATO TRAINER", skin);
+		buttonLegatoTrainer = new TextButton("Legato Training", skin);
 		buttonLegatoTrainer.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -49,7 +49,7 @@ public class MainMenu implements Screen {
 			}
 		});
 		
-		buttonBubbles = new TextButton("BUBBLES", skin);
+		buttonBubbles = new TextButton("Bubbles", skin);
 		buttonBubbles.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -57,7 +57,7 @@ public class MainMenu implements Screen {
 			}
 		});
 		
-		buttonMidiStream = new TextButton("MIDI STREAM", skin);
+		buttonMidiStream = new TextButton("MIDI Stream", skin);
 		buttonMidiStream.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -65,7 +65,7 @@ public class MainMenu implements Screen {
 			}
 		});
 
-		buttonChromaticContest = new TextButton("CHROMATIC CONTEST", skin);
+		buttonChromaticContest = new TextButton("Chromatic Contest", skin);
 		buttonChromaticContest.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -74,7 +74,7 @@ public class MainMenu implements Screen {
 			}
 		});
 		
-		buttonHighscores = new TextButton("HIGHSCORES", skin);
+		buttonHighscores = new TextButton("Highscores", skin);
 		buttonHighscores.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -83,7 +83,7 @@ public class MainMenu implements Screen {
 			}
 		});
 		
-		buttonAchievments = new TextButton("ACHIEVMENTS", skin);
+		buttonAchievments = new TextButton("Achievments", skin);
 		buttonAchievments.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -92,7 +92,7 @@ public class MainMenu implements Screen {
 			}
 		});
 		
-		buttonExit = new TextButton("EXIT", skin);
+		buttonExit = new TextButton("Exit", skin);
 		buttonExit.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
