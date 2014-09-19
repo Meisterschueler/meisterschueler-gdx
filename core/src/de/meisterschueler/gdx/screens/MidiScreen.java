@@ -11,9 +11,11 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -46,8 +48,9 @@ public class MidiScreen extends InputAdapter implements Screen {
 
 	protected Stage stage;
 	protected Group gameGroup;
+	protected Group labelsGroup;
 	protected Group uiGroup;
-	
+
 	protected TextureAtlas atlas;
 	protected Skin skin;
 
@@ -60,15 +63,16 @@ public class MidiScreen extends InputAdapter implements Screen {
 	public MidiScreen() {
 		stage = new Stage();
 		gameGroup = new Group();
+		labelsGroup = new Group();
 		uiGroup = new Group();
-		
+
 		atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
 		skin = new Skin(Gdx.files.internal("uiskin.json"), atlas);
-		
+
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(stage);
 		inputMultiplexer.addProcessor(this);
-		
+
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		Gdx.input.setCatchBackKey(true);
 
@@ -84,25 +88,35 @@ public class MidiScreen extends InputAdapter implements Screen {
 				((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenu());
 			}
 		});
-		
+
 		helpButton = new TextButton("Help", skin);
 		helpButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 		helpButton.setPosition(Gdx.graphics.getWidth()-BUTTON_WIDTH, Gdx.graphics.getHeight()-BUTTON_HEIGHT);
 		helpButton.addListener(new ClickListener() {
+			private boolean showUi;
+
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				// Show help
+				if (showUi == true) {
+					uiGroup.addAction(Actions.sequence(Actions.fadeOut(0.5f)));
+					showUi = false;
+				} else {
+					uiGroup.addAction(Actions.sequence(Actions.fadeIn(0.5f)));
+					showUi = true;
+				}
 			}
 		});
 
 		fpsLabel = new Label("", skin);
 		fpsLabel.setPosition(20, 20);
 		
+		labelsGroup.addActor(fpsLabel);
+
 		uiGroup.addActor(backButton);
 		uiGroup.addActor(helpButton);
-		uiGroup.addActor(fpsLabel);
 		
 		stage.addActor(gameGroup);
+		stage.addActor(labelsGroup);
 		stage.addActor(uiGroup);
 	}
 

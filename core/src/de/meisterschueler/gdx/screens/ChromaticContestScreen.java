@@ -74,7 +74,6 @@ public class ChromaticContestScreen extends MidiScreen {
 			}
 		});
 		
-		
 		gameGroup.addActor(table);
 		
 		uiGroup.addActor(helpButton);
