@@ -102,19 +102,19 @@ public class MainMenu implements Screen {
 		
 		table = new Table();
 		table.setFillParent(true);
-		table.add(buttonLegatoTrainer).prefSize(200, 40);
+		table.add(buttonLegatoTrainer).prefSize(200, 60);
 		table.row();
-		table.add(buttonBubbles).prefSize(200, 40);
+		table.add(buttonBubbles).prefSize(200, 60);
 		table.row();
-		table.add(buttonMidiStream).prefSize(200, 40).padBottom(10);
+		table.add(buttonMidiStream).prefSize(200, 60).padBottom(10);
 		table.row();
-		table.add(buttonChromaticContest).prefSize(200, 40);
+		table.add(buttonChromaticContest).prefSize(200, 60);
 		table.row();
-		table.add(buttonHighscores).prefSize(200, 40);
+		table.add(buttonHighscores).prefSize(200, 60);
 		table.row();
-		table.add(buttonAchievments).prefSize(200, 40).padBottom(10);
+		table.add(buttonAchievments).prefSize(200, 60).padBottom(10);
 		table.row();
-		table.add(buttonExit).prefSize(200, 40);	
+		table.add(buttonExit).prefSize(200, 60);	
 		
 	    stage.addActor(table);
 	}

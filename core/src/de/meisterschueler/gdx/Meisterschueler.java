@@ -19,7 +19,6 @@ import de.meisterschueler.gpgs.ScoreService;
 public class Meisterschueler extends Game {
 
 	private Derepeater derepeater = new Derepeater() {
-
 		@Override
 		public void onNoteOn(NoteOn noteOn) {
 			if (getScreen() instanceof MidiScreen)
@@ -52,11 +51,9 @@ public class Meisterschueler extends Game {
 
 	@Override
 	public void create () {
-		//setScreen(new ScrollEffect());
 		setScreen(new MainMenu());
-
+		
 		leftPedal = new Debounce(100, 10) {
-
 			@Override
 			public void execute(boolean set) {
 				if (set && rightPedal.isSet())
@@ -65,7 +62,6 @@ public class Meisterschueler extends Game {
 		};
 
 		rightPedal = new Debounce(100, 10) {
-
 			@Override
 			public void execute(boolean set) {
 				if (set && leftPedal.isSet())
