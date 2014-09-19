@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 
 import de.meisterschueler.basic.AbstractChannelEvent;
 import de.meisterschueler.basic.ControlChange;
@@ -19,65 +17,49 @@ public class MidiStreamScreen extends MidiScreen {
 	List<String> strings = new ArrayList<String>();
 	List<AbstractChannelEvent> events = new ArrayList<AbstractChannelEvent>();
 	
-	private SpriteBatch spriteBatch;
-	private BitmapFont font;
+	private TextArea midiInputArea;
 
 	public MidiStreamScreen() {
-		spriteBatch = new SpriteBatch();
-		font = new BitmapFont();
-		font.setColor(Color.WHITE);
+		super();
+		
+		midiInputArea = new TextArea("", skin);
+		midiInputArea.setDisabled(true);
+		midiInputArea.setPosition(0,  BUTTON_HEIGHT);
+		midiInputArea.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()-BUTTON_HEIGHT);
+		
+		gameGroup.addActor(midiInputArea);
 	}
 	
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		spriteBatch.begin();
-		font.draw(spriteBatch, "TextEffect", 20, 20);
-
-		int idx=0;
-		for (int i=Gdx.graphics.getHeight(); i>20; i=i-20) {
-			if (idx >= events.size())
-				break;
-
-			AbstractChannelEvent event = events.get(idx);
-			String s = "";
-			if (event instanceof NoteOn) {
-				NoteOn noteOn = (NoteOn)event;
-				font.setColor(Color.RED);
-				s = timeToString(event.getTime()) + ": NoteOn  " + noteOn.getNote() + " " + noteOn.getVelocity();
-			} else if (event instanceof NoteOff) {
-				NoteOff noteOff = (NoteOff)event;
-				font.setColor(Color.GREEN);
-				s = timeToString(event.getTime()) + ": NoteOff " + noteOff.getNote() + " " + noteOff.getVelocity();
-			} else if (event instanceof ControlChange) {
-				ControlChange controlChange = (ControlChange)event;
-				font.setColor(Color.BLUE);
-				s = timeToString(event.getTime()) + ": ControlChange " + controlChange.getFunction() + " " + controlChange.getValue();
-			}
-
-			font.draw(spriteBatch, s, 20, i);
-			idx++;
-		}
-		font.setColor(Color.WHITE);
-
-		spriteBatch.end();
+		
+		updateFPS();
+		
+		stage.act(delta);
+		stage.draw();
 	}
 
 	@Override
 	public void onMidiNoteOn(NoteOn noteOn) {
-		events.add(0, noteOn);
+		String text = midiInputArea.getText();
+		text = timeToString(noteOn.getTime()) + ": NoteOn  " + noteOn.getNote() + " " + noteOn.getVelocity() + "\n" + text;
+		midiInputArea.setText(text);
 	}
 
 	@Override
 	public void onMidiNoteOff(NoteOff noteOff) {
-		events.add(0, noteOff);
+		String text = midiInputArea.getText();
+		text = timeToString(noteOff.getTime()) + ": NoteOff  " + noteOff.getNote() + " " + noteOff.getVelocity() + "\n" + text;
+		midiInputArea.setText(text);
 	}
 
 	@Override
 	public void onMidiControlChange(ControlChange controlChange) {
-		events.add(0, controlChange);
+		String text = midiInputArea.getText();
+		text = timeToString(controlChange.getTime()) + ": ControlChange  " + controlChange.getFunction() + " " + controlChange.getValue();
+		midiInputArea.setText(text);
 	}
 
 	private String timeToString(Long time) {

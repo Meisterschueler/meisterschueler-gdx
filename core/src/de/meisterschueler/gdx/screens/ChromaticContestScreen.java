@@ -2,30 +2,27 @@ package de.meisterschueler.gdx.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 
 import de.meisterschueler.basic.NoteOn;
+import de.meisterschueler.gdx.Meisterschueler;
 import de.meisterschueler.gpgs.ScoreService;
 
 public class ChromaticContestScreen extends MidiScreen {
 
-	private Stage stage;
-	private TextureAtlas atlas;
-	private Skin skin;
-	
-	private Label fpsLabel;
-	private Label fpsValue;
 	private Label timeLabel;
 	private Label timeValue;
 	private ProgressBar scoresProgress;
 	private Table table;
+	private TextButton highscoresButton;
+	private TextButton achievmentsButton;
 	
 	static final int LOWEST_NOTE = 48;
 	static final int HIGHEST_NOTE = 55;
@@ -40,30 +37,49 @@ public class ChromaticContestScreen extends MidiScreen {
 	private ScoreService scoreService;
 
 	public ChromaticContestScreen(ScoreService scoreService) {
+		super();
+		
 		this.scoreService = scoreService;
 		
-		stage = new Stage();
-
-		atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
-		skin = new Skin(Gdx.files.internal("uiskin.json"), atlas);
-		
-		fpsLabel = new Label("FPS: ", skin);
-		fpsValue = new Label("", skin);
 		timeLabel = new Label("Time: ", skin);
 		timeValue = new Label("", skin);
 		scoresProgress = new ProgressBar(LOWEST_NOTE, HIGHEST_NOTE, 1, false, skin);
 		
 		table = new Table();
 		table.setFillParent(true);
-		table.add(fpsLabel).left();
-		table.add(fpsValue);
-		table.row();
 		table.add(timeLabel).left();
 		table.add(timeValue);
 		table.row();
 		table.add(scoresProgress);
 		
-		stage.addActor(table);
+		highscoresButton = new TextButton("Highscores", skin);
+		highscoresButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+		highscoresButton.setPosition(Gdx.graphics.getWidth()-BUTTON_WIDTH, Gdx.graphics.getHeight()-2*BUTTON_HEIGHT);
+		highscoresButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				ScoreService scoreService = ((Meisterschueler)Gdx.app.getApplicationListener()).getScoreService();
+				scoreService.getLeaderboardGPGS_chromatic();
+			}
+		});
+		
+		achievmentsButton = new TextButton("Achievments", skin);
+		achievmentsButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+		achievmentsButton.setPosition(Gdx.graphics.getWidth()-BUTTON_WIDTH, Gdx.graphics.getHeight()-3*BUTTON_HEIGHT);
+		achievmentsButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				ScoreService scoreService = ((Meisterschueler)Gdx.app.getApplicationListener()).getScoreService();
+				scoreService.getAchievementsGPGS();
+			}
+		});
+		
+		
+		gameGroup.addActor(table);
+		
+		uiGroup.addActor(helpButton);
+		uiGroup.addActor(highscoresButton);
+		uiGroup.addActor(achievmentsButton);
 		
 		init();
 	}
@@ -83,9 +99,10 @@ public class ChromaticContestScreen extends MidiScreen {
 			deltaTime = System.currentTimeMillis()-startTime;
 		}
 		
-		fpsValue.setText(Integer.toString(Gdx.graphics.getFramesPerSecond()));
 		timeValue.setText(Double.toString(deltaTime/1000.0));
 		scoresProgress.setValue(current);
+		
+		updateFPS();
 
 		stage.act(delta);
 		stage.draw();

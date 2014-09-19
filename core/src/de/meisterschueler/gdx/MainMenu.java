@@ -28,8 +28,6 @@ public class MainMenu implements Screen {
 	private TextButton buttonBubbles;
 	private TextButton buttonMidiStream;
 	private TextButton buttonChromaticContest;
-	private TextButton buttonHighscores;
-	private TextButton buttonAchievments;
 	private TextButton buttonExit;
 
 	public MainMenu() {
@@ -40,7 +38,7 @@ public class MainMenu implements Screen {
 
 		atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
 		skin = new Skin(Gdx.files.internal("uiskin.json"), atlas);
-		
+
 		buttonLegatoTrainer = new TextButton("Legato Training", skin);
 		buttonLegatoTrainer.addListener(new ClickListener() {
 			@Override
@@ -48,7 +46,7 @@ public class MainMenu implements Screen {
 				((Game)Gdx.app.getApplicationListener()).setScreen(new LegatoScreen());
 			}
 		});
-		
+
 		buttonBubbles = new TextButton("Bubbles", skin);
 		buttonBubbles.addListener(new ClickListener() {
 			@Override
@@ -56,7 +54,7 @@ public class MainMenu implements Screen {
 				((Game)Gdx.app.getApplicationListener()).setScreen(new BubblesScreen());
 			}
 		});
-		
+
 		buttonMidiStream = new TextButton("MIDI Stream", skin);
 		buttonMidiStream.addListener(new ClickListener() {
 			@Override
@@ -73,25 +71,7 @@ public class MainMenu implements Screen {
 				((Game)Gdx.app.getApplicationListener()).setScreen(new ChromaticContestScreen(scoreService));
 			}
 		});
-		
-		buttonHighscores = new TextButton("Highscores", skin);
-		buttonHighscores.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				ScoreService scoreService = ((Meisterschueler)Gdx.app.getApplicationListener()).getScoreService();
-				scoreService.getLeaderboardGPGS_chromatic();
-			}
-		});
-		
-		buttonAchievments = new TextButton("Achievments", skin);
-		buttonAchievments.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				ScoreService scoreService = ((Meisterschueler)Gdx.app.getApplicationListener()).getScoreService();
-				scoreService.getAchievementsGPGS();
-			}
-		});
-		
+
 		buttonExit = new TextButton("Exit", skin);
 		buttonExit.addListener(new ClickListener() {
 			@Override
@@ -99,31 +79,27 @@ public class MainMenu implements Screen {
 				Gdx.app.exit();
 			}
 		});
-		
+
 		table = new Table();
 		table.setFillParent(true);
 		table.add(buttonLegatoTrainer).prefSize(200, 60);
 		table.row();
 		table.add(buttonBubbles).prefSize(200, 60);
 		table.row();
-		table.add(buttonMidiStream).prefSize(200, 60).padBottom(10);
+		table.add(buttonMidiStream).prefSize(200, 60);
 		table.row();
-		table.add(buttonChromaticContest).prefSize(200, 60);
-		table.row();
-		table.add(buttonHighscores).prefSize(200, 60);
-		table.row();
-		table.add(buttonAchievments).prefSize(200, 60).padBottom(10);
+		table.add(buttonChromaticContest).prefSize(200, 60).padBottom(10);
 		table.row();
 		table.add(buttonExit).prefSize(200, 60);	
-		
-	    stage.addActor(table);
+
+		stage.addActor(table);
 	}
 
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+
 		stage.act(delta);
 		stage.draw();
 	}
@@ -155,5 +131,4 @@ public class MainMenu implements Screen {
 		atlas.dispose();
 		skin.dispose();
 	}
-
 }

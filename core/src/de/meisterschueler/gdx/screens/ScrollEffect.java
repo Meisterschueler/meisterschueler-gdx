@@ -7,13 +7,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
@@ -77,7 +73,6 @@ public class ScrollEffect extends MidiScreen {
 	}
 	
 	private Background background;
-	private Label label;
 
 	List<Bubble> bubbles = new CopyOnWriteArrayList<Bubble>();
 	private float bubbleSpeed = 100;
@@ -86,20 +81,15 @@ public class ScrollEffect extends MidiScreen {
 		super();
 
 		background = new Background();
-
-		label = new Label("", skin);
-		label.setPosition(20, 20);
-
-		stage.addActor(background);
-		stage.addActor(label);
+		gameGroup.addActor(background);
 	}
 	
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		label.setText("FPS: " + Gdx.graphics.getFramesPerSecond());
+		
+		updateFPS();
 
 		stage.act(delta);
 		stage.draw();

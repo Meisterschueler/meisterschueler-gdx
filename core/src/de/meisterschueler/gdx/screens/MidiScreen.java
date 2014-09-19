@@ -8,10 +8,16 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.meisterschueler.basic.ControlChange;
 import de.meisterschueler.basic.NoteOff;
@@ -39,16 +45,69 @@ public class MidiScreen extends InputAdapter implements Screen {
 	}
 
 	protected Stage stage;
+	protected Group gameGroup;
+	protected Group uiGroup;
+	
 	protected TextureAtlas atlas;
 	protected Skin skin;
-	
+
+	protected int BUTTON_WIDTH;
+	protected int BUTTON_HEIGHT;
+	protected TextButton backButton;
+	protected TextButton helpButton;
+	private Label fpsLabel;
+
 	public MidiScreen() {
-		Gdx.input.setInputProcessor(this);
-		Gdx.input.setCatchBackKey(true);
-		
 		stage = new Stage();
+		gameGroup = new Group();
+		uiGroup = new Group();
+		
 		atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
 		skin = new Skin(Gdx.files.internal("uiskin.json"), atlas);
+		
+		InputMultiplexer inputMultiplexer = new InputMultiplexer();
+		inputMultiplexer.addProcessor(stage);
+		inputMultiplexer.addProcessor(this);
+		
+		Gdx.input.setInputProcessor(inputMultiplexer);
+		Gdx.input.setCatchBackKey(true);
+
+		BUTTON_WIDTH = Gdx.app.getGraphics().getWidth()/7;
+		BUTTON_HEIGHT = Gdx.app.getGraphics().getHeight()/8;
+
+		backButton = new TextButton("Back", skin);
+		backButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+		backButton.setPosition(0, Gdx.graphics.getHeight()-BUTTON_HEIGHT);
+		backButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenu());
+			}
+		});
+		
+		helpButton = new TextButton("Help", skin);
+		helpButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+		helpButton.setPosition(Gdx.graphics.getWidth()-BUTTON_WIDTH, Gdx.graphics.getHeight()-BUTTON_HEIGHT);
+		helpButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				// Show help
+			}
+		});
+
+		fpsLabel = new Label("", skin);
+		fpsLabel.setPosition(20, 20);
+		
+		uiGroup.addActor(backButton);
+		uiGroup.addActor(helpButton);
+		uiGroup.addActor(fpsLabel);
+		
+		stage.addActor(gameGroup);
+		stage.addActor(uiGroup);
+	}
+
+	public void updateFPS() {
+		fpsLabel.setText("FPS: " + Gdx.graphics.getFramesPerSecond());
 	}
 
 	@Override
@@ -56,7 +115,7 @@ public class MidiScreen extends InputAdapter implements Screen {
 		if (keycode == Keys.ESCAPE || keycode == Keys.BACK) {
 			((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenu());
 		}
-		
+
 		// Parse noteOn
 		int shift = 0;
 		if ((keycode == Keys.SHIFT_LEFT) || (keycode == Keys.SHIFT_RIGHT)) {
@@ -99,6 +158,7 @@ public class MidiScreen extends InputAdapter implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
+		stage.getViewport().update(width, height, true);
 	}
 
 	@Override
@@ -119,5 +179,8 @@ public class MidiScreen extends InputAdapter implements Screen {
 
 	@Override
 	public void dispose() {
+		stage.dispose();
+		atlas.dispose();
+		skin.dispose();
 	}
 }
