@@ -9,6 +9,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import de.meisterschueler.basic.ControlChange;
 import de.meisterschueler.basic.NoteOff;
@@ -34,10 +37,18 @@ public class MidiScreen extends InputAdapter implements Screen {
 		tempMap.put(Keys.J, 59);
 		noteMap = Collections.unmodifiableMap(tempMap);
 	}
+
+	protected Stage stage;
+	protected TextureAtlas atlas;
+	protected Skin skin;
 	
 	public MidiScreen() {
 		Gdx.input.setInputProcessor(this);
 		Gdx.input.setCatchBackKey(true);
+		
+		stage = new Stage();
+		atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
+		skin = new Skin(Gdx.files.internal("uiskin.json"), atlas);
 	}
 
 	@Override
