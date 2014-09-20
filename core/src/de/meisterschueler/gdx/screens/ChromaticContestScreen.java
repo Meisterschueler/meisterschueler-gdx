@@ -46,11 +46,12 @@ public class ChromaticContestScreen extends MidiScreen {
 		scoresProgress = new ProgressBar(LOWEST_NOTE, HIGHEST_NOTE, 1, false, skin);
 		
 		table = new Table();
-		table.setFillParent(true);
+		table.setPosition(BUTTON_WIDTH, 0);
+		table.setSize(Gdx.graphics.getWidth()-2*BUTTON_WIDTH, Gdx.graphics.getHeight());
 		table.add(timeLabel).left();
-		table.add(timeValue);
+		table.add(timeValue).right();
 		table.row();
-		table.add(scoresProgress);
+		table.add(scoresProgress).colspan(2);
 		
 		highscoresButton = new TextButton("Highscores", skin);
 		highscoresButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -98,7 +99,7 @@ public class ChromaticContestScreen extends MidiScreen {
 			deltaTime = System.currentTimeMillis()-startTime;
 		}
 		
-		timeValue.setText(Double.toString(deltaTime/1000.0));
+		timeValue.setText(String.format("%1.3f", deltaTime/1000.0));
 		scoresProgress.setValue(current);
 		
 		updateFPS();
