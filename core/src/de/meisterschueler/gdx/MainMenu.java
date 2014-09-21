@@ -43,7 +43,7 @@ public class MainMenu implements Screen {
 		buttonLegatoTrainer.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				((Game)Gdx.app.getApplicationListener()).setScreen(new LegatoScreen());
+				((Game) Gdx.app.getApplicationListener()).setScreen(new LegatoScreen());
 			}
 		});
 
@@ -51,7 +51,7 @@ public class MainMenu implements Screen {
 		buttonBubbles.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				((Game)Gdx.app.getApplicationListener()).setScreen(new BubblesScreen());
+				((Game) Gdx.app.getApplicationListener()).setScreen(new BubblesScreen());
 			}
 		});
 
@@ -59,7 +59,7 @@ public class MainMenu implements Screen {
 		buttonMidiStream.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				((Game)Gdx.app.getApplicationListener()).setScreen(new MidiStreamScreen());
+				((Game) Gdx.app.getApplicationListener()).setScreen(new MidiStreamScreen());
 			}
 		});
 
@@ -67,8 +67,8 @@ public class MainMenu implements Screen {
 		buttonChromaticContest.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				ScoreService scoreService = ((Meisterschueler)Gdx.app.getApplicationListener()).getScoreService();
-				((Game)Gdx.app.getApplicationListener()).setScreen(new ChromaticContestScreen(scoreService));
+				ScoreService scoreService = ((Meisterschueler) Gdx.app.getApplicationListener()).getScoreService();
+				((Game) Gdx.app.getApplicationListener()).setScreen(new ChromaticContestScreen(scoreService));
 			}
 		});
 
@@ -90,7 +90,7 @@ public class MainMenu implements Screen {
 		table.row();
 		table.add(buttonChromaticContest).prefSize(200, 60).padBottom(10);
 		table.row();
-		table.add(buttonExit).prefSize(200, 60);	
+		table.add(buttonExit).prefSize(200, 60);
 
 		stage.addActor(table);
 	}

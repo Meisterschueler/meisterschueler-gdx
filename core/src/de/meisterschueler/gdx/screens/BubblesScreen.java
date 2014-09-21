@@ -17,29 +17,29 @@ import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.Utils;
 
 public class BubblesScreen extends MidiScreen {
-	
+
 	private class Background extends Actor {
-		
+
 		private ShapeRenderer shapeRenderer;
-		
+
 		public Background() {
 			shapeRenderer = new ShapeRenderer();
 		}
-		
+
 		@Override
 		public void draw(Batch batch, float parentAlpha) {
 			batch.end();
-			
+
 			shapeRenderer.begin(ShapeType.Filled);
 			long currentTime = System.currentTimeMillis();
 			for (MidiPair midiPair : midiPairs) {
-				int x = (int) ((midiPair.getNoteOn().getNote()/128.0) * Gdx.graphics.getWidth());
-				int y = (int) ((midiPair.getNoteOn().getVelocity()/128.0) * Gdx.graphics.getHeight());
+				int x = (int) ((midiPair.getNoteOn().getNote() / 128.0) * Gdx.graphics.getWidth());
+				int y = (int) ((midiPair.getNoteOn().getVelocity() / 128.0) * Gdx.graphics.getHeight());
 
 				Color color = new Color(1, 0, 0, 1);
 				if (midiPair.getNoteOff() != null) {
 					long length = currentTime - midiPair.getNoteOff().getTime();
-					float value = (float)length;
+					float value = (float) length;
 					color = Utils.getSpectralColor(value, 0, 500, 1, 0);
 
 					if (length > 500) {
@@ -50,11 +50,11 @@ public class BubblesScreen extends MidiScreen {
 				shapeRenderer.circle(x, y, 10);
 			}
 			shapeRenderer.end();
-			
+
 			batch.begin();
 		}
 	}
-	
+
 	boolean[] keyPressed = new boolean[128];
 	int[][] keyCounter = new int[128][128];
 
@@ -64,7 +64,7 @@ public class BubblesScreen extends MidiScreen {
 
 	public BubblesScreen() {
 		super();
-		
+
 		background = new Background();
 		gameGroup.addActor(background);
 	}
@@ -73,13 +73,13 @@ public class BubblesScreen extends MidiScreen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+
 		updateFPS();
-		
+
 		stage.act(delta);
 		stage.draw();
 	}
-
+S
 	@Override
 	public void onMidiNoteOn(NoteOn noteOn) {
 		keyPressed[noteOn.getNote()] = true;

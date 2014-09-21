@@ -16,27 +16,27 @@ public class MidiStreamScreen extends MidiScreen {
 
 	List<String> strings = new ArrayList<String>();
 	List<AbstractChannelEvent> events = new ArrayList<AbstractChannelEvent>();
-	
+
 	private TextArea midiInputArea;
 
 	public MidiStreamScreen() {
 		super();
-		
+
 		midiInputArea = new TextArea("", skin);
 		midiInputArea.setDisabled(true);
-		midiInputArea.setPosition(0,  BUTTON_HEIGHT);
-		midiInputArea.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()-BUTTON_HEIGHT);
-		
+		midiInputArea.setPosition(0, BUTTON_HEIGHT);
+		midiInputArea.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - BUTTON_HEIGHT);
+
 		gameGroup.addActor(midiInputArea);
 	}
-	
+
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+
 		updateFPS();
-		
+
 		stage.act(delta);
 		stage.draw();
 	}
@@ -63,7 +63,7 @@ public class MidiStreamScreen extends MidiScreen {
 	}
 
 	private String timeToString(Long time) {
-		time = time % (1000*60*60*24);
-		return String.format("%02d:%02d:%02d:%03d", time / 3600000, (time % 3600000) / 60000, (time % 60000) / 1000, (time % 1000) );
+		time = time % (1000 * 60 * 60 * 24);
+		return String.format("%02d:%02d:%02d:%03d", time / 3600000, (time % 3600000) / 60000, (time % 60000) / 1000, (time % 1000));
 	}
 }

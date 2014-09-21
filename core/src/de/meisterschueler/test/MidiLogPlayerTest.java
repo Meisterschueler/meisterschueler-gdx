@@ -2,6 +2,7 @@ package de.meisterschueler.test;
 
 import java.io.IOException;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.meisterschueler.basic.MidiLogPlayer;
@@ -10,6 +11,7 @@ import de.meisterschueler.basic.NoteOn;
 
 public class MidiLogPlayerTest {
 
+	@Ignore
 	@Test
 	public void test() throws IOException, InterruptedException {
 		String file = "/Users/konstantin/Downloads/joseftest";

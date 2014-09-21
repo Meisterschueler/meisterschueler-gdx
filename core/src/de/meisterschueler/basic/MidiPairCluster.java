@@ -12,29 +12,28 @@ public class MidiPairCluster {
 		midiPairs.add(midiPair);
 		start = midiPair.getNoteOn().getTime();
 	}
-	
+
 	public long getStart() {
 		return start;
 	}
-	
+
 	public void setStart(long time) {
 		this.start = time;
 	}
-	
+
 	public long getEnd() {
 		return end;
 	}
-	
+
 	public void setEnd(long time) {
 		this.end = time;
 	}
-	
+
 	public List<MidiPair> getMidiPairs() {
 		return midiPairs;
 	}
-	
+
 	public void setMidiPairs(List<MidiPair> midiPairs) {
 		this.midiPairs = midiPairs;
 	}
-
 }

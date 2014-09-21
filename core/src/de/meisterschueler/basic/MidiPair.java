@@ -8,7 +8,7 @@ public class MidiPair implements Comparable<MidiPair> {
 		this.noteOn = noteOn;
 		this.noteOff = noteOff;
 	}
-	
+
 	public MidiPair(NoteOn noteOn) {
 		this.noteOn = noteOn;
 	}

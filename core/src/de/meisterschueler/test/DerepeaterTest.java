@@ -58,7 +58,7 @@ public class DerepeaterTest {
 		assertEquals(counterNoteOff[50], 3);
 
 		// NoteOff without NoteOn
-		derepeater.noteOffEvent(new NoteOff(0, 0, 0,  60, 64));
+		derepeater.noteOffEvent(new NoteOff(0, 0, 0, 60, 64));
 		assertEquals(counterNoteOn[60], 0);
 		assertEquals(counterNoteOff[60], 1);
 	}

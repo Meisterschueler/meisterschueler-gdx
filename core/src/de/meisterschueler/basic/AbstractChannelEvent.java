@@ -1,7 +1,6 @@
 package de.meisterschueler.basic;
 
 public class AbstractChannelEvent {
-
 	protected long time;
 	protected int cable;
 	protected int channel;
@@ -17,7 +16,7 @@ public class AbstractChannelEvent {
 		this.cable = cable;
 		this.channel = channel;
 	}
-	
+
 	public long getTime() {
 		return time;
 	}
@@ -41,5 +40,4 @@ public class AbstractChannelEvent {
 	public void setChannel(int channel) {
 		this.channel = channel;
 	}
-
 }

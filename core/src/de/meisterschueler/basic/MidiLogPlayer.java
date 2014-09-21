@@ -20,15 +20,15 @@ public abstract class MidiLogPlayer {
 
 		BufferedReader br = new BufferedReader(new FileReader(file));
 		String line;
-		while((line = br.readLine()) != null) {
+		while ((line = br.readLine()) != null) {
 			Matcher matcher = pattern.matcher(line);
 			if (matcher.matches()) {
 				int hour = Integer.parseInt(matcher.group(1));
 				int min = Integer.parseInt(matcher.group(2));
 				int sec = Integer.parseInt(matcher.group(3));
 				int msec = Integer.parseInt(matcher.group(4));
-				Long timestamp = (((hour*60L+min)*60L+sec)*1000L+msec);
-				
+				Long timestamp = (((hour * 60L + min) * 60L + sec) * 1000L + msec);
+
 				String type = matcher.group(5);
 				if (type.equals("Note on")) {
 					Matcher matcher2 = pattern2.matcher(matcher.group(6));
@@ -58,33 +58,34 @@ public abstract class MidiLogPlayer {
 		Thread t = new Thread() {
 			@Override
 			public void run() {
-				Long time = ((AbstractNote)notes.get(0)).getTime();
+				Long time = ((AbstractNote) notes.get(0)).getTime();
 				for (Object o : notes) {
 					AbstractNote note = (AbstractNote) o;
-					Long delta = note.getTime()-time;
+					Long delta = note.getTime() - time;
 					try {
 						Thread.sleep(delta);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
+
 					time = note.getTime();
 					if (note instanceof NoteOn) {
-						NoteOn noteOn = (NoteOn)note;
+						NoteOn noteOn = (NoteOn) note;
 						onNoteOn(noteOn);
 					} else if (note instanceof NoteOff) {
-						NoteOff noteOff = (NoteOff)note;
+						NoteOff noteOff = (NoteOff) note;
 						onNoteOff(noteOff);
 					}
 				}
 			}
 		};
-		
+
 		t.start();
 		t.join();
 	}
-	
+
 	public abstract void onNoteOn(NoteOn noteOn);
+
 	public abstract void onNoteOff(NoteOff noteOff);
 }

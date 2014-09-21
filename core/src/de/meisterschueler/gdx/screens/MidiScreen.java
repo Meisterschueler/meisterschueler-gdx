@@ -11,7 +11,6 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -76,22 +75,22 @@ public class MidiScreen extends InputAdapter implements Screen {
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		Gdx.input.setCatchBackKey(true);
 
-		BUTTON_WIDTH = Gdx.app.getGraphics().getWidth()/7;
-		BUTTON_HEIGHT = Gdx.app.getGraphics().getHeight()/8;
+		BUTTON_WIDTH = Gdx.app.getGraphics().getWidth() / 7;
+		BUTTON_HEIGHT = Gdx.app.getGraphics().getHeight() / 8;
 
 		backButton = new TextButton("Back", skin);
 		backButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-		backButton.setPosition(0, Gdx.graphics.getHeight()-BUTTON_HEIGHT);
+		backButton.setPosition(0, Gdx.graphics.getHeight() - BUTTON_HEIGHT);
 		backButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenu());
+				((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenu());
 			}
 		});
 
 		helpButton = new TextButton("Help", skin);
 		helpButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-		helpButton.setPosition(Gdx.graphics.getWidth()-BUTTON_WIDTH, Gdx.graphics.getHeight()-BUTTON_HEIGHT);
+		helpButton.setPosition(Gdx.graphics.getWidth() - BUTTON_WIDTH, Gdx.graphics.getHeight() - BUTTON_HEIGHT);
 		helpButton.addListener(new ClickListener() {
 			private boolean showUi;
 
@@ -109,12 +108,12 @@ public class MidiScreen extends InputAdapter implements Screen {
 
 		fpsLabel = new Label("", skin);
 		fpsLabel.setPosition(20, 20);
-		
+
 		labelsGroup.addActor(fpsLabel);
 
 		uiGroup.addActor(backButton);
 		uiGroup.addActor(helpButton);
-		
+
 		stage.addActor(gameGroup);
 		stage.addActor(labelsGroup);
 		stage.addActor(uiGroup);
@@ -127,7 +126,7 @@ public class MidiScreen extends InputAdapter implements Screen {
 	@Override
 	public boolean keyDown(int keycode) {
 		if (keycode == Keys.ESCAPE || keycode == Keys.BACK) {
-			((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenu());
+			((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenu());
 		}
 
 		// Parse noteOn
@@ -137,7 +136,7 @@ public class MidiScreen extends InputAdapter implements Screen {
 		}
 		for (Integer i : noteMap.keySet()) {
 			if (keycode == i) {
-				int note = noteMap.get(i)+shift;
+				int note = noteMap.get(i) + shift;
 				onMidiNoteOn(new NoteOn(System.currentTimeMillis(), 0, 0, note, 10));
 			}
 		}
@@ -154,7 +153,7 @@ public class MidiScreen extends InputAdapter implements Screen {
 		}
 		for (Integer i : noteMap.keySet()) {
 			if (keycode == i) {
-				int note = noteMap.get(i)+shift;
+				int note = noteMap.get(i) + shift;
 				onMidiNoteOff(new NoteOff(System.currentTimeMillis(), 0, 0, note, 64));
 			}
 		}
@@ -162,9 +161,14 @@ public class MidiScreen extends InputAdapter implements Screen {
 		return false;
 	}
 
-	public void onMidiNoteOn(NoteOn noteOn) {};
-	public void onMidiNoteOff(NoteOff noteOff) {};
-	public void onMidiControlChange(ControlChange controlChange) {};
+	public void onMidiNoteOn(NoteOn noteOn) {
+	};
+
+	public void onMidiNoteOff(NoteOff noteOff) {
+	};
+
+	public void onMidiControlChange(ControlChange controlChange) {
+	};
 
 	@Override
 	public void render(float delta) {

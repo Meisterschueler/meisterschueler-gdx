@@ -1,12 +1,10 @@
 package de.meisterschueler.basic;
 
 public class ControlChange extends AbstractChannelEvent {
-
 	private int function;
 	private int value;
 
-	public ControlChange(long time, int cable, int channel,
-			int function, int value) {
+	public ControlChange(long time, int cable, int channel, int function, int value) {
 		super(time, cable, channel);
 		this.setFunction(function);
 		this.setValue(value);

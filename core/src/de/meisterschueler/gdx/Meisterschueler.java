@@ -22,13 +22,13 @@ public class Meisterschueler extends Game {
 		@Override
 		public void onNoteOn(NoteOn noteOn) {
 			if (getScreen() instanceof MidiScreen)
-				((MidiScreen)getScreen()).onMidiNoteOn(noteOn);
+				((MidiScreen) getScreen()).onMidiNoteOn(noteOn);
 		}
 
 		@Override
 		public void onNoteOff(NoteOff noteOff) {
 			if (getScreen() instanceof MidiScreen)
-				((MidiScreen)getScreen()).onMidiNoteOff(noteOff);
+				((MidiScreen) getScreen()).onMidiNoteOff(noteOff);
 		}
 	};
 
@@ -40,19 +40,19 @@ public class Meisterschueler extends Game {
 	public Meisterschueler(MidiOutput midiOutput) {
 		midiOutputService = new MidiOutputService(midiOutput);
 	}
-	
+
 	public ScoreService getScoreService() {
 		return scoreService;
 	}
-	
+
 	public void setScoreService(ScoreService scoreService) {
 		this.scoreService = scoreService;
 	}
 
 	@Override
-	public void create () {
+	public void create() {
 		setScreen(new MainMenu());
-		
+
 		leftPedal = new Debounce(100, 10) {
 			@Override
 			public void execute(boolean set) {
@@ -70,7 +70,7 @@ public class Meisterschueler extends Game {
 		};
 	}
 
-	public void onMidiNoteOn(NoteOn noteOn) {		
+	public void onMidiNoteOn(NoteOn noteOn) {
 		derepeater.noteOnEvent(noteOn);
 	}
 

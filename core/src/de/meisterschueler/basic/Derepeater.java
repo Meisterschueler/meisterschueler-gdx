@@ -1,11 +1,11 @@
 package de.meisterschueler.basic;
 
-
 public abstract class Derepeater {
 
 	private boolean pressed[] = new boolean[128];
 
 	public abstract void onNoteOn(NoteOn noteOn);
+
 	public abstract void onNoteOff(NoteOff noteOff);
 
 	public void noteOnEvent(NoteOn noteOn) {

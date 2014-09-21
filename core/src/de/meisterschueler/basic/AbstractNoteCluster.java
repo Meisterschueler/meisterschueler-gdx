@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AbstractNoteCluster {
-
 	private long time;
-	private	List<AbstractNote> abstractNotes = new ArrayList<AbstractNote>();
+	private List<AbstractNote> abstractNotes = new ArrayList<AbstractNote>();
 
 	public AbstractNoteCluster(AbstractNote note) {
 		this.time = note.getTime();
@@ -20,9 +19,8 @@ public class AbstractNoteCluster {
 	public List<AbstractNote> getNotes() {
 		return abstractNotes;
 	}
-	
+
 	public void setNotes(List<AbstractNote> abstractNotes) {
 		this.abstractNotes = abstractNotes;
 	}
-	
 }

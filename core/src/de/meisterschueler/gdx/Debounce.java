@@ -3,9 +3,7 @@ package de.meisterschueler.gdx;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
 public abstract class Debounce {
-
 	private Timer timer = null;
 	private long lastHit = 0;
 	private long debounceDelay = 0;
@@ -20,9 +18,9 @@ public abstract class Debounce {
 		this.checkDelay = checkDelay;
 	}
 
-	public void hit(boolean state){
+	public void hit(boolean state) {
 		lastHit = System.currentTimeMillis();
-		if(this.timer != null){
+		if (this.timer != null) {
 			this.timer.cancel();
 			this.timer = null;
 		}
@@ -31,8 +29,8 @@ public abstract class Debounce {
 		this.inputState = state;
 	}
 
-	private void checkExecute(){
-		if((System.currentTimeMillis() - lastHit) > debounceDelay){
+	private void checkExecute() {
+		if ((System.currentTimeMillis() - lastHit) > debounceDelay) {
 			this.timer.cancel();
 			this.timer = null;
 			outputState = inputState;

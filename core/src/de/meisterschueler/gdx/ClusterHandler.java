@@ -23,7 +23,7 @@ public class ClusterHandler {
 			AbstractNoteCluster noteOnCluster = new AbstractNoteCluster(noteOn);
 			noteOnClusters.add(noteOnCluster);
 		} else {
-			AbstractNoteCluster lastNoteCluster = noteOnClusters.get(noteOnClusters.size()-1);
+			AbstractNoteCluster lastNoteCluster = noteOnClusters.get(noteOnClusters.size() - 1);
 			if (noteOn.getTime() - lastNoteCluster.getTime() > CLUSTER_GAP) {
 				AbstractNoteCluster noteOnCluster = new AbstractNoteCluster(noteOn);
 				noteOnClusters.add(noteOnCluster);
@@ -37,7 +37,7 @@ public class ClusterHandler {
 			MidiPairCluster midiPairCuster = new MidiPairCluster(new MidiPair(noteOn));
 			midiPairClusters.add(midiPairCuster);
 		} else {
-			MidiPairCluster lastMidiPairCluster = midiPairClusters.get(midiPairClusters.size()-1);
+			MidiPairCluster lastMidiPairCluster = midiPairClusters.get(midiPairClusters.size() - 1);
 			if (noteOn.getTime() - lastMidiPairCluster.getStart() > CLUSTER_GAP) {
 				MidiPairCluster midiPairCluster = new MidiPairCluster(new MidiPair(noteOn));
 				midiPairClusters.add(midiPairCluster);
@@ -54,7 +54,7 @@ public class ClusterHandler {
 			AbstractNoteCluster noteOffCluster = new AbstractNoteCluster(noteOff);
 			noteOffClusters.add(noteOffCluster);
 		} else {
-			AbstractNoteCluster lastNoteCluster = noteOffClusters.get(noteOffClusters.size()-1);
+			AbstractNoteCluster lastNoteCluster = noteOffClusters.get(noteOffClusters.size() - 1);
 			if (noteOff.getTime() - lastNoteCluster.getTime() > CLUSTER_GAP) {
 				AbstractNoteCluster noteOffCluste = new AbstractNoteCluster(noteOff);
 				noteOffClusters.add(noteOffCluste);
@@ -64,7 +64,7 @@ public class ClusterHandler {
 		}
 
 		// MidiPairCluster
-		for (int i=midiPairClusters.size()-1; i>=0; i--) {
+		for (int i = midiPairClusters.size() - 1; i >= 0; i--) {
 			MidiPairCluster midiPairCluster = midiPairClusters.get(i);
 			for (MidiPair midiPair : midiPairCluster.getMidiPairs()) {
 				if (midiPair.getNoteOn().getNote() == noteOff.getNote() && midiPair.getNoteOff() == null) {

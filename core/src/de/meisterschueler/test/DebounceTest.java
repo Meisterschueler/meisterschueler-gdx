@@ -16,26 +16,26 @@ public class DebounceTest {
 			@Override
 			public void execute(boolean state) {
 				if (state)
-				pressed = true;
+					pressed = true;
 			}
 		};
-		
+
 		pedal.hit(true);
 		assertFalse(pedal.isSet());
 		pedal.hit(false);
 		assertFalse(pedal.isSet());
-	
+
 		assertFalse(pressed);
 		Thread.sleep(100);
 		assertFalse(pressed);
-		
+
 		pedal.hit(true);
 		assertFalse(pedal.isSet());
 		assertFalse(pressed);
 		Thread.sleep(110);
 		assertTrue(pressed);
 		assertTrue(pedal.isSet());
-		
+
 		pedal.hit(false);
 		assertTrue(pressed);
 		assertTrue(pedal.isSet());
