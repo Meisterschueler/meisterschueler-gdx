@@ -79,7 +79,7 @@ public class BubblesScreen extends MidiScreen {
 		stage.act(delta);
 		stage.draw();
 	}
-S
+
 	@Override
 	public void onMidiNoteOn(NoteOn noteOn) {
 		keyPressed[noteOn.getNote()] = true;
