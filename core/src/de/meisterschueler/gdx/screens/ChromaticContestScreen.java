@@ -39,7 +39,7 @@ public class ChromaticContestScreen extends MidiScreen {
 
 	private ScoreService scoreService;
 
-	public ChromaticContestScreen(ScoreService scoreService) {
+	public ChromaticContestScreen(final ScoreService scoreService) {
 		super();
 
 		this.scoreService = scoreService;
@@ -62,7 +62,6 @@ public class ChromaticContestScreen extends MidiScreen {
 		highscoresButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				ScoreService scoreService = ((Meisterschueler) Gdx.app.getApplicationListener()).getScoreService();
 				scoreService.getLeaderboardGPGS_chromatic();
 			}
 		});
@@ -73,7 +72,6 @@ public class ChromaticContestScreen extends MidiScreen {
 		achievmentsButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				ScoreService scoreService = ((Meisterschueler) Gdx.app.getApplicationListener()).getScoreService();
 				scoreService.getAchievementsGPGS();
 			}
 		});
