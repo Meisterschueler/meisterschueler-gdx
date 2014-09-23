@@ -12,7 +12,6 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 
 import de.meisterschueler.basic.NoteOn;
-import de.meisterschueler.gdx.Meisterschueler;
 import de.meisterschueler.gpgs.ScoreService;
 
 public class ChromaticContestScreen extends MidiScreen {
