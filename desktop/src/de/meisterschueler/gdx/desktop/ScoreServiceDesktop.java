@@ -16,7 +16,12 @@ public class ScoreServiceDesktop implements ScoreService {
 	}
 
 	@Override
-	public void submitScoreGPGS(int score, String id) {
+	public void submitEventGPGS(String id, int score) {
+		System.out.println("GPGS: submitEventGPGS score:" + score + " id:" + id);
+	}
+
+	@Override
+	public void submitScoreGPGS(String id, int score) {
 		System.out.println("GPGS: submitScoreGPGS score:" + score + " id:" + id);
 	}
 
@@ -33,6 +38,11 @@ public class ScoreServiceDesktop implements ScoreService {
 	@Override
 	public void getAchievementsGPGS() {
 		System.out.println("GPGS: getAchievementsGPGS");
+	}
+
+	@Override
+	public void submitEventGPGS_chromaticStart() {
+		System.out.println("GPGS: submitEventGPGS_chromaticStart");
 	}
 
 	@Override

@@ -410,7 +410,12 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	}
 
 	@Override
-	public void submitScoreGPGS(int score, String id) {
+	public void submitEventGPGS(String id, int score) {
+		Games.Events.increment(gameHelper.getApiClient(), id, score);
+	}
+
+	@Override
+	public void submitScoreGPGS(String id, int score) {
 		Games.Leaderboards.submitScore(gameHelper.getApiClient(), id, score);
 	}
 
@@ -447,8 +452,13 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	}
 
 	@Override
+	public void submitEventGPGS_chromaticStart() {
+		submitEventGPGS(getString(R.string.event_started_chromatic_scale), 1);
+	}
+
+	@Override
 	public void submitScoreGPGS_chromatic(int score) {
-		Games.Leaderboards.submitScore(gameHelper.getApiClient(), getString(R.string.achievement_chromatic_master), score);
+		submitScoreGPGS(getString(R.string.achievement_chromatic_master), score);
 	}
 
 	@Override

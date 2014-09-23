@@ -119,6 +119,7 @@ public class ChromaticContestScreen extends MidiScreen {
 
 		if (current == LOWEST_NOTE) {
 			status = Status.RUNNING;
+			scoreService.submitEventGPGS_chromaticStart();
 			startTime = System.currentTimeMillis();
 		} else if (current == HIGHEST_NOTE) {
 			status = Status.FINISHED;
@@ -127,14 +128,13 @@ public class ChromaticContestScreen extends MidiScreen {
 			if (deltaTime >= 0 && deltaTime <= 2147483647) {
 				int delta = (int) deltaTime;
 				scoreService.submitScoreGPGS_chromatic(delta);
-
-				Timer.schedule(new Task() {
-					@Override
-					public void run() {
-						init();
-					}
-				}, 1);
 			}
+			Timer.schedule(new Task() {
+				@Override
+				public void run() {
+					init();
+				}
+			}, 1);
 		}
 	}
 }
