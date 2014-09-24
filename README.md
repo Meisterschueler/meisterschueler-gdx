@@ -1,7 +1,7 @@
 meisterschueler-gdx
 ===================
 
-[![Build Status](https://travis-ci.org/computelab/mosaic.svg?branch=master)](https://travis-ci.org/computelab/mosaic)
+[![Build Status](https://travis-ci.org/Meisterschueler/meisterschueler-gdx.svg?branch=master)](https://travis-ci.org/Meisterschueler/meisterschueler-gdx)
 
 Realtime visualization of MIDI events (over USB) for Android. Try out the Android App [Legato](https://play.google.com/store/apps/details?id=de.meisterschueler.legato.android) from Google Play.
 
