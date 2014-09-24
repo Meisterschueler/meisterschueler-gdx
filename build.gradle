@@ -2,10 +2,12 @@ buildscript {
     repositories {
         mavenCentral()
         mavenLocal()
+        maven { url 'http://dl.bintray.com/steffenschaefer/maven' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.12.2'
         classpath 'com.github.jtakakura:gradle-robovm-plugin:0.0.10'
+        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.5'
     }
 }
 
@@ -68,6 +70,21 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.github.rwl:jtransforms:2.4.0"
+    }
+}
+
+project(":html") {
+    apply plugin: "gwt"
+    apply plugin: "war"
+
+
+    dependencies {
+        compile project(":core")
+        compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
+        compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
+        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion:sources"
+        compile "com.badlogicgames.gdx:gdx-box2d-gwt:$gdxVersion:sources"
     }
 }
 
