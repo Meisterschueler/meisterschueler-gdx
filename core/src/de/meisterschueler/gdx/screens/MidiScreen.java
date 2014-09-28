@@ -59,11 +59,18 @@ public class MidiScreen extends InputAdapter implements Screen {
 	protected TextButton helpButton;
 	private Label fpsLabel;
 
+	private boolean showUI;
+	private boolean rightPedal;
+	private boolean leftPedal;
+
 	public MidiScreen() {
 		stage = new Stage();
 		gameGroup = new Group();
 		labelsGroup = new Group();
 		uiGroup = new Group();
+
+		uiGroup.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		showUI = true;
 
 		atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
 		skin = new Skin(Gdx.files.internal("uiskin.json"), atlas);
@@ -91,20 +98,6 @@ public class MidiScreen extends InputAdapter implements Screen {
 		helpButton = new TextButton("Help", skin);
 		helpButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 		helpButton.setPosition(Gdx.graphics.getWidth() - BUTTON_WIDTH, Gdx.graphics.getHeight() - BUTTON_HEIGHT);
-		helpButton.addListener(new ClickListener() {
-			private boolean showUi;
-
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				if (showUi == true) {
-					uiGroup.addAction(Actions.sequence(Actions.fadeOut(0.5f)));
-					showUi = false;
-				} else {
-					uiGroup.addAction(Actions.sequence(Actions.fadeIn(0.5f)));
-					showUi = true;
-				}
-			}
-		});
 
 		fpsLabel = new Label("", skin);
 		fpsLabel.setPosition(20, 20);
@@ -129,6 +122,21 @@ public class MidiScreen extends InputAdapter implements Screen {
 			((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenu());
 		}
 
+		// pedals
+		if (keycode == Keys.X) { // right
+			rightPedal = true;
+			if (leftPedal) {
+				toggleUI();
+			}
+			onMidiControlChange(new ControlChange(System.currentTimeMillis(), 0, 0, 64, 127));
+		} else if (keycode == Keys.Y) { // left
+			leftPedal = true;
+			if (rightPedal) {
+				toggleUI();
+			}
+			onMidiControlChange(new ControlChange(System.currentTimeMillis(), 0, 0, 67, 127));
+		}
+
 		// Parse noteOn
 		int shift = 0;
 		if ((keycode == Keys.SHIFT_LEFT) || (keycode == Keys.SHIFT_RIGHT)) {
@@ -146,6 +154,15 @@ public class MidiScreen extends InputAdapter implements Screen {
 
 	@Override
 	public boolean keyUp(int keycode) {
+		// pedals
+		if (keycode == Keys.X) { // right
+			rightPedal = false;
+			onMidiControlChange(new ControlChange(System.currentTimeMillis(), 0, 0, 64, 0));
+		} else if (keycode == Keys.Y) { // left
+			leftPedal = false;
+			onMidiControlChange(new ControlChange(System.currentTimeMillis(), 0, 0, 67, 0));
+		}
+
 		// Parse noteOff
 		int shift = 0;
 		if ((keycode == Keys.SHIFT_LEFT) || (keycode == Keys.SHIFT_RIGHT)) {
@@ -159,6 +176,16 @@ public class MidiScreen extends InputAdapter implements Screen {
 		}
 
 		return false;
+	}
+
+	public void toggleUI() {
+		if (showUI) {
+			uiGroup.addAction(Actions.fadeOut(0.25f));
+			showUI = false;
+		} else {
+			uiGroup.addAction(Actions.fadeIn(0.5f));
+			showUI = true;
+		}
 	}
 
 	public void onMidiNoteOn(NoteOn noteOn) {

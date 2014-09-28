@@ -7,13 +7,7 @@ import de.meisterschueler.basic.ControlChange;
 import de.meisterschueler.basic.Derepeater;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
-import de.meisterschueler.gdx.screens.BubblesScreen;
-import de.meisterschueler.gdx.screens.ChromaticContestScreen;
 import de.meisterschueler.gdx.screens.MidiScreen;
-import de.meisterschueler.gdx.screens.MidiStreamScreen;
-import de.meisterschueler.gdx.screens.ScrollEffect;
-import de.meisterschueler.gdx.screens.SpectrumEffect;
-import de.meisterschueler.gdx.screens.legato.LegatoScreen;
 import de.meisterschueler.gpgs.ScoreService;
 
 public class Meisterschueler extends Game {
@@ -21,14 +15,16 @@ public class Meisterschueler extends Game {
 	private Derepeater derepeater = new Derepeater() {
 		@Override
 		public void onNoteOn(NoteOn noteOn) {
-			if (getScreen() instanceof MidiScreen)
-				((MidiScreen) getScreen()).onMidiNoteOn(noteOn);
+			Screen screen = getScreen();
+			if (screen instanceof MidiScreen)
+				((MidiScreen) screen).onMidiNoteOn(noteOn);
 		}
 
 		@Override
 		public void onNoteOff(NoteOff noteOff) {
-			if (getScreen() instanceof MidiScreen)
-				((MidiScreen) getScreen()).onMidiNoteOff(noteOff);
+			Screen screen = getScreen();
+			if (screen instanceof MidiScreen)
+				((MidiScreen) screen).onMidiNoteOff(noteOff);
 		}
 	};
 
@@ -57,7 +53,7 @@ public class Meisterschueler extends Game {
 			@Override
 			public void execute(boolean set) {
 				if (set && rightPedal.isSet())
-					changeEffect();
+					toggleUI();
 			}
 		};
 
@@ -65,7 +61,7 @@ public class Meisterschueler extends Game {
 			@Override
 			public void execute(boolean set) {
 				if (set && leftPedal.isSet())
-					changeEffect();
+					toggleUI();
 			}
 		};
 	}
@@ -104,20 +100,10 @@ public class Meisterschueler extends Game {
 	public void onDeviceDetached(String deviceName) {
 	}
 
-	private void changeEffect() {
+	private void toggleUI() {
 		Screen screen = getScreen();
-		if (screen instanceof SpectrumEffect) {
-			setScreen(new ScrollEffect());
-		} else if (screen instanceof ScrollEffect) {
-			setScreen(new BubblesScreen());
-		} else if (screen instanceof BubblesScreen) {
-			setScreen(new LegatoScreen());
-		} else if (screen instanceof LegatoScreen) {
-			setScreen(new MidiStreamScreen());
-		} else if (screen instanceof MidiStreamScreen) {
-			setScreen(new ChromaticContestScreen(scoreService));
-		} else if (screen instanceof ChromaticContestScreen) {
-			setScreen(new ScrollEffect());
+		if (screen instanceof MidiScreen) {
+			((MidiScreen) screen).toggleUI();
 		}
 
 		midiOutputService.ping();
