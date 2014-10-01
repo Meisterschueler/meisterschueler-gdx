@@ -7,6 +7,13 @@ import org.junit.Test;
 import de.meisterschueler.chords.Chordfinder;
 
 public class ChordfinderTest {
+	
+	@Test
+	public void invalidChordTest() {
+		int emptyNotes[] = {};
+		String emptyName = Chordfinder.getChordName(emptyNotes);
+		assertEquals("?", emptyName);
+	}
 
 	@Test
 	public void chordTest() {

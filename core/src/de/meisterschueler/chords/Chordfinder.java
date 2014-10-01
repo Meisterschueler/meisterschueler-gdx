@@ -130,18 +130,18 @@ public class Chordfinder {
 		chords.add(new Chord("13", new int[] {0,4,7,10,14,17,21}));		// dom13 {c1,e,g,b&,d2,f,a}
 		chords.add(new Chord("13(b9)", new int[] {0,4,7,10,13,17,21}));	// - {c1,e,g,b&,d&2,f,a}
 		chords.add(new Chord("13(#9)", new int[] {0,4,7,10,15,17,21}));	// - {c1,e,g,b&,d#2,f,a}
-		
+
 		// Vermindert
 		chords.add(new Chord("°", new int[] {0,3,6}));					// dim, verm, m(b5) {c1,e&,g&}
 		chords.add(new Chord("°7", new int[] {0,3,6,9}));				// - {c1,e&,g&,b&&}
 		chords.add(new Chord("°7/b13", new int[] {0,3,6,9,14}));		// - {c1,e&,g&,b&&,d2}
-		
+
 		// Halb-Vermindert
 		chords.add(new Chord("m7(b5)", new int[] {0,3,6,10}));			// mØ, dim7, min7(b5) {c1,e&,g&,b&}
-		
+
 		// Übermäßig
 		chords.add(new Chord("+", new int[] {0,4,8}));					// (#5), aug, Überm {c1,e,g#}
-		
+
 		// Powerchords
 		chords.add(new Chord("1-b3-x", new int[] {0,3}));				// - {c1,e&}
 		chords.add(new Chord("1-3-x", new int[] {0,4}));				// - {c1,e}
@@ -171,24 +171,28 @@ public class Chordfinder {
 		for (Chord chord : chords) {
 			int[] notes = chord.notes;
 			if (chord.notes[notes.length-1] < 12) {
-				
+
 				for (int i = 1; i < notes.length; i++) {
 					// copy notes to invertedNotes and rotate it for i steps
 					int[] invertedNotes = new int[notes.length];
 					for (int j = 0; j < notes.length; j++) {
 						invertedNotes[j] = notes[(j+i) % notes.length] + ((j+i)>=notes.length?12:0);
 					}
-					
+
 					Chord invertedChord = new Chord(chord.name + " " + inversions.get(i-1), invertedNotes);
 					invertedChords.add(invertedChord);
 				}
 			}
 		}
-		
+
 		chords.addAll(invertedChords);
 	}
 
 	public static String getChordName(int[] notes) {
+		if (notes.length == 0) {
+			return "?";
+		}
+
 		int steps[] = new int[notes.length - 1];
 		for (int i = 1; i < notes.length; i++) {
 			steps[i - 1] = notes[i] - notes[i - 1];
@@ -198,10 +202,8 @@ public class Chordfinder {
 		if (chord != null) {
 			String keyName = keys.get((notes[0] - chord.notes[0]) % 12);
 			return keyName + chord.name;			
-		} else {
-			return keys.get(notes[0] % 12) + " ?";
-		}
-
+		} 
+		return keys.get(notes[0] % 12) + " ?";
 	}
 
 	private static Chord getChord(int[] steps) {
