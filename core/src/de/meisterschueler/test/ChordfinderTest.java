@@ -1,6 +1,10 @@
-import static org.junit.Assert.*;
+package de.meisterschueler.test;
+
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import de.meisterschueler.chords.Chordfinder;
 
 public class ChordfinderTest {
 
@@ -24,8 +28,23 @@ public class ChordfinderTest {
 	}
 
 	@Test
+	public void inversionTest() {
+		int cMajorFirstInversionNotes[] = { 52, 55, 60 };
+		String cMajorFirstInversionName = Chordfinder.getChordName(cMajorFirstInversionNotes);
+		assertEquals("C 1st Inv", cMajorFirstInversionName);
+
+		int cMajorSecondInversionNotes[] = { 55, 60, 64 };
+		String cMajorSecondInversionName = Chordfinder.getChordName(cMajorSecondInversionNotes);
+		assertEquals("C 2nd Inv", cMajorSecondInversionName);
+
+		int g7MajorThirdInversionNotes[] = { 54, 55, 59, 62 };
+		String g7MajorThirdInversionName = Chordfinder.getChordName(g7MajorThirdInversionNotes);
+		assertEquals("Gmaj7 3rd Inv", g7MajorThirdInversionName);
+	}
+
+	@Test
 	public void intervalTest() {
-		int quintNotes[] = {0, 7};
+		int quintNotes[] = { 0, 7 };
 		String quintName = Chordfinder.getIntervalName(quintNotes);
 		assertEquals("Perfect fifth", quintName);
 	}

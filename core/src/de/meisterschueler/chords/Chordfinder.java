@@ -1,3 +1,5 @@
+package de.meisterschueler.chords;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,6 +38,7 @@ public class Chordfinder {
 	private static ArrayList<Interval> intervals = new ArrayList<Interval>();
 	private static ArrayList<Chord> chords = new ArrayList<Chord>();
 	private static List<String> keys = Arrays.asList("C", "C#", "D", "Eb", "E", "F", "F#", "G", "G#", "A", "Bb", "B");
+	private static List<String> inversions = Arrays.asList("1st Inv", "2nd Inv", "3rd Inv");
 
 	static {
 		// ----- Intervals -----
@@ -137,7 +140,7 @@ public class Chordfinder {
 		chords.add(new Chord("m7(b5)", new int[] {0,3,6,10}));			// mØ, dim7, min7(b5) {c1,e&,g&,b&}
 		
 		// Übermäßig
-		chords.add(new Chord("+", new int[] {0,4,8}));					// (#5), aug, überm {c1,e,g#}
+		chords.add(new Chord("+", new int[] {0,4,8}));					// (#5), aug, Überm {c1,e,g#}
 		
 		// Powerchords
 		chords.add(new Chord("1-b3-x", new int[] {0,3}));				// - {c1,e&}
@@ -149,10 +152,11 @@ public class Chordfinder {
 		chords.add(new Chord("1-x-b7", new int[] {0,10}));				// - {c1,b&}
 		chords.add(new Chord("1-x-7", new int[] {0,11}));				// - {c1,b}
 
+		calcInversions();
 	}
 
-	public static String getIntervalName(int[] quintNotes) {
-		int semitones = quintNotes[1] - quintNotes[0];
+	public static String getIntervalName(int[] notes) {
+		int semitones = notes[1] - notes[0];
 		for (int i = 0; i < intervals.size(); i++) {
 			Interval interval = intervals.get(i);
 			if (interval.semitones == semitones) {
@@ -162,6 +166,28 @@ public class Chordfinder {
 		return null;
 	}
 
+	private static void calcInversions() {
+		List<Chord> invertedChords = new ArrayList<Chord>();
+		for (Chord chord : chords) {
+			int[] notes = chord.notes;
+			if (chord.notes[notes.length-1] < 12) {
+				
+				for (int i = 1; i < notes.length; i++) {
+					// copy notes to invertedNotes and rotate it for i steps
+					int[] invertedNotes = new int[notes.length];
+					for (int j = 0; j < notes.length; j++) {
+						invertedNotes[j] = notes[(j+i) % notes.length] + ((j+i)>=notes.length?12:0);
+					}
+					
+					Chord invertedChord = new Chord(chord.name + " " + inversions.get(i-1), invertedNotes);
+					invertedChords.add(invertedChord);
+				}
+			}
+		}
+		
+		chords.addAll(invertedChords);
+	}
+
 	public static String getChordName(int[] notes) {
 		int steps[] = new int[notes.length - 1];
 		for (int i = 1; i < notes.length; i++) {
@@ -169,9 +195,13 @@ public class Chordfinder {
 		}
 
 		Chord chord = getChord(steps);
-		String keyName = keys.get((notes[0] - chord.notes[0]) % 12);
+		if (chord != null) {
+			String keyName = keys.get((notes[0] - chord.notes[0]) % 12);
+			return keyName + chord.name;			
+		} else {
+			return keys.get(notes[0] % 12) + " ?";
+		}
 
-		return keyName + chord.name;
 	}
 
 	private static Chord getChord(int[] steps) {
