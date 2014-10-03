@@ -142,15 +142,15 @@ public class Chordfinder {
 		// Übermäßig
 		chords.add(new Chord("+", new int[] {0,4,8}));					// (#5), aug, Überm {c1,e,g#}
 
-		// Powerchords
-		chords.add(new Chord("1-b3-x", new int[] {0,3}));				// - {c1,e&}
-		chords.add(new Chord("1-3-x", new int[] {0,4}));				// - {c1,e}
-		chords.add(new Chord("1-4-x", new int[] {0,5}));				// - {c1,f}
-		chords.add(new Chord("1-x-b5", new int[] {0,6}));				// - {c1,g&}
-		chords.add(new Chord("5", new int[] {0,7}));					// 1-x-5 {c1,g}
-		chords.add(new Chord("1-x-6", new int[] {0,9}));				// - {c1,a}
-		chords.add(new Chord("1-x-b7", new int[] {0,10}));				// - {c1,b&}
-		chords.add(new Chord("1-x-7", new int[] {0,11}));				// - {c1,b}
+//		// Powerchords
+//		chords.add(new Chord("1-b3-x", new int[] {0,3}));				// - {c1,e&}
+//		chords.add(new Chord("1-3-x", new int[] {0,4}));				// - {c1,e}
+//		chords.add(new Chord("1-4-x", new int[] {0,5}));				// - {c1,f}
+//		chords.add(new Chord("1-x-b5", new int[] {0,6}));				// - {c1,g&}
+//		chords.add(new Chord("5", new int[] {0,7}));					// 1-x-5 {c1,g}
+//		chords.add(new Chord("1-x-6", new int[] {0,9}));				// - {c1,a}
+//		chords.add(new Chord("1-x-b7", new int[] {0,10}));				// - {c1,b&}
+//		chords.add(new Chord("1-x-7", new int[] {0,11}));				// - {c1,b}
 
 		calcInversions();
 	}
@@ -189,7 +189,7 @@ public class Chordfinder {
 	}
 
 	public static String getChordName(int[] notes) {
-		if (notes.length == 0) {
+		if (notes.length < 3) {
 			return "?";
 		}
 
@@ -202,8 +202,9 @@ public class Chordfinder {
 		if (chord != null) {
 			String keyName = keys.get((notes[0] - chord.notes[0]) % 12);
 			return keyName + chord.name;			
-		} 
-		return keys.get(notes[0] % 12) + " ?";
+		} else {
+			return "?";
+		}
 	}
 
 	private static Chord getChord(int[] steps) {
