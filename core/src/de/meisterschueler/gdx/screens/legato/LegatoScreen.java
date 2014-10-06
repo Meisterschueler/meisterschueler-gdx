@@ -181,8 +181,8 @@ public class LegatoScreen extends MidiScreen {
 
 	List<Bubble> bubbles = new CopyOnWriteArrayList<Bubble>();
 	
-	private boolean showLegatoStaccatoBars;
-	private boolean showOverlapRegions;
+	private boolean showLegatoStaccatoBars = true;
+	private boolean showOverlapRegions = true;
 
 	private TextButton legatoStaccatoToggleButton;
 	private TextButton overlapRegionsButton;
@@ -190,9 +190,9 @@ public class LegatoScreen extends MidiScreen {
 	public LegatoScreen() {
 		super();
 		
-		legatoStaccatoToggleButton = new TextButton("Staccato bars", skin);
+		legatoStaccatoToggleButton = new TextButton("Legato bars", skin);
 		legatoStaccatoToggleButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-		legatoStaccatoToggleButton.setPosition(Gdx.graphics.getWidth() - BUTTON_WIDTH, Gdx.graphics.getHeight() - 2 * BUTTON_HEIGHT);
+		legatoStaccatoToggleButton.setPosition(Gdx.graphics.getWidth() - BUTTON_WIDTH, Gdx.graphics.getHeight() - 1 * BUTTON_HEIGHT);
 		legatoStaccatoToggleButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -202,7 +202,7 @@ public class LegatoScreen extends MidiScreen {
 
 		overlapRegionsButton = new TextButton("Overlap regions", skin);
 		overlapRegionsButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-		overlapRegionsButton.setPosition(Gdx.graphics.getWidth() - BUTTON_WIDTH, Gdx.graphics.getHeight() - 3 * BUTTON_HEIGHT);
+		overlapRegionsButton.setPosition(Gdx.graphics.getWidth() - BUTTON_WIDTH, Gdx.graphics.getHeight() - 2 * BUTTON_HEIGHT);
 		overlapRegionsButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -210,8 +210,8 @@ public class LegatoScreen extends MidiScreen {
 			}
 		});
 		
-		uiGroup.addActor(legatoStaccatoToggleButton);
-		uiGroup.addActor(overlapRegionsButton);
+		//uiGroup.addActor(legatoStaccatoToggleButton);
+		//uiGroup.addActor(overlapRegionsButton);
 
 		background = new Background();
 		gameGroup.addActor(background);
