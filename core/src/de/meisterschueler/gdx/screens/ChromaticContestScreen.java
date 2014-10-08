@@ -16,8 +16,12 @@ import de.meisterschueler.gpgs.ScoreService;
 
 public class ChromaticContestScreen extends MidiScreen {
 
-	private Label timeLabel;
-	private Label timeValue;
+	private Label progressValueLabel;
+	private Label progressUnitLabel;
+	
+	private Label timeValueLabel;
+	private Label timeUnitLabel;
+	
 	private ProgressBar scoresProgress;
 	private Table table;
 	private TextButton highscoresButton;
@@ -38,22 +42,31 @@ public class ChromaticContestScreen extends MidiScreen {
 
 	private ScoreService scoreService;
 
+
 	public ChromaticContestScreen(final ScoreService scoreService) {
 		super();
 
 		this.scoreService = scoreService;
 
-		timeLabel = new Label("Time: ", skin);
-		timeValue = new Label("", skin);
+		progressValueLabel = new Label("0", skin, "huge");
+		progressUnitLabel = new Label("%", skin, "huge");
+		
+		timeValueLabel = new Label("", skin);
+		timeUnitLabel = new Label("s", skin);
+		
 		scoresProgress = new ProgressBar(LOWEST_NOTE, HIGHEST_NOTE, 1, false, skin);
 
 		table = new Table();
-		table.setPosition(BUTTON_WIDTH, 0);
-		table.setSize(Gdx.graphics.getWidth() - 2 * BUTTON_WIDTH, Gdx.graphics.getHeight());
-		table.add(timeLabel).left();
-		table.add(timeValue).right();
+		table.setPosition(0, 0);
+		table.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		table.add(progressValueLabel).right();
+		table.add(progressUnitLabel).left();
 		table.row();
-		table.add(scoresProgress).colspan(2);
+		table.add(scoresProgress).colspan(2).prefWidth(Gdx.graphics.getWidth());
+		table.row();
+		table.add(timeValueLabel).right();
+		table.add(timeUnitLabel).right();
+		
 
 		highscoresButton = new TextButton("Highscores", skin);
 		highscoresButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -99,7 +112,8 @@ public class ChromaticContestScreen extends MidiScreen {
 			deltaTime = System.currentTimeMillis() - startTime;
 		}
 
-		timeValue.setText(String.format("%1.3f", deltaTime / 1000.0));
+		progressValueLabel.setText(String.format("%2d", 100*(current-LOWEST_NOTE+1)/(HIGHEST_NOTE-LOWEST_NOTE+1)));
+		timeValueLabel.setText(String.format("%1.3f", deltaTime / 1000.0));
 		scoresProgress.setValue(current);
 
 		updateFPS();
