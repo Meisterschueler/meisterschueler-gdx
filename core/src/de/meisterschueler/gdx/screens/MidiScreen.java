@@ -53,6 +53,8 @@ public class MidiScreen extends InputAdapter implements Screen {
 	protected TextureAtlas atlas;
 	protected Skin skin;
 
+	protected int WIDTH;
+	protected int HEIGHT;
 	protected int BUTTON_WIDTH;
 	protected int BUTTON_HEIGHT;
 	protected TextButton backButton;
@@ -68,8 +70,11 @@ public class MidiScreen extends InputAdapter implements Screen {
 		gameGroup = new Group();
 		labelsGroup = new Group();
 		uiGroup = new Group();
+		
+		WIDTH = Gdx.graphics.getWidth();
+		HEIGHT = Gdx.graphics.getHeight();
 
-		uiGroup.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		uiGroup.setSize(WIDTH, HEIGHT);
 		showUI = true;
 
 		atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
@@ -82,12 +87,12 @@ public class MidiScreen extends InputAdapter implements Screen {
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		Gdx.input.setCatchBackKey(true);
 
-		BUTTON_WIDTH = Gdx.app.getGraphics().getWidth() / 7;
-		BUTTON_HEIGHT = Gdx.app.getGraphics().getHeight() / 8;
+		BUTTON_WIDTH = WIDTH / 7;
+		BUTTON_HEIGHT = HEIGHT / 8;
 
 		backButton = new TextButton("Back", skin);
 		backButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-		backButton.setPosition(0, Gdx.graphics.getHeight() - BUTTON_HEIGHT);
+		backButton.setPosition(0, HEIGHT - BUTTON_HEIGHT);
 		backButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -97,7 +102,7 @@ public class MidiScreen extends InputAdapter implements Screen {
 
 		helpButton = new TextButton("Help", skin);
 		helpButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-		helpButton.setPosition(Gdx.graphics.getWidth() - BUTTON_WIDTH, Gdx.graphics.getHeight() - BUTTON_HEIGHT);
+		helpButton.setPosition(WIDTH - BUTTON_WIDTH, HEIGHT - BUTTON_HEIGHT);
 
 		fpsLabel = new Label("", skin);
 		fpsLabel.setPosition(20, 20);
@@ -105,7 +110,7 @@ public class MidiScreen extends InputAdapter implements Screen {
 		labelsGroup.addActor(fpsLabel);
 
 		uiGroup.addActor(backButton);
-		uiGroup.addActor(helpButton);
+		//uiGroup.addActor(helpButton);
 
 		stage.addActor(gameGroup);
 		stage.addActor(labelsGroup);
@@ -204,6 +209,8 @@ public class MidiScreen extends InputAdapter implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
+		WIDTH = Gdx.graphics.getWidth();
+		HEIGHT = Gdx.graphics.getHeight();
 	}
 
 	@Override

@@ -111,7 +111,6 @@ public class SynthesiaScreen extends MidiScreen {
 					break;
 				case 22:
 					keyType = KeyType.BLACK;
-					float xoffset = (index / 12) * (7 * white_small_width + 5 * black_small_width);
 					keyOffset = calcBlackKeyOffset(6, 4);
 					calcKeyGeometry(keyOffset, black_small_width);
 					break;
@@ -122,6 +121,7 @@ public class SynthesiaScreen extends MidiScreen {
 					break;
 				}
 			} else if (index == 108) {
+				keyType = KeyType.WHITE;
 				keyOffset = calcWhiteKeyOffset(0, 0, 0, 0);
 				calcKeyGeometry(keyOffset, white_single_width);
 			} else {

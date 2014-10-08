@@ -25,7 +25,7 @@ public class MidiStreamScreen extends MidiScreen {
 		midiInputArea = new TextArea("", skin);
 		midiInputArea.setDisabled(true);
 		midiInputArea.setPosition(0, BUTTON_HEIGHT);
-		midiInputArea.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - BUTTON_HEIGHT);
+		midiInputArea.setSize(WIDTH, HEIGHT - BUTTON_HEIGHT);
 
 		gameGroup.addActor(midiInputArea);
 	}

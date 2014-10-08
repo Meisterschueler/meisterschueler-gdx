@@ -33,8 +33,8 @@ public class BubblesScreen extends MidiScreen {
 			shapeRenderer.begin(ShapeType.Filled);
 			long currentTime = System.currentTimeMillis();
 			for (MidiPair midiPair : midiPairs) {
-				int x = (int) ((midiPair.getNoteOn().getNote() / 128.0) * Gdx.graphics.getWidth());
-				int y = (int) ((midiPair.getNoteOn().getVelocity() / 128.0) * Gdx.graphics.getHeight());
+				int x = (int) ((midiPair.getNoteOn().getNote() / 128.0) * WIDTH);
+				int y = (int) ((midiPair.getNoteOn().getVelocity() / 128.0) * HEIGHT);
 
 				Color color = new Color(1, 0, 0, 1);
 				if (midiPair.getNoteOff() != null) {

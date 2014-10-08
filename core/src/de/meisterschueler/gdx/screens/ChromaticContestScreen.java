@@ -58,11 +58,11 @@ public class ChromaticContestScreen extends MidiScreen {
 
 		table = new Table();
 		table.setPosition(0, 0);
-		table.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		table.setSize(WIDTH, HEIGHT);
 		table.add(progressValueLabel).right();
 		table.add(progressUnitLabel).left();
 		table.row();
-		table.add(scoresProgress).colspan(2).prefWidth(Gdx.graphics.getWidth());
+		table.add(scoresProgress).colspan(2).prefWidth(WIDTH);
 		table.row();
 		table.add(timeValueLabel).right();
 		table.add(timeUnitLabel).right();
@@ -70,7 +70,7 @@ public class ChromaticContestScreen extends MidiScreen {
 
 		highscoresButton = new TextButton("Highscores", skin);
 		highscoresButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-		highscoresButton.setPosition(Gdx.graphics.getWidth() - BUTTON_WIDTH, Gdx.graphics.getHeight() - 2 * BUTTON_HEIGHT);
+		highscoresButton.setPosition(WIDTH - BUTTON_WIDTH, HEIGHT - 2 * BUTTON_HEIGHT);
 		highscoresButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -80,7 +80,7 @@ public class ChromaticContestScreen extends MidiScreen {
 
 		achievmentsButton = new TextButton("Achievments", skin);
 		achievmentsButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-		achievmentsButton.setPosition(Gdx.graphics.getWidth() - BUTTON_WIDTH, Gdx.graphics.getHeight() - 3 * BUTTON_HEIGHT);
+		achievmentsButton.setPosition(WIDTH - BUTTON_WIDTH, HEIGHT - 3 * BUTTON_HEIGHT);
 		achievmentsButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {

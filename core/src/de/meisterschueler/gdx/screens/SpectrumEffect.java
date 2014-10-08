@@ -86,7 +86,7 @@ public class SpectrumEffect extends MidiScreen {
 		float toFrequency = frequencyStep * toIdx;
 
 		// f(x) = a*log(x) - b
-		float a = (float) (Gdx.graphics.getWidth() / (Math.log(toFrequency) - Math.log(fromFrequency)));
+		float a = (float) (WIDTH / (Math.log(toFrequency) - Math.log(fromFrequency)));
 		float b = (float) (a * Math.log(fromFrequency));
 
 		for (int i = 1; i < frequencies.length; i++) {

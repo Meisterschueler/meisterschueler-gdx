@@ -48,7 +48,7 @@ public class ChordScreen extends MidiScreen {
 		
 		BitmapFont font = chordLabel.getStyle().font;
 		TextBounds bounds = font.getBounds(chordName);
-		chordLabel.setPosition(Gdx.graphics.getWidth()/2-bounds.width/2, Gdx.graphics.getHeight()/2);
+		chordLabel.setPosition(WIDTH/2-bounds.width/2, HEIGHT/2);
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class ChordScreen extends MidiScreen {
 		
 		BitmapFont font = chordLabel.getStyle().font;
 		TextBounds bounds = font.getBounds(chordName);
-		chordLabel.setPosition(Gdx.graphics.getWidth()/2-bounds.width/2, Gdx.graphics.getHeight()/2);
+		chordLabel.setPosition(WIDTH/2-bounds.width/2, HEIGHT/2);
 	}
 
 	private String getCurrentChordName() {

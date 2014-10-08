@@ -57,7 +57,7 @@ public class LegatoScreen extends MidiScreen {
 
 		private void drawLegatoStaccatoBars(List<ClusterXY> clusters, Batch batch) {
 			// Draw legato/staccato bars
-			Pixmap pixmap = new Pixmap(Gdx.graphics.getWidth(), 1, Pixmap.Format.RGBA8888);
+			Pixmap pixmap = new Pixmap(WIDTH, 1, Pixmap.Format.RGBA8888);
 			pixmap.setColor(1, 0, 0, 0.1f);
 			for (ClusterXY cluster : clusters) {
 				pixmap.drawLine(cluster.fromX, 0, cluster.toX, 0);
@@ -100,7 +100,7 @@ public class LegatoScreen extends MidiScreen {
 			Texture texture = new Texture(pixmap);
 
 			batch.begin();
-			batch.draw(texture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			batch.draw(texture, 0, 0, WIDTH, HEIGHT);
 			batch.end();
 
 			texture.dispose();
@@ -120,7 +120,7 @@ public class LegatoScreen extends MidiScreen {
 			int meanVelocity = (count > 0) ? velocitySum / count : 0;
 
 			// draw notes
-			float rectHight = Gdx.graphics.getHeight() / 128f;
+			float rectHight = HEIGHT / 128f;
 			for (ClusterXY cluster : clusters) {
 				boolean clusterFinished = true;
 				for (MidiPairXY midiPair : cluster.getMidiPairs()) {
@@ -130,7 +130,7 @@ public class LegatoScreen extends MidiScreen {
 					shapeRenderer.setColor(color);
 
 					if (midiPair.getNoteOff() == null) {
-						shapeRenderer.rect(midiPair.fromX, midiPair.y, Gdx.graphics.getWidth() - midiPair.fromX, rectHight);
+						shapeRenderer.rect(midiPair.fromX, midiPair.y, WIDTH - midiPair.fromX, rectHight);
 						clusterFinished = false;
 					} else {
 						shapeRenderer.rect(midiPair.fromX, midiPair.y, midiPair.toX - midiPair.fromX, rectHight);
@@ -141,7 +141,7 @@ public class LegatoScreen extends MidiScreen {
 				}
 
 				if (!clusterFinished) {
-					cluster.toX = Gdx.graphics.getWidth();
+					cluster.toX = WIDTH;
 				}
 
 				cluster.fromX -= delta;
@@ -192,7 +192,7 @@ public class LegatoScreen extends MidiScreen {
 		
 		legatoStaccatoToggleButton = new TextButton("Legato bars", skin);
 		legatoStaccatoToggleButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-		legatoStaccatoToggleButton.setPosition(Gdx.graphics.getWidth() - BUTTON_WIDTH, Gdx.graphics.getHeight() - 1 * BUTTON_HEIGHT);
+		legatoStaccatoToggleButton.setPosition(WIDTH - BUTTON_WIDTH, HEIGHT - 1 * BUTTON_HEIGHT);
 		legatoStaccatoToggleButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -202,7 +202,7 @@ public class LegatoScreen extends MidiScreen {
 
 		overlapRegionsButton = new TextButton("Overlap regions", skin);
 		overlapRegionsButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-		overlapRegionsButton.setPosition(Gdx.graphics.getWidth() - BUTTON_WIDTH, Gdx.graphics.getHeight() - 2 * BUTTON_HEIGHT);
+		overlapRegionsButton.setPosition(WIDTH - BUTTON_WIDTH, HEIGHT - 2 * BUTTON_HEIGHT);
 		overlapRegionsButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -237,8 +237,8 @@ public class LegatoScreen extends MidiScreen {
 
 	@Override
 	public synchronized void onMidiNoteOn(NoteOn noteOn) {
-		int x = Gdx.graphics.getWidth();
-		int y = (int) ((noteOn.getNote() / 128.0) * Gdx.graphics.getHeight());
+		int x = WIDTH;
+		int y = (int) ((noteOn.getNote() / 128.0) * HEIGHT);
 		clusterXYHandler.onMidiNoteOn(noteOn, x, y);
 
 		clusterHandler.onMidiNoteOn(noteOn);
@@ -246,8 +246,8 @@ public class LegatoScreen extends MidiScreen {
 
 	@Override
 	public synchronized void onMidiNoteOff(NoteOff noteOff) {
-		int x = Gdx.graphics.getWidth();
-		int y = (int) ((noteOff.getNote() / 128.0) * Gdx.graphics.getHeight());
+		int x = WIDTH;
+		int y = (int) ((noteOff.getNote() / 128.0) * HEIGHT);
 		clusterXYHandler.onMidiNoteOff(noteOff, x, y);
 
 		clusterHandler.onMidiNoteOff(noteOff);

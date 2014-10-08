@@ -48,13 +48,13 @@ public class ScrollEffect extends MidiScreen {
 			int meanVelocity = (bubbles.size() > 0) ? velocitySum / bubbles.size() : 0;
 
 			shapeRenderer.begin(ShapeType.Filled);
-			float rectHight = Gdx.graphics.getHeight() / 128f;
+			float rectHight = HEIGHT / 128f;
 			for (Bubble bubble : bubbles) {
 				Color color = Utils.getSpectralColor(bubble.noteOn.getVelocity(), meanVelocity - 20, meanVelocity + 20, 5, 1);
 				shapeRenderer.setColor(color);
 
 				if (bubble.noteOff == null) {
-					shapeRenderer.rect(bubble.fromX, bubble.y, Gdx.graphics.getWidth() - bubble.fromX, rectHight);
+					shapeRenderer.rect(bubble.fromX, bubble.y, WIDTH - bubble.fromX, rectHight);
 				} else {
 					shapeRenderer.rect(bubble.fromX, bubble.y, bubble.toX - bubble.fromX, rectHight);
 				}
@@ -100,8 +100,8 @@ public class ScrollEffect extends MidiScreen {
 		System.out.println("NoteOn " + noteOn.getNote());
 
 		Bubble bubble = new Bubble(noteOn);
-		bubble.fromX = Gdx.graphics.getWidth();
-		bubble.y = (int) (Gdx.graphics.getHeight() * bubble.noteOn.getNote() / 128f);
+		bubble.fromX = WIDTH;
+		bubble.y = (int) (HEIGHT * bubble.noteOn.getNote() / 128f);
 		bubbles.add(bubble);
 	}
 
@@ -112,7 +112,7 @@ public class ScrollEffect extends MidiScreen {
 		for (int i = bubbles.size() - 1; i >= 0; i--) {
 			Bubble bubble = bubbles.get(i);
 			if (bubble.noteOn.getNote() == noteOff.getNote() && bubble.noteOff == null) {
-				bubble.toX = Gdx.graphics.getWidth();
+				bubble.toX = WIDTH;
 				bubble.noteOff = noteOff;
 				return;
 			}
