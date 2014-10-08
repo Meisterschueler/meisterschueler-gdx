@@ -225,17 +225,6 @@ public class LegatoScreen extends MidiScreen {
 	private boolean startWithBlackRegion = true;
 
 	@Override
-	public void render(float delta) {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		updateFPS();
-
-		stage.act(delta);
-		stage.draw();
-	}
-
-	@Override
 	public synchronized void onMidiNoteOn(NoteOn noteOn) {
 		int x = WIDTH;
 		int y = (int) ((noteOn.getNote() / 128.0) * HEIGHT);

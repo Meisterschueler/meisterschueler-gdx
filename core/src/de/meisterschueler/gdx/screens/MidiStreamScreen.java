@@ -3,8 +3,6 @@ package de.meisterschueler.gdx.screens;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 
 import de.meisterschueler.basic.AbstractChannelEvent;
@@ -28,17 +26,6 @@ public class MidiStreamScreen extends MidiScreen {
 		midiInputArea.setSize(WIDTH, HEIGHT - BUTTON_HEIGHT);
 
 		gameGroup.addActor(midiInputArea);
-	}
-
-	@Override
-	public void render(float delta) {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		updateFPS();
-
-		stage.act(delta);
-		stage.draw();
 	}
 
 	@Override

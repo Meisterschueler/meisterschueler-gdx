@@ -10,6 +10,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -117,10 +118,6 @@ public class MidiScreen extends InputAdapter implements Screen {
 		stage.addActor(uiGroup);
 	}
 
-	public void updateFPS() {
-		fpsLabel.setText("FPS: " + Gdx.graphics.getFramesPerSecond());
-	}
-
 	@Override
 	public boolean keyDown(int keycode) {
 		if (keycode == Keys.ESCAPE || keycode == Keys.BACK) {
@@ -204,6 +201,13 @@ public class MidiScreen extends InputAdapter implements Screen {
 
 	@Override
 	public void render(float delta) {
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		fpsLabel.setText("FPS: " + Gdx.graphics.getFramesPerSecond());
+
+		stage.act(delta);
+		stage.draw();
 	}
 
 	@Override

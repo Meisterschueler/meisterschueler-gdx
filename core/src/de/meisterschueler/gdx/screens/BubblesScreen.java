@@ -3,9 +3,7 @@ package de.meisterschueler.gdx.screens;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -67,17 +65,6 @@ public class BubblesScreen extends MidiScreen {
 
 		background = new Background();
 		gameGroup.addActor(background);
-	}
-
-	@Override
-	public void render(float delta) {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		updateFPS();
-
-		stage.act(delta);
-		stage.draw();
 	}
 
 	@Override

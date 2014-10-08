@@ -1,7 +1,5 @@
 package de.meisterschueler.gdx.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
@@ -105,9 +103,6 @@ public class ChromaticContestScreen extends MidiScreen {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 		if (status == Status.RUNNING) {
 			deltaTime = System.currentTimeMillis() - startTime;
 		}
@@ -116,10 +111,7 @@ public class ChromaticContestScreen extends MidiScreen {
 		timeValueLabel.setText(String.format("%1.3f", deltaTime / 1000.0));
 		scoresProgress.setValue(current);
 
-		updateFPS();
-
-		stage.act(delta);
-		stage.draw();
+		super.render(delta);
 	}
 
 	@Override
