@@ -1,8 +1,6 @@
 package de.meisterschueler.gdx.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -88,12 +86,12 @@ public class SynthesiaScreen extends MidiScreen {
 
 			shapeRenderer.begin(ShapeType.Filled);
 			shapeRenderer.setColor(Color.BLACK);
-			shapeRenderer.rect(x, y, width, height);
+			shapeRenderer.rect(getX() + x, getY() + y, width, height);
 			if (pressed) {
-				shapeRenderer.rect(x + 1, y + 1, (width - 2) * scale, height - 1, colorPressed, colorPressed, colorNormal, colorNormal);
+				shapeRenderer.rect(getX() + x + 1, getY() + y + 1, (width - 2) * scale, height - 1, colorPressed, colorPressed, colorNormal, colorNormal);
 			} else {
 				shapeRenderer.setColor(colorNormal);
-				shapeRenderer.rect(x + 1, y + 1, (width - 2) * scale, height - 1);
+				shapeRenderer.rect(getX() + x + 1, getY() + y + 1, (width - 2) * scale, height - 1);
 			}
 			shapeRenderer.end();
 
@@ -237,7 +235,7 @@ public class SynthesiaScreen extends MidiScreen {
 
 			shapeRenderer.begin(ShapeType.Filled);
 			shapeRenderer.setColor(Color.RED);
-			shapeRenderer.circle(200, 200, 10);
+			shapeRenderer.circle(getX(), getY(), 10);
 			shapeRenderer.end();
 
 			batch.begin();
