@@ -1,27 +1,26 @@
 package de.meisterschueler.gdx.screens;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.utils.SnapshotArray;
 
-import de.meisterschueler.basic.MidiPair;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
-import de.meisterschueler.gdx.Utils;
 
 public class BubblesScreen extends MidiScreen {
-
-	private class Background extends Actor {
-
+	
+	private class Bubble extends Actor {
+		
 		private ShapeRenderer shapeRenderer;
+		private int note;
 
-		public Background() {
+		public Bubble(int note) {
 			shapeRenderer = new ShapeRenderer();
+			this.note = note;
 		}
 
 		@Override
@@ -29,60 +28,34 @@ public class BubblesScreen extends MidiScreen {
 			batch.end();
 
 			shapeRenderer.begin(ShapeType.Filled);
-			long currentTime = System.currentTimeMillis();
-			for (MidiPair midiPair : midiPairs) {
-				int x = (int) ((midiPair.getNoteOn().getNote() / 128.0) * WIDTH);
-				int y = (int) ((midiPair.getNoteOn().getVelocity() / 128.0) * HEIGHT);
-
-				Color color = new Color(1, 0, 0, 1);
-				if (midiPair.getNoteOff() != null) {
-					long length = currentTime - midiPair.getNoteOff().getTime();
-					float value = (float) length;
-					color = Utils.getSpectralColor(value, 0, 500, 1, 0);
-
-					if (length > 500) {
-						midiPairs.remove(midiPair);
-					}
-				}
-				shapeRenderer.setColor(color);
-				shapeRenderer.circle(x, y, 10);
-			}
+			shapeRenderer.setColor(Color.RED);
+			shapeRenderer.circle(getX(), getY(), 5);
 			shapeRenderer.end();
 
 			batch.begin();
 		}
-	}
 
-	boolean[] keyPressed = new boolean[128];
-	int[][] keyCounter = new int[128][128];
-
-	List<MidiPair> midiPairs = new CopyOnWriteArrayList<MidiPair>();
-
-	private Background background;
-
-	public BubblesScreen() {
-		super();
-
-		background = new Background();
-		gameGroup.addActor(background);
+		public int getNote() {
+			return note;
+		}
 	}
 
 	@Override
 	public void onMidiNoteOn(NoteOn noteOn) {
-		keyPressed[noteOn.getNote()] = true;
-		keyCounter[noteOn.getNote()][noteOn.getVelocity()]++;
-
-		midiPairs.add(new MidiPair(noteOn));
+		Bubble bubble = new Bubble(noteOn.getNote());
+		bubble.setPosition((float)(noteOn.getNote()*WIDTH/127.0), (float)(noteOn.getVelocity()*HEIGHT/127.0));
+		gameGroup.addActor(bubble);
 	}
 
 	@Override
 	public void onMidiNoteOff(NoteOff noteOff) {
-		keyPressed[noteOff.getNote()] = false;
-
-		for (MidiPair pair : midiPairs) {
-			if (pair.getNoteOn().getNote() == noteOff.getNote() && pair.getNoteOff() == null) {
-				pair.setNoteOff(noteOff);
-				return;
+		SnapshotArray<Actor> actors = gameGroup.getChildren();
+		for (Actor actor : actors) {
+			if (actor instanceof Bubble) {
+				Bubble bubble = (Bubble)actor;
+				if (bubble.getNote() == noteOff.getNote()) {
+					bubble.addAction(Actions.sequence(Actions.fadeOut(1), Actions.removeActor()));
+				}
 			}
 		}
 	}
