@@ -16,11 +16,12 @@ public class BubblesScreen extends MidiScreen {
 	private class Bubble extends Actor {
 		
 		private ShapeRenderer shapeRenderer;
-		private int note;
+		private NoteOn noteOn;
 
-		public Bubble(int note) {
+		public Bubble(NoteOn noteOn) {
 			shapeRenderer = new ShapeRenderer();
-			this.note = note;
+			this.noteOn = noteOn;
+			setPosition((float)(noteOn.getNote()*WIDTH/127.0), (float)(noteOn.getVelocity()*HEIGHT/127.0));
 		}
 
 		@Override
@@ -35,15 +36,50 @@ public class BubblesScreen extends MidiScreen {
 			batch.begin();
 		}
 
-		public int getNote() {
-			return note;
+		public NoteOn getNoteOn() {
+			return noteOn;
 		}
+	}
+
+	NoteOn[] a = new NoteOn[10];
+	
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		NoteOn noteOn = new NoteOn(0, (int)screenX*127/WIDTH, (int)(HEIGHT-screenY)*127/HEIGHT);
+		a[pointer] = noteOn;
+		
+		onMidiNoteOn(noteOn);
+		return true;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		
+		NoteOn noteOff = a[pointer];
+		onMidiNoteOff(new NoteOff(0, noteOff.getNote(), noteOff.getVelocity()));
+		a[pointer] = null;
+		
+		return true;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		NoteOn noteOn = new NoteOn(0, (int)screenX*127/WIDTH, (int)(HEIGHT-screenY)*127/HEIGHT);
+		
+		NoteOn noteOff = a[pointer];
+		
+		if (noteOn.getNote() != noteOff.getNote() || noteOn.getVelocity() == noteOff.getVelocity()) {
+			onMidiNoteOff(new NoteOff(0, noteOff.getNote(), noteOff.getVelocity()));
+			onMidiNoteOn(noteOn);
+			a[pointer] = noteOn;
+		}
+		
+		return true;
 	}
 
 	@Override
 	public void onMidiNoteOn(NoteOn noteOn) {
-		Bubble bubble = new Bubble(noteOn.getNote());
-		bubble.setPosition((float)(noteOn.getNote()*WIDTH/127.0), (float)(noteOn.getVelocity()*HEIGHT/127.0));
+		Bubble bubble = new Bubble(noteOn);
 		gameGroup.addActor(bubble);
 	}
 
@@ -53,7 +89,7 @@ public class BubblesScreen extends MidiScreen {
 		for (Actor actor : actors) {
 			if (actor instanceof Bubble) {
 				Bubble bubble = (Bubble)actor;
-				if (bubble.getNote() == noteOff.getNote()) {
+				if (bubble.getNoteOn().getNote() == noteOff.getNote()) {
 					bubble.addAction(Actions.sequence(Actions.fadeOut(1), Actions.removeActor()));
 				}
 			}
