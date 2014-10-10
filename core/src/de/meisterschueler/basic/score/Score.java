@@ -9,8 +9,9 @@ public class Score implements Comparable<Score> {
 	public static final Score PAUSE = new Score();
 
 	public static final int GUIDO_OCTAVE_OFFSET = -4;
+	public static final int NOTES_PER_OCTAVE = 12;	
+	public static final int NATURALS_PER_OCTAVE = 7;
 
-	private int pitch;
 	private Finger finger;
 	private Fraction measure;
 
@@ -26,6 +27,7 @@ public class Score implements Comparable<Score> {
 	private String status;
 
 	private MidiPair midiPair;
+
 
 	public Score() {
 		this.natural = 0;

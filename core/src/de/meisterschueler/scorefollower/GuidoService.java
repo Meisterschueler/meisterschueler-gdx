@@ -15,17 +15,12 @@ import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.basic.score.Finger;
 import de.meisterschueler.basic.score.Score;
-import de.meisterschueler.basic.score.Status;
-
 
 public class GuidoService {
 
-	private static final int NATURALS_PER_OCTAVE = 7;
-	private static final int NOTES_PER_OCTAVE = 12;
-
 	private static String REPEAT_PATTERN = new String("\\repeatBegin \\repeatEnd");
 
-	//^([a-g_])(#|##|&|&&)?(-?[0-9]+)?(\*[0-9]+)?(\/[0-9]+)?(\.{1,3})?$
+	// ^([a-g_])(#|##|&|&&)?(-?[0-9]+)?(\*[0-9]+)?(\/[0-9]+)?(\.{1,3})?$
 	private static String NOTE_PATTERN = new String("^([a-g_])(#|##|&|&&)?(-?[0-9]+)?(\\*[0-9]+)?(\\/[0-9]+)?(\\.{1,3})?$");
 
 	// ^\{(\S+)\}$
@@ -33,16 +28,18 @@ public class GuidoService {
 
 	// ^\\([a-zA-Z]+)(\<(.*)\>)?(\(.*\))?$
 	private static String TAG_PATTERN = new String("^\\\\([a-zA-Z]+)(\\<(.*)\\>)?(\\(.*\\))?$");
-	
+
 	private ScoreService scoreService = new ScoreService();
 
 	private interface AbstractCommand {
 		public String foundChord(String[] gmnStrings);
+
 		public String foundTag(String gmnString);
+
 		public String foundNote(String gmnString);
 	}
 
-	private class InflateCommand implements AbstractCommand{
+	private class InflateCommand implements AbstractCommand {
 		public Score prevScore = new Score();
 
 		@Override
@@ -60,21 +57,22 @@ public class GuidoService {
 				prevScore = score;
 				parts.add(score.toGmn());
 			}
-			return"{" + StringUtils.join(parts, ",") + "}";
+			return "{" + StringUtils.join(parts, ",") + "}";
 		}
 
 		@Override
 		public String foundTag(String gmnTag) {
-			if ( gmnTag.equals("clef") ) {
+			if (gmnTag.equals("clef")) {
 				// ignore it
 			} else {
-				//throw new Exception(tagMatcher.group(1) + " not handled yet in string: " + tagMatcher.group(0));
+				// throw new Exception(tagMatcher.group(1) +
+				// " not handled yet in string: " + tagMatcher.group(0));
 			}
 			return gmnTag;
 		}
 	}
 
-	private class DeflateCommand implements AbstractCommand{
+	private class DeflateCommand implements AbstractCommand {
 		public Score prevScore = new Score();
 
 		@Override
@@ -93,15 +91,16 @@ public class GuidoService {
 				parts.add(score.toGmn(prevScore));
 				prevScore = score;
 			}
-			return"{" + StringUtils.join(parts, ",") + "}";
+			return "{" + StringUtils.join(parts, ",") + "}";
 		}
 
 		@Override
 		public String foundTag(String gmnTag) {
-			if ( gmnTag.equals("clef") ) {
+			if (gmnTag.equals("clef")) {
 				// ignore it
 			} else {
-				//throw new Exception(tagMatcher.group(1) + " not handled yet in string: " + tagMatcher.group(0));
+				// throw new Exception(tagMatcher.group(1) +
+				// " not handled yet in string: " + tagMatcher.group(0));
 			}
 			return gmnTag;
 		}
@@ -129,15 +128,16 @@ public class GuidoService {
 			for (String gmnNote : gmnStrings) {
 				parts.add(transposeGmn(gmnNote, natural_delta, pitch_delta));
 			}
-			return"{" + StringUtils.join(parts, ",") + "}";
+			return "{" + StringUtils.join(parts, ",") + "}";
 		}
 
 		@Override
 		public String foundTag(String gmnString) {
-			if ( gmnString.equals("clef") ) {
+			if (gmnString.equals("clef")) {
 				// ignore it
 			} else {
-				//throw new Exception(tagMatcher.group(1) + " not handled yet in string: " + tagMatcher.group(0));
+				// throw new Exception(tagMatcher.group(1) +
+				// " not handled yet in string: " + tagMatcher.group(0));
 			}
 			return gmnString;
 		}
@@ -156,12 +156,12 @@ public class GuidoService {
 
 		Score prevScore = new Score();
 
-		for (String part: gmnString.split(" ")) {
+		for (String part : gmnString.split(" ")) {
 			Matcher noteMatcher = notePattern.matcher(part);
 			Matcher chordMatcher = chordPattern.matcher(part);
 			Matcher tagMatcher = tagPattern.matcher(part);
 
-			if ( chordMatcher.find() ) {
+			if (chordMatcher.find()) {
 				Score score = null;
 				for (String part2 : chordMatcher.group(1).split(",")) {
 					score = gmnToScore(part2, prevScore);
@@ -170,14 +170,14 @@ public class GuidoService {
 					prevScore = score;
 				}
 				chordPosition = chordPosition.add(score.getMeasure());
-			} else if (noteMatcher.find()){
+			} else if (noteMatcher.find()) {
 				Score score = gmnToScore(part, prevScore);
 				score.setPosition(chordPosition);
 				result.add(score);
 				chordPosition = chordPosition.add(score.getMeasure());
 				prevScore = score;
-			} else if ( tagMatcher.find() ) {
-				if ( tagMatcher.group(1).equals("clef") ) {
+			} else if (tagMatcher.find()) {
+				if (tagMatcher.group(1).equals("clef")) {
 					// ignore it
 				} else {
 					System.err.println(tagMatcher.group(1) + " not handled yet in string: " + tagMatcher.group(0));
@@ -200,13 +200,13 @@ public class GuidoService {
 		List<Score> scores = gmnToScores(gmnString);
 		scores = addFingersToScores(fingers, scores);
 		List<Score> result = new ArrayList<Score>();
-		Fraction lastPosition = new Fraction( 0, 1 );
+		Fraction lastPosition = new Fraction(0, 1);
 		for (int step : steps) {
 			List<Score> transposedScores = transposeScoresByNatural(scores, step);
-			List<Score> shiftedScores = scoreService.shiftScores( transposedScores, lastPosition );
-			result.addAll( shiftedScores );
-			
-			Score lastScore = shiftedScores.get(shiftedScores.size()-1);
+			List<Score> shiftedScores = scoreService.shiftScores(transposedScores, lastPosition);
+			result.addAll(shiftedScores);
+
+			Score lastScore = shiftedScores.get(shiftedScores.size() - 1);
 			lastPosition = lastScore.getPosition().add(lastScore.getMeasure());
 		}
 		return result;
@@ -227,18 +227,18 @@ public class GuidoService {
 		Iterator<Score> scoreIt = scores.iterator();
 		while (scoreIt.hasNext()) {
 			Score score = scoreIt.next();
-			
+
 			if (oldScore != null && oldScore.getPosition() != score.getPosition())
 				tick += deltaTick;
-			
-			deltaTick = (long) (score.getMeasure().doubleValue()*4.0*1000.0);
+
+			deltaTick = (long) (score.getMeasure().doubleValue() * 4.0 * 1000.0);
 
 			if (score != Score.PAUSE) {
 				NoteOn noteOn = new NoteOn(tick, score.getPitch(), velocity);
-				NoteOff noteOff = new NoteOff(tick+deltaTick, score.getPitch(), velocity);
+				NoteOff noteOff = new NoteOff(tick + deltaTick, score.getPitch(), velocity);
 				notes.add(new MidiPair(noteOn, noteOff));
 			}
-			
+
 			oldScore = score;
 
 		}
@@ -247,12 +247,12 @@ public class GuidoService {
 
 	public String inflateGmn(String gmnString) {
 		InflateCommand command = new InflateCommand();
-		return traverseGmn(	gmnString, command );
+		return traverseGmn(gmnString, command);
 	}
 
 	public String deflateGmn(String gmnString) {
 		DeflateCommand command = new DeflateCommand();
-		return traverseGmn( gmnString, command );
+		return traverseGmn(gmnString, command);
 	}
 
 	public String transposeGmn(final String fromGmn, final String toGmn, String gmnString) {
@@ -269,7 +269,7 @@ public class GuidoService {
 	public String scoresToString(List<Score> scores) {
 		String result = "";
 		for (Score score : scores) {
-			result += (char)score.getPitch();
+			result += (char) score.getPitch();
 		}
 		return result;
 	}
@@ -279,19 +279,18 @@ public class GuidoService {
 
 		result.add(gmnString);
 
-
 		gmnString = inflateGmn(gmnString);
 		Pattern chordPattern = Pattern.compile(CHORD_PATTERN);
 		Matcher chordMatcher = chordPattern.matcher(gmnString);
 		if (chordMatcher.find()) {
 			List<String> gmnParts = new ArrayList<String>(Arrays.asList(chordMatcher.group(1).split(",")));
-			for (int i=0; i<gmnParts.size()-1; i++) {
+			for (int i = 0; i < gmnParts.size() - 1; i++) {
 				Score base = gmnToScore(gmnParts.get(0));
-				Score top = gmnToScore(gmnParts.get(gmnParts.size()-1));
+				Score top = gmnToScore(gmnParts.get(gmnParts.size() - 1));
 
 				while (base.getPitch() < top.getPitch()) {
-					base.setOctave(base.getOctave()+1);
-					base.setNatural(base.getNatural()+7);
+					base.setOctave(base.getOctave() + 1);
+					base.setNatural(base.getNatural() + 7);
 				}
 
 				gmnParts.remove(0);
@@ -310,7 +309,7 @@ public class GuidoService {
 		for (Score score : scores) {
 			int preNatural = score.getNatural();
 			int postNatural = preNatural + step;
-			int postOctave = postNatural/NATURALS_PER_OCTAVE;
+			int postOctave = postNatural / Score.NATURALS_PER_OCTAVE;
 
 			String accidental = score.getAccidental();
 			Fraction measure = score.getMeasure();
@@ -334,8 +333,8 @@ public class GuidoService {
 	}
 
 	private List<Score> addFingersToScores(int[] fingers, List<Score> scores) {
-		int f=0;
-		int i=0;
+		int f = 0;
+		int i = 0;
 
 		if (scores.isEmpty()) {
 			return scores;
@@ -346,7 +345,7 @@ public class GuidoService {
 		do {
 			currentScore.setFinger(Finger.getFinger(fingers[f % fingers.length]));
 			f++;
-			if (i < scores.size()-1) {
+			if (i < scores.size() - 1) {
 				i++;
 				currentScore = scores.get(i);
 			} else {
@@ -364,9 +363,9 @@ public class GuidoService {
 
 		Score scoreSoll = new Score();
 		scoreSoll.setNatural(natural_soll);
-		scoreSoll.setOctave(natural_soll/NATURALS_PER_OCTAVE);
+		scoreSoll.setOctave(natural_soll / Score.NATURALS_PER_OCTAVE);
 
-		switch (pitch_delta + (score.getPitch()-scoreSoll.getPitch())) {
+		switch (pitch_delta + (score.getPitch() - scoreSoll.getPitch())) {
 		case -2:
 			scoreSoll.setAccidental("&&");
 			break;
@@ -382,15 +381,15 @@ public class GuidoService {
 			scoreSoll.setAccidental("##");
 			break;
 		default:
-			break;	// Mach eine Exception
+			break; // Mach eine Exception
 		}
 
 		String result = "" + Score.naturalToChar(scoreSoll.getNatural());
 		result += scoreSoll.getAccidental();
-		result += (scoreSoll.getOctave()+Score.GUIDO_OCTAVE_OFFSET);
+		result += (scoreSoll.getOctave() + Score.GUIDO_OCTAVE_OFFSET);
 		result += "*" + score.getMeasure().getNumerator() + "/" + score.getMeasure().getDenominator();
 
-		return  result; 
+		return result;
 	}
 
 	private String traverseGmn(String gmnString, AbstractCommand command) {
@@ -400,16 +399,16 @@ public class GuidoService {
 		Pattern chordPattern = Pattern.compile(CHORD_PATTERN);
 		Pattern tagPattern = Pattern.compile(TAG_PATTERN);
 
-		for (String chordPart: gmnString.split(" ")) {
+		for (String chordPart : gmnString.split(" ")) {
 			Matcher noteMatcher = notePattern.matcher(chordPart);
 			Matcher chordMatcher = chordPattern.matcher(chordPart);
 			Matcher tagMatcher = tagPattern.matcher(chordPart);
 
-			if ( chordMatcher.find() ) {
+			if (chordMatcher.find()) {
 				result.add(command.foundChord(chordMatcher.group(1).split(",")));
-			} else if (noteMatcher.find()){
+			} else if (noteMatcher.find()) {
 				result.add(command.foundNote(chordPart));
-			} else if ( tagMatcher.find() ) {
+			} else if (tagMatcher.find()) {
 				result.add(command.foundTag(tagMatcher.group(1)));
 			} else {
 				// throw new Exception("getGmnCode failed for " + gmnString);
@@ -418,12 +417,12 @@ public class GuidoService {
 		return StringUtils.join(result, " ");
 	}
 
-	private Fraction getMeasure( String num, String den, String dots, Score prevScore) {
+	private Fraction getMeasure(String num, String den, String dots, Score prevScore) {
 		int numerator = prevScore.getMeasure().getNumerator();
 		int denominator = prevScore.getMeasure().getDenominator();
 
 		if (den != null) {
-			denominator = Integer.parseInt(den.replace("/", "").replace(".",""));
+			denominator = Integer.parseInt(den.replace("/", "").replace(".", ""));
 			numerator = 1;
 		}
 		if (num != null) {
@@ -431,20 +430,20 @@ public class GuidoService {
 		}
 
 		if (dots != null) {
-			switch(dots.length()) {
+			switch (dots.length()) {
 			case 0:
 				break;
 			case 1:
-				numerator = numerator*(2+1);
-				denominator = denominator*2;
+				numerator = numerator * (2 + 1);
+				denominator = denominator * 2;
 				break;
 			case 2:
-				numerator = numerator*((2+1)*2+1);
-				denominator = denominator*2*2;
+				numerator = numerator * ((2 + 1) * 2 + 1);
+				denominator = denominator * 2 * 2;
 				break;
 			case 3:
-				numerator = numerator*(((2+1)*2+1)*2+1);
-				denominator = denominator*2*2*2;
+				numerator = numerator * (((2 + 1) * 2 + 1) * 2 + 1);
+				denominator = denominator * 2 * 2 * 2;
 				break;
 			}
 		}
@@ -467,12 +466,12 @@ public class GuidoService {
 				}
 
 				if (matcher.group(3) != null) {
-					score.setOctave(Integer.parseInt(matcher.group(3))-Score.GUIDO_OCTAVE_OFFSET);
+					score.setOctave(Integer.parseInt(matcher.group(3)) - Score.GUIDO_OCTAVE_OFFSET);
 				} else {
 					score.setOctave(prevScore.getOctave());
 				}
 
-				score.setNatural(Score.charToNatural(matcher.group(1).charAt(0))+score.getOctave()*NATURALS_PER_OCTAVE);
+				score.setNatural(Score.charToNatural(matcher.group(1).charAt(0)) + score.getOctave() * Score.NATURALS_PER_OCTAVE);
 			}
 
 			Fraction measure = getMeasure(matcher.group(4), matcher.group(5), matcher.group(6), prevScore);
@@ -496,7 +495,7 @@ public class GuidoService {
 		String result = gmn;
 		while (matcher.find()) {
 			String snippet = matcher.group(0);
-			snippet = snippet.substring(12, snippet.length()-10).trim();
+			snippet = snippet.substring(12, snippet.length() - 10).trim();
 			result = result.replaceFirst(regex, snippet + " " + snippet);
 		}
 		return result;
