@@ -41,12 +41,12 @@ public class BubblesScreen extends MidiScreen {
 		}
 	}
 
-	NoteOn[] a = new NoteOn[10];
+	NoteOn[] touchedNotes = new NoteOn[10];
 	
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		NoteOn noteOn = new NoteOn(0, (int)screenX*127/WIDTH, (int)(HEIGHT-screenY)*127/HEIGHT);
-		a[pointer] = noteOn;
+		touchedNotes[pointer] = noteOn;
 		
 		onMidiNoteOn(noteOn);
 		return true;
@@ -55,9 +55,9 @@ public class BubblesScreen extends MidiScreen {
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		
-		NoteOn noteOff = a[pointer];
+		NoteOn noteOff = touchedNotes[pointer];
 		onMidiNoteOff(new NoteOff(0, noteOff.getNote(), noteOff.getVelocity()));
-		a[pointer] = null;
+		touchedNotes[pointer] = null;
 		
 		return true;
 	}
@@ -66,12 +66,12 @@ public class BubblesScreen extends MidiScreen {
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
 		NoteOn noteOn = new NoteOn(0, (int)screenX*127/WIDTH, (int)(HEIGHT-screenY)*127/HEIGHT);
 		
-		NoteOn noteOff = a[pointer];
+		NoteOn noteOff = touchedNotes[pointer];
 		
 		if (noteOn.getNote() != noteOff.getNote() || noteOn.getVelocity() == noteOff.getVelocity()) {
 			onMidiNoteOff(new NoteOff(0, noteOff.getNote(), noteOff.getVelocity()));
 			onMidiNoteOn(noteOn);
-			a[pointer] = noteOn;
+			touchedNotes[pointer] = noteOn;
 		}
 		
 		return true;
