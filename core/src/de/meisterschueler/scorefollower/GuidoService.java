@@ -18,7 +18,7 @@ import de.meisterschueler.basic.score.Score;
 
 public class GuidoService {
 
-	private static String REPEAT_PATTERN = new String("\\repeatBegin \\repeatEnd");
+	private static String REPEAT_PATTERN = "\\\\repeatBegin([a-g0-9\\-\\*\\/,\\{\\}#&\\s]*)\\\\repeatEnd";
 
 	// ^([a-g_])(#|##|&|&&)?(-?[0-9]+)?(\*[0-9]+)?(\/[0-9]+)?(\.{1,3})?$
 	private static String NOTE_PATTERN = new String("^([a-g_])(#|##|&|&&)?(-?[0-9]+)?(\\*[0-9]+)?(\\/[0-9]+)?(\\.{1,3})?$");
@@ -488,15 +488,14 @@ public class GuidoService {
 	}
 
 	private String gmnConvertRepeats(String gmn) {
-		String regex = "\\\\repeatBegin([a-g0-9\\-\\*\\/,\\{\\}#&\\s]*)\\\\repeatEnd";
-		Pattern pattern = Pattern.compile(regex);
+		Pattern pattern = Pattern.compile(REPEAT_PATTERN);
 		Matcher matcher = pattern.matcher(gmn);
 
 		String result = gmn;
 		while (matcher.find()) {
 			String snippet = matcher.group(0);
 			snippet = snippet.substring(12, snippet.length() - 10).trim();
-			result = result.replaceFirst(regex, snippet + " " + snippet);
+			result = result.replaceFirst(REPEAT_PATTERN, snippet + " " + snippet);
 		}
 		return result;
 	}

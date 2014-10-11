@@ -17,17 +17,11 @@ public class Score implements Comparable<Score> {
 
 	private Fraction position;
 
-	// Fuck
 	private int octave;
-
 	private int natural;
-
 	private String accidental;
-
 	private String status;
-
 	private MidiPair midiPair;
-
 
 	public Score() {
 		this.natural = 0;
