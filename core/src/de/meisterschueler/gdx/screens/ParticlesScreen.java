@@ -1,17 +1,18 @@
 package de.meisterschueler.gdx.screens;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import de.meisterschueler.basic.NoteOn;
+import de.meisterschueler.gdx.MidiOutput;
 
 public class ParticlesScreen extends MidiScreen {
 
 	public class ParticleEffectActor extends Actor {
-		ParticleEffect particleEffect;
+		PooledEffect particleEffect;
 
-		public ParticleEffectActor(ParticleEffect particleEffect) {
+		public ParticleEffectActor(PooledEffect particleEffect) {
 			super();
 			this.particleEffect = particleEffect;
 		}
@@ -19,6 +20,10 @@ public class ParticlesScreen extends MidiScreen {
 		@Override
 		public void draw(Batch batch, float parentAlpha) {
 			particleEffect.draw(batch);
+			if (particleEffect.isComplete()) {
+				particleEffect.free();
+				remove();
+			}
 		}
 
 		@Override
@@ -35,10 +40,12 @@ public class ParticlesScreen extends MidiScreen {
 		public void allowCompletion() {
 			particleEffect.allowCompletion();
 		}
-
 	}
 
-	public ParticlesScreen() {
+	private MidiOutput midiOutput;
+
+	public ParticlesScreen(MidiOutput midiOutput) {
+		this.midiOutput = midiOutput;
 		ParticleCache.Load();
 	}
 
@@ -46,6 +53,7 @@ public class ParticlesScreen extends MidiScreen {
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		NoteOn noteOn = new NoteOn(0, (int) screenX * 127 / WIDTH, (int) (HEIGHT - screenY) * 127 / HEIGHT);
 		onMidiNoteOn(noteOn);
+		midiOutput.sendNoteOn(noteOn);
 		return true;
 	}
 
@@ -53,6 +61,7 @@ public class ParticlesScreen extends MidiScreen {
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
 		NoteOn noteOn = new NoteOn(0, (int) screenX * 127 / WIDTH, (int) (HEIGHT - screenY) * 127 / HEIGHT);
 		onMidiNoteOn(noteOn);
+		midiOutput.sendNoteOn(noteOn);
 		return true;
 	}
 
