@@ -2,7 +2,6 @@ package de.meisterschueler.gdx.screens;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import de.meisterschueler.basic.NoteOn;
@@ -11,7 +10,6 @@ public class ParticlesScreen extends MidiScreen {
 
 	public class ParticleEffectActor extends Actor {
 		ParticleEffect particleEffect;
-		Vector2 acc = new Vector2();
 
 		public ParticleEffectActor(ParticleEffect particleEffect) {
 			super();
@@ -26,9 +24,7 @@ public class ParticlesScreen extends MidiScreen {
 		@Override
 		public void act(float delta) {
 			super.act(delta);
-			acc.set(getWidth() / 2, getHeight() / 2);
-			localToStageCoordinates(acc);
-			particleEffect.setPosition(acc.x, acc.y);
+			particleEffect.setPosition(getX(), getY());
 			particleEffect.update(delta);
 		}
 
