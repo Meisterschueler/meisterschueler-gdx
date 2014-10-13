@@ -166,7 +166,7 @@ aligned: false
 additive: true
 behind: false
 - Image Path -
-C:\Users\Johnny\Desktop\Development\Particles\pfire.png
+/Users/konstantin/Development/workspace/meisterschueler-gdx/android/assets/fx/pfire.png
 
 
 Untitled
@@ -308,4 +308,4 @@ aligned: false
 additive: true
 behind: false
 - Image Path -
-C:\Users\Johnny\Desktop\Development\Particles\pfire.png
+/Users/konstantin/Development/workspace/meisterschueler-gdx/android/assets/fx/pfire.png

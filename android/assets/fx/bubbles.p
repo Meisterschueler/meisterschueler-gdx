@@ -203,7 +203,7 @@ aligned: false
 additive: true
 behind: false
 - Image Path -
-C:\Users\Johnny\Desktop\Development\Particles\pbubble.png
+/Users/konstantin/Development/workspace/meisterschueler-gdx/android/assets/fx/pbubble.png
 
 
 bubble2
@@ -388,4 +388,4 @@ aligned: false
 additive: true
 behind: false
 - Image Path -
-C:\Users\Johnny\Desktop\Development\Particles\pbubble.png
+/Users/konstantin/Development/workspace/meisterschueler-gdx/android/assets/fx/pbubble.png

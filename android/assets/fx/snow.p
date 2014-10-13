@@ -171,7 +171,7 @@ aligned: false
 additive: false
 behind: false
 - Image Path -
-C:\Users\Johnny\Desktop\Development\Particles\psnow.png
+/Users/konstantin/Development/workspace/meisterschueler-gdx/android/assets/fx/psnow.png
 
 
 Untitled
@@ -320,4 +320,4 @@ aligned: false
 additive: false
 behind: false
 - Image Path -
-C:\Users\Johnny\Desktop\Development\Particles\psnow.png
+/Users/konstantin/Development/workspace/meisterschueler-gdx/android/assets/fx/psnow.png

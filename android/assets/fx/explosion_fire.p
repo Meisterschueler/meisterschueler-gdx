@@ -166,7 +166,7 @@ aligned: false
 additive: true
 behind: false
 - Image Path -
-C:\Users\Johnny\Desktop\Development\Particles\p.png
+/Users/konstantin/Development/workspace/meisterschueler-gdx/android/assets/fx/p.png
 
 
 Untitled
@@ -300,4 +300,4 @@ aligned: false
 additive: true
 behind: false
 - Image Path -
-C:\Users\Johnny\Desktop\Development\Particles\p.png
+/Users/konstantin/Development/workspace/meisterschueler-gdx/android/assets/fx/p.png
