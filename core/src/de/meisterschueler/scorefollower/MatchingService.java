@@ -16,9 +16,9 @@ public class MatchingService {
 	public String scoresToPitchSequence(List<Score> scores) {
 		StringBuilder sb = new StringBuilder();
 		for (Score score : scores) {
-			//if (!score.isPause()) {
-			sb.append((char) (score.getPitch()));
-			//}
+			if (score != Score.PAUSE) {
+				sb.append((char) (score.getPitch()));
+			}
 		}
 		return sb.toString();
 	}
