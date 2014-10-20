@@ -9,70 +9,23 @@ import de.meisterschueler.basic.score.Score;
 
 public class HanonItemFactory implements MatchingItemFactory {
 
-	private class HanonSong {
-		private String name;
-		private long id;
-		private String description;
-		private String meter;
-		private List<Score> leftScores;
-		private List<Score> rightScores;
-
-		void HanonSong() {
-			this.meter = "2/4";
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public void setId(long Id) {
-			this.id = Id;
-		}
-
-		public void setDescription(String description) {
-			this.description = description;
-		}
-
-		public void setLeftScores(List<Score> leftScores) {
-			this.leftScores = leftScores;
-		}
-
-		public void setRightScores(List<Score> rightScores) {
-			this.rightScores = rightScores;
-		}
-
-		public void setMeter(String meter) {
-			this.meter = meter;
-		}
-
-		public String getLeftScorePitchSequence() {
-			StringBuffer sb = new StringBuffer();
-			for (Score score : leftScores) {
-				sb.append(score.toString());
-			}
-			return sb.toString();
-		}
-		
-	}
-
 	private GuidoService guidoService = new GuidoService();
 	private ScoreService scoreService = new ScoreService();
-	
+
 	@Override
 	public List<MatchingItem> getItems() {
 		List<MatchingItem> items = new ArrayList<MatchingItem>();
-		for (int i=0; i<=19; i++) {
-			MatchingItem item = new MatchingItem();
-			HanonSong hanonSong = getNo(i);
-			
-			item.setScorePitchSequence(hanonSong.getLeftScorePitchSequence());
+		for (int i = 0; i <= 19; i++) {
+			Song hanonSong = getNo(i);
+			MatchingItem item = hanonSong.toMatchingItem();
+			items.add(item);
 		}
-			
+
 		return items;
 	}
 
-	private HanonSong getNo(int no) {
-		HanonSong hanonSong = new HanonSong();
+	private Song getNo(int no) {
+		Song hanonSong = new Song();
 
 		switch (no) {
 		case 0: {
@@ -190,7 +143,7 @@ public class HanonItemFactory implements MatchingItemFactory {
 		case 5: {
 			hanonSong.setName("6");
 			hanonSong
-					.setDescription("To obtain the good results which we promise those who study this work, it is indispensable to play daily, at least once, the exercise already learned.");
+			.setDescription("To obtain the good results which we promise those who study this work, it is indispensable to play daily, at least once, the exercise already learned.");
 			hanonSong.setId(600L);
 
 			String patternUp1 = "c0/16 a g a f a e a";
@@ -296,7 +249,7 @@ public class HanonItemFactory implements MatchingItemFactory {
 		case 9: {
 			hanonSong.setName("10");
 			hanonSong
-					.setDescription("Preparation for the trill, for the 3rd and 4th fingers of the left hand in ascending (1); and for the 3rd and 4th of the right, descending (2).");
+			.setDescription("Preparation for the trill, for the 3rd and 4th fingers of the left hand in ascending (1); and for the 3rd and 4th of the right, descending (2).");
 			hanonSong.setId(1000L);
 
 			String patternUp = "c0/16 a g f e f e f";

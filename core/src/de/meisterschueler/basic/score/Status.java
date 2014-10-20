@@ -10,4 +10,7 @@ public class Status {
 	public static final char INSERT = 'i';
 
 	public static final char OPEN = 'o';
+
+	public static final char PRESSED = 'x';
+	public static final char RELEASED = '.';
 }
