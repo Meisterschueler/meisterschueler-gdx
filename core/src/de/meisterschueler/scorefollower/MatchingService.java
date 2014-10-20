@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.meisterschueler.basic.MidiPair;
 import de.meisterschueler.basic.score.Score;
+import de.meisterschueler.basic.score.Status;
 
 public class MatchingService {
 
@@ -37,15 +38,15 @@ public class MatchingService {
 	}
 
 	public String midiEventsToPressedSequence(List<MidiPair> notes) {
-		String sequence = new String();
+		StringBuilder sb = new StringBuilder();
 		for (MidiPair event : notes) {
 			if (event.getNoteOff() != null) {
-				sequence += ".";
+				sb.append(Status.PRESSED);
 			} else {
-				sequence += "D";
+				sb.append(Status.RELEASED);
 			}
 		}
-		return sequence;
+		return sb.toString();
 	}
 
 	private String sequenceToIntervalSequence(String seq) {
