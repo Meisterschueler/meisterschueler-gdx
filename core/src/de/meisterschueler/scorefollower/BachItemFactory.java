@@ -14,7 +14,7 @@ public class BachItemFactory implements MatchingItemFactory {
 	@Override
 	public List<MatchingItem> getItems() {
 		List<MatchingItem> items = new ArrayList<MatchingItem>();
-		for (int i = 0; i <= 19; i++) {
+		for (int i = 0; i <= 13; i++) {
 			Song bachSong = getNo(i);
 			MatchingItem item = bachSong.toMatchingItem();
 			items.add(item);
@@ -128,15 +128,15 @@ public class BachItemFactory implements MatchingItemFactory {
 			break;
 		}
 
-		// case 10: {
-		// song.setName("Inventio 11";
-		// song.setId(11100L;
-		// song.setKey(Key.C;
-		// rightHand = "";
-		// leftHand = "";
-		//
-		// break;
-		// }
+		case 10: {
+			song.setName("Inventio 11");
+			song.setId(11100L);
+			song.setKey(Key.C);
+			rightHand = "";
+			leftHand = "";
+
+			break;
+		}
 
 		case 11: {
 			song.setName("Inventio 12");
