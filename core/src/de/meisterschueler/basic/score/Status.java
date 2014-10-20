@@ -2,12 +2,12 @@ package de.meisterschueler.basic.score;
 
 public class Status {
 
-	public static final String NONE = "?";
+	public static final char NONE = '?';
 
-	public static final String MATCH = "m";
-	public static final String WRONG = "w";
-	public static final String DELETED = "d";
-	public static final String INSERT = "i";
+	public static final char MATCH = 'm';
+	public static final char WRONG = 'w';
+	public static final char DELETED = 'd';
+	public static final char INSERT = 'i';
 
-	public static final String OPEN = "o";
+	public static final char OPEN = 'o';
 }

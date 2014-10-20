@@ -10,17 +10,26 @@ public class MatchingItem {
 
 	private String scorePitchSequence;
 	private String notePitchSequence;
+	
+	private String noteIntervalSequence;
+	private String scoreIntervalSequence;
 
 	private String pitchAlignment;
 	private String intervalAlignment;
 
 	private int transposition;
 
+
 	public MatchingItem() {
 	}
 
 	public MatchingItem(String pitchAlignment) {
 		this.pitchAlignment = pitchAlignment;
+	}
+
+	public void init() {
+		pitchAlignment = "";
+		intervalAlignment = "";
 	}
 
 	public boolean isFinished() {
@@ -85,8 +94,44 @@ public class MatchingItem {
 		return notePitch - scorePitch;
 	}
 
+	public void setNotePitchSequence(String notePitchSequence) {
+		this.notePitchSequence = notePitchSequence;
+	}
+	
 	public void setScorePitchSequence(String scorePitchSequence) {
 		this.scorePitchSequence = scorePitchSequence;
+	}
+	
+	public void setNoteIntervalSequence(String noteIntervalSequence) {
+		this.noteIntervalSequence = noteIntervalSequence;
+	}
+	
+	public void setScoreIntervalSequence(String scoreIntervalSequence) {
+		this.scoreIntervalSequence = scoreIntervalSequence;
+	}
+
+	public void setPitchAlignment(String pitchAlignment) {
+		this.pitchAlignment = pitchAlignment;
+	}
+
+	public void setIntervalAlignment(String intervalAlignment) {
+		this.intervalAlignment = intervalAlignment;
+	}
+
+	public String getScorePitchSequence() {
+		return scorePitchSequence;
+	}
+
+	public String getNotePitchSequence() {
+		return notePitchSequence;
+	}
+
+	public String getScoreIntervalSequence() {
+		return scoreIntervalSequence;
+	}
+
+	public String getNoteIntervalSequence() {
+		return noteIntervalSequence;
 	}
 
 }

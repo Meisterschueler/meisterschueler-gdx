@@ -315,7 +315,7 @@ public class GuidoService {
 			Fraction measure = score.getMeasure();
 			Fraction position = score.getPosition();
 			Finger finger = score.getFinger();
-			String status = score.getStatus();
+			char status = score.getStatus();
 
 			Score transScore = new Score();
 			transScore.setNatural(postNatural);

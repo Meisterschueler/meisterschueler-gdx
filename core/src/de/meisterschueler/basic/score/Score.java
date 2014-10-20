@@ -20,7 +20,7 @@ public class Score implements Comparable<Score> {
 	private int octave;
 	private int natural;
 	private String accidental;
-	private String status;
+	private char status;
 	private MidiPair midiPair;
 
 	public Score() {
@@ -133,11 +133,11 @@ public class Score implements Comparable<Score> {
 		this.finger = finger;
 	}
 
-	public String getStatus() {
+	public char getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(char status) {
 		this.status = status;
 	}
 
