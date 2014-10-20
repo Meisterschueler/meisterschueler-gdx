@@ -1,4 +1,4 @@
-package de.meisterschueler.scorefollower;
+package de.meisterschueler.scorefollower.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -11,6 +11,7 @@ import org.junit.Test;
 import de.meisterschueler.basic.Finger;
 import de.meisterschueler.basic.MidiPair;
 import de.meisterschueler.basic.Score;
+import de.meisterschueler.scorefollower.GuidoService;
 
 public class GuidoServiceTest {
 

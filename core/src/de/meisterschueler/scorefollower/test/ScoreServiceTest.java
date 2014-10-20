@@ -1,4 +1,4 @@
-package de.meisterschueler.scorefollower;
+package de.meisterschueler.scorefollower.test;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,6 +7,8 @@ import java.util.List;
 import org.junit.Test;
 
 import de.meisterschueler.basic.Score;
+import de.meisterschueler.scorefollower.GuidoService;
+import de.meisterschueler.scorefollower.ScoreService;
 
 public class ScoreServiceTest {
 	private GuidoService guidoService = new GuidoService();

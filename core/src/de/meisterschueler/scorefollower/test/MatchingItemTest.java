@@ -1,8 +1,10 @@
-package de.meisterschueler.scorefollower;
+package de.meisterschueler.scorefollower.test;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import de.meisterschueler.scorefollower.MatchingItem;
 
 public class MatchingItemTest {
 	

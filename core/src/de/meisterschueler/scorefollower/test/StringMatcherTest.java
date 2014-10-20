@@ -1,8 +1,10 @@
-package de.meisterschueler.scorefollower;
+package de.meisterschueler.scorefollower.test;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import de.meisterschueler.scorefollower.StringMatcher;
 
 public class StringMatcherTest {
 	@Test
