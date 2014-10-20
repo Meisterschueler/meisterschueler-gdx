@@ -63,5 +63,13 @@ public class MatchingItemTest {
 		item = new MatchingItem("mmm");
 		assertEquals(1.0, item.getQuality(), eps);
 	}
-
+	
+	@Test
+	public void getTranspositionTest() {
+		MatchingItem item = new MatchingItem("ABCD", "BCDE", "mmmm");
+		assertEquals(1, item.getTransposition());
+		
+		item = new MatchingItem("BCDE", "ABCD", "mmmm");
+		assertEquals(-1, item.getTransposition());
+	}
 }
