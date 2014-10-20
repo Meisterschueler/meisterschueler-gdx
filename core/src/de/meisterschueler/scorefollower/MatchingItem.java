@@ -10,7 +10,7 @@ public class MatchingItem {
 
 	private String scorePitchSequence;
 	private String notePitchSequence;
-	
+
 	private String noteIntervalSequence;
 	private String scoreIntervalSequence;
 
@@ -19,12 +19,19 @@ public class MatchingItem {
 
 	private int transposition;
 
-
 	public MatchingItem() {
 	}
 
+	// For testing: isFinished, getProgress, getQuality
 	public MatchingItem(String pitchAlignment) {
 		this.pitchAlignment = pitchAlignment;
+	}
+
+	// For testing: getTransposition
+	public MatchingItem(String scorePitchSequence, String notePitchSequence, String intervalAlignment) {
+		this.scorePitchSequence = scorePitchSequence;
+		this.notePitchSequence = notePitchSequence;
+		this.intervalAlignment = intervalAlignment;
 	}
 
 	public void init() {
@@ -37,12 +44,11 @@ public class MatchingItem {
 	}
 
 	public double getProgress() {
-		int correctNotesToPlay = StringUtils.countMatches(pitchAlignment.replaceAll("[MmWwo]", "."), ".");
 		int playedNotes = StringUtils.countMatches(pitchAlignment.replaceAll("[mw]", "."), ".");
 		int pressedNotes = StringUtils.countMatches(pitchAlignment.replaceAll("[MW]", "."), ".");
 		int stillToPlayNotes = StringUtils.countMatches(pitchAlignment.replaceAll("[o]", "."), ".");
 
-		return (correctNotesToPlay - playedNotes - pressedNotes / 2.0 - stillToPlayNotes) / (correctNotesToPlay);
+		return (playedNotes + pressedNotes / 2.0) / (playedNotes + pressedNotes + stillToPlayNotes);
 	}
 
 	public double getQuality() {
@@ -97,15 +103,15 @@ public class MatchingItem {
 	public void setNotePitchSequence(String notePitchSequence) {
 		this.notePitchSequence = notePitchSequence;
 	}
-	
+
 	public void setScorePitchSequence(String scorePitchSequence) {
 		this.scorePitchSequence = scorePitchSequence;
 	}
-	
+
 	public void setNoteIntervalSequence(String noteIntervalSequence) {
 		this.noteIntervalSequence = noteIntervalSequence;
 	}
-	
+
 	public void setScoreIntervalSequence(String scoreIntervalSequence) {
 		this.scoreIntervalSequence = scoreIntervalSequence;
 	}
