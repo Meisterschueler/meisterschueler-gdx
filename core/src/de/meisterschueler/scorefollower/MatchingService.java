@@ -14,13 +14,13 @@ public class MatchingService {
 	}
 
 	public String scoresToPitchSequence(List<Score> scores) {
-		String sequence = new String();
-//		for (Score score : scores) {
-//			if (!score.isPause()) {
-//				sequence += (char) (score.getPitch());
-//			}
-//		}
-		return sequence;
+		StringBuilder sb = new StringBuilder();
+		for (Score score : scores) {
+			//if (!score.isPause()) {
+			sb.append((char) (score.getPitch()));
+			//}
+		}
+		return sb.toString();
 	}
 
 	public String midiEventsToIntervalSequence(List<MidiPair> notes) {
@@ -29,12 +29,12 @@ public class MatchingService {
 	}
 
 	public String midiEventsToPitchSequence(List<MidiPair> notes) {
-		String sequence = new String();
+		StringBuilder sb = new StringBuilder();
 		for (MidiPair event : notes) {
 			char value = (char) event.getNoteOn().getNote();
-			sequence += value;
+			sb.append(value);
 		}
-		return sequence;
+		return sb.toString();
 	}
 
 	public String midiEventsToPressedSequence(List<MidiPair> notes) {
@@ -74,15 +74,15 @@ public class MatchingService {
 		item.setIntervalAlignment(intervalAlignment);
 	}
 
-//	public void matchPitchPrunned(MatchingItem item) {
-//		int saveRegion = item.getSaveRegion();
-//		String saveAlignment = item.getPitchAlignment().substring(0, saveRegion);
-//
-//		String prunnedScorePitchSequence = item.getScorePitchSequence().substring(saveAlignment.replaceAll("[i]", "").length());
-//		String prunnedNotePitchSequence = item.getNotePitchSequence().substring(saveAlignment.replaceAll("[d]", "").length());
-//
-//		String prunnedAlignment = StringMatcher.getAlignments(prunnedScorePitchSequence, prunnedNotePitchSequence);
-//
-//		item.setPitchAlignment(saveAlignment + prunnedAlignment);
-//	}
+	//	public void matchPitchPrunned(MatchingItem item) {
+	//		int saveRegion = item.getSaveRegion();
+	//		String saveAlignment = item.getPitchAlignment().substring(0, saveRegion);
+	//
+	//		String prunnedScorePitchSequence = item.getScorePitchSequence().substring(saveAlignment.replaceAll("[i]", "").length());
+	//		String prunnedNotePitchSequence = item.getNotePitchSequence().substring(saveAlignment.replaceAll("[d]", "").length());
+	//
+	//		String prunnedAlignment = StringMatcher.getAlignments(prunnedScorePitchSequence, prunnedNotePitchSequence);
+	//
+	//		item.setPitchAlignment(saveAlignment + prunnedAlignment);
+	//	}
 }
