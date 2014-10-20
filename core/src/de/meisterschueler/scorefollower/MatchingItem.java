@@ -16,6 +16,9 @@ public class MatchingItem {
 
 	private int transposition;
 
+	public MatchingItem() {
+	}
+
 	public MatchingItem(String pitchAlignment) {
 		this.pitchAlignment = pitchAlignment;
 	}
@@ -80,6 +83,10 @@ public class MatchingItem {
 		char notePitch = notePitchSequence.charAt(notePosition);
 
 		return notePitch - scorePitch;
+	}
+
+	public void setScorePitchSequence(String scorePitchSequence) {
+		this.scorePitchSequence = scorePitchSequence;
 	}
 
 }
