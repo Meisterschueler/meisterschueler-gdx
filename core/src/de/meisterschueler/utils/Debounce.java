@@ -1,4 +1,4 @@
-package de.meisterschueler.gdx;
+package de.meisterschueler.utils;
 
 import java.util.Timer;
 import java.util.TimerTask;

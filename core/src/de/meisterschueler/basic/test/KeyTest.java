@@ -1,8 +1,10 @@
-package de.meisterschueler.scorefollower;
+package de.meisterschueler.basic.test;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import de.meisterschueler.basic.Key;
 
 public class KeyTest {
 

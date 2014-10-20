@@ -1,4 +1,7 @@
-package de.meisterschueler.basic;
+package de.meisterschueler.utils;
+
+import de.meisterschueler.basic.NoteOff;
+import de.meisterschueler.basic.NoteOn;
 
 public abstract class Derepeater {
 

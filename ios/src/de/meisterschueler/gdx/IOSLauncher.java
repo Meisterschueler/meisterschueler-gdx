@@ -8,6 +8,7 @@ import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
 
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
+import de.meisterschueler.utils.MidiOutput;
 
 public class IOSLauncher extends IOSApplication.Delegate {
     @Override

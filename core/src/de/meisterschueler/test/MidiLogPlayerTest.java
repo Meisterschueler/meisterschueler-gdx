@@ -5,9 +5,9 @@ import java.io.IOException;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import de.meisterschueler.basic.MidiLogPlayer;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
+import de.meisterschueler.utils.MidiLogPlayer;
 
 public class MidiLogPlayerTest {
 

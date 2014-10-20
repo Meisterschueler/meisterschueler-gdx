@@ -3,8 +3,8 @@ package de.meisterschueler.scorefollower;
 import java.util.List;
 
 import de.meisterschueler.basic.MidiPair;
-import de.meisterschueler.basic.score.Score;
-import de.meisterschueler.basic.score.Status;
+import de.meisterschueler.basic.Score;
+import de.meisterschueler.basic.Status;
 
 public class MatchingService {
 

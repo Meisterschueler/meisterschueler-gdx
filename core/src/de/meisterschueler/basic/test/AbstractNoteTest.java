@@ -1,4 +1,4 @@
-package de.meisterschueler.test;
+package de.meisterschueler.basic.test;
 
 import junit.framework.TestCase;
 

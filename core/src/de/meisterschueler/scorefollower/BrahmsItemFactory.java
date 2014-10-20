@@ -3,7 +3,9 @@ package de.meisterschueler.scorefollower;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.meisterschueler.basic.score.Score;
+import de.meisterschueler.basic.Key;
+import de.meisterschueler.basic.Score;
+import de.meisterschueler.basic.Song;
 
 public class BrahmsItemFactory implements MatchingItemFactory {
 	private GuidoService guidoService = new GuidoService();

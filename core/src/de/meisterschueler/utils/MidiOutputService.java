@@ -1,4 +1,4 @@
-package de.meisterschueler.gdx;
+package de.meisterschueler.utils;
 
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;

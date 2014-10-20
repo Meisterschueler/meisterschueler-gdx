@@ -10,11 +10,11 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.fraction.Fraction;
 
+import de.meisterschueler.basic.Finger;
 import de.meisterschueler.basic.MidiPair;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
-import de.meisterschueler.basic.score.Finger;
-import de.meisterschueler.basic.score.Score;
+import de.meisterschueler.basic.Score;
 
 public class GuidoService {
 

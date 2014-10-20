@@ -3,7 +3,7 @@ package de.meisterschueler.test;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import de.meisterschueler.gdx.Debounce;
+import de.meisterschueler.utils.Debounce;
 
 public class DebounceTest {
 	boolean pressed = false;

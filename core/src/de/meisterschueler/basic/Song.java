@@ -1,8 +1,8 @@
-package de.meisterschueler.scorefollower;
+package de.meisterschueler.basic;
 
 import java.util.List;
 
-import de.meisterschueler.basic.score.Score;
+import de.meisterschueler.scorefollower.MatchingItem;
 
 public class Song {
 	private String name;

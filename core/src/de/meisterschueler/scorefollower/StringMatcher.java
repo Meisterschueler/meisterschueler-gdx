@@ -1,6 +1,6 @@
 package de.meisterschueler.scorefollower;
 
-import de.meisterschueler.basic.score.Status;
+import de.meisterschueler.basic.Status;
 
 public class StringMatcher {
 

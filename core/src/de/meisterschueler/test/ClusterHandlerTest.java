@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
-import de.meisterschueler.gdx.ClusterHandler;
+import de.meisterschueler.utils.ClusterHandler;
 
 public class ClusterHandlerTest {
 

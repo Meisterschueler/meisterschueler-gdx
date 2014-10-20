@@ -1,4 +1,4 @@
-package de.meisterschueler.basic;
+package de.meisterschueler.utils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import de.meisterschueler.basic.AbstractNote;
+import de.meisterschueler.basic.NoteOff;
+import de.meisterschueler.basic.NoteOn;
 
 public abstract class MidiLogPlayer {
 	public MidiLogPlayer(String file) throws NumberFormatException, IOException, InterruptedException {

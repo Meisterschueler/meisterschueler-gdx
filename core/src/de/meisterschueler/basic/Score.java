@@ -1,8 +1,6 @@
-package de.meisterschueler.basic.score;
+package de.meisterschueler.basic;
 
 import org.apache.commons.math3.fraction.Fraction;
-
-import de.meisterschueler.basic.MidiPair;
 
 public class Score implements Comparable<Score> {
 

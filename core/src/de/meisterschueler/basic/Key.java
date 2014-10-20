@@ -1,4 +1,4 @@
-package de.meisterschueler.scorefollower;
+package de.meisterschueler.basic;
 
 public enum Key {
 	Des(1,-5), As(8,-4), Es(3,-3), B(10,-2), F(5,-1), C(0,0), G(7,1), D(2,2), A(9,3), E(4,4), H(11,5), Fis(6,6), 

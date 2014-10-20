@@ -4,9 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import de.meisterschueler.basic.Derepeater;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
+import de.meisterschueler.utils.Derepeater;
 
 public class DerepeaterTest {
 

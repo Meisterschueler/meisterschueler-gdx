@@ -1,4 +1,4 @@
-package de.meisterschueler.gdx;
+package de.meisterschueler.utils;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;

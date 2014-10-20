@@ -1,4 +1,4 @@
-package de.meisterschueler.test;
+package de.meisterschueler.basic.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

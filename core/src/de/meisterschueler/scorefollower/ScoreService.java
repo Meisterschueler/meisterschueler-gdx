@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.apache.commons.math3.fraction.Fraction;
 
-import de.meisterschueler.basic.score.Score;
+import de.meisterschueler.basic.Score;
 
 
 public class ScoreService {

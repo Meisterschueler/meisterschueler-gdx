@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import de.meisterschueler.basic.score.Score;
+import de.meisterschueler.basic.Score;
 
 public class ScoreServiceTest {
 	private GuidoService guidoService = new GuidoService();

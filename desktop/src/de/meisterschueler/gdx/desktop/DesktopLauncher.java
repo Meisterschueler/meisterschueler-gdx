@@ -6,7 +6,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.Meisterschueler;
-import de.meisterschueler.gdx.MidiOutput;
+import de.meisterschueler.utils.MidiOutput;
 
 public class DesktopLauncher {	
 	public static void main (String[] arg) {

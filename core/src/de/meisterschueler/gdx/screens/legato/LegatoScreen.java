@@ -17,12 +17,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
-import de.meisterschueler.gdx.ClusterHandler;
-import de.meisterschueler.gdx.Utils;
 import de.meisterschueler.gdx.screens.MidiScreen;
-import de.meisterschueler.gdx.screens.ScrollEffect.Bubble;
+import de.meisterschueler.utils.ClusterHandler;
+import de.meisterschueler.utils.Utils;
 
-public class LegatoScreen extends MidiScreen {
+public class LegatoScreen<Bubble> extends MidiScreen {
 
 	private class Background extends Actor {
 

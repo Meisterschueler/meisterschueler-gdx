@@ -4,7 +4,7 @@ import junit.framework.Assert;
 
 import org.apache.commons.lang3.StringUtils;
 
-import de.meisterschueler.basic.score.Status;
+import de.meisterschueler.basic.Status;
 
 public class MatchingItem {
 

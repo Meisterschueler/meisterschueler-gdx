@@ -4,11 +4,14 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 
 import de.meisterschueler.basic.ControlChange;
-import de.meisterschueler.basic.Derepeater;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.screens.MidiScreen;
 import de.meisterschueler.gpgs.ScoreService;
+import de.meisterschueler.utils.Debounce;
+import de.meisterschueler.utils.Derepeater;
+import de.meisterschueler.utils.MidiOutput;
+import de.meisterschueler.utils.MidiOutputService;
 
 public class Meisterschueler extends Game {
 

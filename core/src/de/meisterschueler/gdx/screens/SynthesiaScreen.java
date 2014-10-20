@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
-import de.meisterschueler.gdx.MidiOutput;
+import de.meisterschueler.utils.MidiOutput;
 
 public class SynthesiaScreen extends MidiScreen {
 

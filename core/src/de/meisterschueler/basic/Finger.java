@@ -1,4 +1,4 @@
-package de.meisterschueler.basic.score;
+package de.meisterschueler.basic;
 
 public enum Finger {
 	NONE, THUMB, POINTER, MIDDLE, RING, LITTLE;

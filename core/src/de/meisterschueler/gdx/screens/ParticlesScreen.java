@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import de.meisterschueler.basic.NoteOn;
-import de.meisterschueler.gdx.MidiOutput;
+import de.meisterschueler.utils.MidiOutput;
 
 public class ParticlesScreen extends MidiScreen {
 

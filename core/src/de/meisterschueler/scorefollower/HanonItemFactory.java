@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import de.meisterschueler.basic.score.Hand;
-import de.meisterschueler.basic.score.Score;
+import de.meisterschueler.basic.Hand;
+import de.meisterschueler.basic.Score;
+import de.meisterschueler.basic.Song;
 
 public class HanonItemFactory implements MatchingItemFactory {
 

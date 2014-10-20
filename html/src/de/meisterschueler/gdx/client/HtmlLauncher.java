@@ -7,7 +7,7 @@ import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.Meisterschueler;
-import de.meisterschueler.gdx.MidiOutput;
+import de.meisterschueler.utils.MidiOutput;
 
 public class HtmlLauncher extends GwtApplication {
 
