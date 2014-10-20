@@ -9,12 +9,16 @@ public class BachItemFactory implements MatchingItemFactory {
 
 	private GuidoService guidoService = new GuidoService();
 
-	private List<MatchingItem> items = new ArrayList<MatchingItem>();
-
 	@Override
 	public List<MatchingItem> getItems() {
-		// TODO Auto-generated method stub
-		return null;
+		List<MatchingItem> items = new ArrayList<MatchingItem>();
+		for (int i = 0; i <= 19; i++) {
+			Song bachSong = getNo(i);
+			MatchingItem item = bachSong.toMatchingItem();
+			items.add(item);
+		}
+
+		return items;
 	}
 
 	private Song getNo(int no) {
