@@ -4,8 +4,6 @@ import org.apache.commons.math3.fraction.Fraction;
 
 public class Score implements Comparable<Score> {
 
-	public static final Score PAUSE = new Score();
-
 	public static final int GUIDO_OCTAVE_OFFSET = -4;
 	public static final int NOTES_PER_OCTAVE = 12;	
 	public static final int NATURALS_PER_OCTAVE = 7;
@@ -20,6 +18,8 @@ public class Score implements Comparable<Score> {
 	private String accidental;
 	private char status;
 	private MidiPair midiPair;
+	
+	private boolean pause;
 
 	public Score() {
 		this.natural = 0;
@@ -153,6 +153,14 @@ public class Score implements Comparable<Score> {
 
 	public void setPosition(Fraction position) {
 		this.position = position;
+	}
+
+	public boolean isPause() {
+		return pause;
+	}
+
+	public void setPause(boolean pause) {
+		this.pause = pause;
 	}
 
 	@Override

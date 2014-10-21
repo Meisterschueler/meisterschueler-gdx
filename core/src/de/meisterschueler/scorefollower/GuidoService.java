@@ -233,7 +233,7 @@ public class GuidoService {
 
 			deltaTick = (long) (score.getMeasure().doubleValue() * 4.0 * 1000.0);
 
-			if (score != Score.PAUSE) {
+			if (!score.isPause()) {
 				NoteOn noteOn = new NoteOn(tick, score.getPitch(), velocity);
 				NoteOff noteOff = new NoteOff(tick + deltaTick, score.getPitch(), velocity);
 				notes.add(new MidiPair(noteOn, noteOff));
@@ -458,7 +458,7 @@ public class GuidoService {
 		Matcher matcher = pattern.matcher(gmnString);
 		if (matcher.find()) {
 			if (matcher.group(1).charAt(0) == '_') {
-				score = Score.PAUSE;
+				score.setPause(true);
 			} else {
 
 				if (matcher.group(2) != null) {

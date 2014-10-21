@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
-import de.meisterschueler.gdx.Utils;
+import de.meisterschueler.utils.Utils;
 
 public class ScrollEffect extends MidiScreen {
 

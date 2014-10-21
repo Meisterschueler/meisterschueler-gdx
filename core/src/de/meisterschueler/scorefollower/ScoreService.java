@@ -29,7 +29,7 @@ public class ScoreService {
 		Iterator<Score> scoreIt = scores.iterator();
 		while (scoreIt.hasNext()) {
 			Score score = scoreIt.next();
-			if (score == Score.PAUSE) {
+			if (score.isPause()) {
 				scoreIt.remove();
 			}
 		}

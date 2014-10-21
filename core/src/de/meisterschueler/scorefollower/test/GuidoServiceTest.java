@@ -41,7 +41,8 @@ public class GuidoServiceTest {
 	
 	@Test
 	public void gmnToScorePauseTest() throws Exception {
-		assertEquals( guidoService.gmnToScore("_"), Score.PAUSE );
+		Score pause = guidoService.gmnToScore("_");
+		assertTrue( pause.isPause() );
 	}
 	
 	@Test
@@ -133,13 +134,12 @@ public class GuidoServiceTest {
 		assertEquals( 69, scores.get(5).getPitch() );
 	}
 	
-	// TODO: Sollten Pausen wirklich eigene Scores bekommen oder einfach entfallen?
 	@Test
 	public void gmnToScoresPauseTest() {
 		List<Score> notes = guidoService.gmnToScores("c/4 {e,g} _ d _ {f,g}");
 		assertEquals( 8, notes.size() );
-		assertEquals( notes.get(3), Score.PAUSE );
-		assertEquals( notes.get(5), Score.PAUSE );
+		assertTrue( notes.get(3).isPause() );
+		assertTrue( notes.get(5).isPause() );
 		assertEquals( 1.25, notes.get(7).getPosition().doubleValue(), 1.0 );
 	}
 	
