@@ -1,7 +1,9 @@
 language: android
 android:
   components:
+    - android-19
     - build-tools-19.1.0
+    - extra-google-google_play_services
 
 notifications:
   email: false
