@@ -1,6 +1,6 @@
 language: java
 
-before_script: 
+before_install: 
   # libGDX
   - chmod +x gradlew
   # required libs for android build tools
