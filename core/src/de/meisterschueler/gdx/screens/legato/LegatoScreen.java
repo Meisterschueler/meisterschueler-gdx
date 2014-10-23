@@ -18,10 +18,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.screens.MidiScreen;
+import de.meisterschueler.gdx.screens.ScrollEffect.Bubble;
 import de.meisterschueler.utils.ClusterHandler;
 import de.meisterschueler.utils.Utils;
 
-public class LegatoScreen<Bubble> extends MidiScreen {
+public class LegatoScreen extends MidiScreen {
 
 	private class Background extends Actor {
 
@@ -178,7 +179,7 @@ public class LegatoScreen<Bubble> extends MidiScreen {
 	private Background background;
 
 	List<Bubble> bubbles = new CopyOnWriteArrayList<Bubble>();
-	
+
 	private boolean showLegatoStaccatoBars = true;
 	private boolean showOverlapRegions = true;
 
@@ -187,7 +188,7 @@ public class LegatoScreen<Bubble> extends MidiScreen {
 
 	public LegatoScreen() {
 		super();
-		
+
 		legatoStaccatoToggleButton = new TextButton("Legato bars", skin);
 		legatoStaccatoToggleButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 		legatoStaccatoToggleButton.setPosition(WIDTH - BUTTON_WIDTH, HEIGHT - 1 * BUTTON_HEIGHT);
@@ -207,9 +208,9 @@ public class LegatoScreen<Bubble> extends MidiScreen {
 				showOverlapRegions = !showOverlapRegions;
 			}
 		});
-		
-		//uiGroup.addActor(legatoStaccatoToggleButton);
-		//uiGroup.addActor(overlapRegionsButton);
+
+		// uiGroup.addActor(legatoStaccatoToggleButton);
+		// uiGroup.addActor(overlapRegionsButton);
 
 		background = new Background();
 		gameGroup.addActor(background);
