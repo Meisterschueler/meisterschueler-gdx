@@ -26,7 +26,7 @@ import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.MainMenu;
 
-public class MidiScreen extends InputAdapter implements Screen {
+public abstract class MidiScreen extends InputAdapter implements Screen {
 
 	private static final Map<Integer, Integer> noteMap;
 	static {
