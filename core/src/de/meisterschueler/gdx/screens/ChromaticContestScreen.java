@@ -1,5 +1,6 @@
 package de.meisterschueler.gdx.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 
 import de.meisterschueler.basic.NoteOn;
+import de.meisterschueler.gdx.Meisterschueler;
 import de.meisterschueler.gpgs.ScoreService;
 
 public class ChromaticContestScreen extends MidiScreen {
@@ -41,10 +43,10 @@ public class ChromaticContestScreen extends MidiScreen {
 	private ScoreService scoreService;
 
 
-	public ChromaticContestScreen(final ScoreService scoreService) {
+	public ChromaticContestScreen() {
 		super();
 
-		this.scoreService = scoreService;
+		this.scoreService = ((Meisterschueler) Gdx.app.getApplicationListener()).getScoreService();
 
 		progressValueLabel = new Label("0", skin, "huge");
 		progressUnitLabel = new Label("%", skin, "huge");

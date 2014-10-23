@@ -1,5 +1,6 @@
 package de.meisterschueler.gdx.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldFilter;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import de.meisterschueler.gdx.Meisterschueler;
 import de.meisterschueler.gpgs.ScoreService;
 
 public class GpgsScreen extends MidiScreen {
@@ -22,8 +24,8 @@ public class GpgsScreen extends MidiScreen {
 	private TextButton buttonScore;
 	private TextButton buttonLeaderboard;
 	
-	public GpgsScreen(final ScoreService scoreService) {
-		this.scoreService = scoreService;
+	public GpgsScreen() {
+		this.scoreService = ((Meisterschueler) Gdx.app.getApplicationListener()).getScoreService();
 		
 		labelLogin = new Label("", skin);
 		

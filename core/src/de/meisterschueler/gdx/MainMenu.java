@@ -12,11 +12,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import de.meisterschueler.basic.NoteOff;
+import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.screens.BubblesScreen;
 import de.meisterschueler.gdx.screens.ChromaticContestScreen;
+import de.meisterschueler.gdx.screens.GpgsScreen;
 import de.meisterschueler.gdx.screens.MidiStreamScreen;
+import de.meisterschueler.gdx.screens.ParticlesScreen;
+import de.meisterschueler.gdx.screens.SpectrumEffect;
+import de.meisterschueler.gdx.screens.SynthesiaScreen;
 import de.meisterschueler.gdx.screens.legato.LegatoScreen;
 import de.meisterschueler.gpgs.ScoreService;
+import de.meisterschueler.utils.MidiOutput;
 
 public class MainMenu implements Screen {
 
@@ -26,8 +33,12 @@ public class MainMenu implements Screen {
 	private Table table;
 	private TextButton buttonLegatoTrainer;
 	private TextButton buttonBubbles;
+	private TextButton buttonParticles;
 	private TextButton buttonMidiStream;
+	private TextButton buttonGpgs;
 	private TextButton buttonChromaticContest;
+	private TextButton buttonSpectrum;
+	private TextButton buttonSynthesia;
 	private TextButton buttonExit;
 
 	public MainMenu() {
@@ -55,6 +66,24 @@ public class MainMenu implements Screen {
 			}
 		});
 
+		buttonParticles = new TextButton("Particles", skin);
+		buttonParticles.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				((Game) Gdx.app.getApplicationListener()).setScreen(new ParticlesScreen(new MidiOutput() {
+
+					@Override
+					public void sendNoteOn(NoteOn noteOn) {
+					}
+
+					@Override
+					public void sendNoteOff(NoteOff noteOff) {
+					}
+
+				}));
+			}
+		});
+
 		buttonMidiStream = new TextButton("MIDI Stream", skin);
 		buttonMidiStream.addListener(new ClickListener() {
 			@Override
@@ -63,12 +92,43 @@ public class MainMenu implements Screen {
 			}
 		});
 
+		buttonGpgs = new TextButton("GPGS", skin);
+		buttonGpgs.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				((Game) Gdx.app.getApplicationListener()).setScreen(new GpgsScreen());
+			}
+		});
+
 		buttonChromaticContest = new TextButton("Chromatic Contest", skin);
 		buttonChromaticContest.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				ScoreService scoreService = ((Meisterschueler) Gdx.app.getApplicationListener()).getScoreService();
-				((Game) Gdx.app.getApplicationListener()).setScreen(new ChromaticContestScreen(scoreService));
+				((Game) Gdx.app.getApplicationListener()).setScreen(new ChromaticContestScreen());
+			}
+		});
+
+		buttonSpectrum = new TextButton("Spectrum", skin);
+		buttonSpectrum.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				((Game) Gdx.app.getApplicationListener()).setScreen(new SpectrumEffect());
+			}
+		});
+
+		buttonSpectrum = new TextButton("Synthesia", skin);
+		buttonSpectrum.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				((Game) Gdx.app.getApplicationListener()).setScreen(new SynthesiaScreen(new MidiOutput() {
+					@Override
+					public void sendNoteOn(NoteOn noteOn) {
+					}
+
+					@Override
+					public void sendNoteOff(NoteOff noteOff) {
+					}
+				}));
 			}
 		});
 
@@ -83,12 +143,16 @@ public class MainMenu implements Screen {
 		table = new Table();
 		table.setFillParent(true);
 		table.add(buttonLegatoTrainer).prefSize(200, 60);
-		table.row();
 		table.add(buttonBubbles).prefSize(200, 60);
 		table.row();
+		table.add(buttonParticles).prefSize(200, 60);
 		table.add(buttonMidiStream).prefSize(200, 60);
 		table.row();
-		table.add(buttonChromaticContest).prefSize(200, 60).padBottom(10);
+		table.add(buttonGpgs).prefSize(200, 60);
+		table.add(buttonChromaticContest).prefSize(200, 60);
+		table.row();
+		table.add(buttonSpectrum).prefSize(200, 60);
+		table.add(buttonSynthesia).prefSize(200, 60).padBottom(10);
 		table.row();
 		table.add(buttonExit).prefSize(200, 60);
 
