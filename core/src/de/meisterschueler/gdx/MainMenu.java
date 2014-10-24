@@ -17,12 +17,12 @@ import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.screens.BubblesScreen;
 import de.meisterschueler.gdx.screens.ChromaticContestScreen;
 import de.meisterschueler.gdx.screens.GpgsScreen;
+import de.meisterschueler.gdx.screens.MatcherScreen;
 import de.meisterschueler.gdx.screens.MidiStreamScreen;
 import de.meisterschueler.gdx.screens.ParticlesScreen;
 import de.meisterschueler.gdx.screens.SpectrumEffect;
 import de.meisterschueler.gdx.screens.SynthesiaScreen;
 import de.meisterschueler.gdx.screens.legato.LegatoScreen;
-import de.meisterschueler.gpgs.ScoreService;
 import de.meisterschueler.utils.MidiOutput;
 
 public class MainMenu implements Screen {
@@ -31,12 +31,13 @@ public class MainMenu implements Screen {
 	private Skin skin;
 	private TextureAtlas atlas;
 	private Table table;
-	private TextButton buttonLegatoTrainer;
 	private TextButton buttonBubbles;
-	private TextButton buttonParticles;
-	private TextButton buttonMidiStream;
-	private TextButton buttonGpgs;
 	private TextButton buttonChromaticContest;
+	private TextButton buttonGpgs;
+	private TextButton buttonLegatoTrainer;
+	private TextButton buttonMatcher;
+	private TextButton buttonMidiStream;
+	private TextButton buttonParticles;
 	private TextButton buttonSpectrum;
 	private TextButton buttonSynthesia;
 	private TextButton buttonExit;
@@ -50,6 +51,30 @@ public class MainMenu implements Screen {
 		atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
 		skin = new Skin(Gdx.files.internal("uiskin.json"), atlas);
 
+		buttonBubbles = new TextButton("Bubbles", skin);
+		buttonBubbles.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				((Game) Gdx.app.getApplicationListener()).setScreen(new BubblesScreen());
+			}
+		});
+		
+		buttonChromaticContest = new TextButton("Chromatic Contest", skin);
+		buttonChromaticContest.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				((Game) Gdx.app.getApplicationListener()).setScreen(new ChromaticContestScreen());
+			}
+		});
+		
+		buttonGpgs = new TextButton("GPGS", skin);
+		buttonGpgs.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				((Game) Gdx.app.getApplicationListener()).setScreen(new GpgsScreen());
+			}
+		});
+		
 		buttonLegatoTrainer = new TextButton("Legato Training", skin);
 		buttonLegatoTrainer.addListener(new ClickListener() {
 			@Override
@@ -57,12 +82,20 @@ public class MainMenu implements Screen {
 				((Game) Gdx.app.getApplicationListener()).setScreen(new LegatoScreen());
 			}
 		});
-
-		buttonBubbles = new TextButton("Bubbles", skin);
-		buttonBubbles.addListener(new ClickListener() {
+		
+		buttonMatcher = new TextButton("Matcher", skin);
+		buttonMatcher.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				((Game) Gdx.app.getApplicationListener()).setScreen(new BubblesScreen());
+				((Game) Gdx.app.getApplicationListener()).setScreen(new MatcherScreen());
+			}
+		});
+		
+		buttonMidiStream = new TextButton("MIDI Stream", skin);
+		buttonMidiStream.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				((Game) Gdx.app.getApplicationListener()).setScreen(new MidiStreamScreen());
 			}
 		});
 
@@ -81,30 +114,6 @@ public class MainMenu implements Screen {
 					}
 
 				}));
-			}
-		});
-
-		buttonMidiStream = new TextButton("MIDI Stream", skin);
-		buttonMidiStream.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				((Game) Gdx.app.getApplicationListener()).setScreen(new MidiStreamScreen());
-			}
-		});
-
-		buttonGpgs = new TextButton("GPGS", skin);
-		buttonGpgs.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				((Game) Gdx.app.getApplicationListener()).setScreen(new GpgsScreen());
-			}
-		});
-
-		buttonChromaticContest = new TextButton("Chromatic Contest", skin);
-		buttonChromaticContest.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				((Game) Gdx.app.getApplicationListener()).setScreen(new ChromaticContestScreen());
 			}
 		});
 
@@ -142,16 +151,18 @@ public class MainMenu implements Screen {
 
 		table = new Table();
 		table.setFillParent(true);
-		table.add(buttonLegatoTrainer).prefSize(200, 60);
 		table.add(buttonBubbles).prefSize(200, 60);
-		table.row();
-		table.add(buttonParticles).prefSize(200, 60);
-		table.add(buttonMidiStream).prefSize(200, 60);
-		table.row();
-		table.add(buttonGpgs).prefSize(200, 60);
 		table.add(buttonChromaticContest).prefSize(200, 60);
 		table.row();
+		table.add(buttonGpgs).prefSize(200, 60);
+		table.add(buttonLegatoTrainer).prefSize(200, 60);
+		table.row();
+		table.add(buttonMatcher).prefSize(200, 60);
+		table.add(buttonMidiStream).prefSize(200, 60);
+		table.row();
+		table.add(buttonParticles).prefSize(200, 60);
 		table.add(buttonSpectrum).prefSize(200, 60);
+		table.row();
 		table.add(buttonSynthesia).prefSize(200, 60).padBottom(10);
 		table.row();
 		table.add(buttonExit).prefSize(200, 60);
