@@ -19,6 +19,7 @@ import de.meisterschueler.gdx.screens.ChromaticContestScreen;
 import de.meisterschueler.gdx.screens.GpgsScreen;
 import de.meisterschueler.gdx.screens.MatcherScreen;
 import de.meisterschueler.gdx.screens.MidiStreamScreen;
+import de.meisterschueler.gdx.screens.OldScrollScreen;
 import de.meisterschueler.gdx.screens.ParticlesScreen;
 import de.meisterschueler.gdx.screens.SpectrumEffect;
 import de.meisterschueler.gdx.screens.SynthesiaScreen;
@@ -37,7 +38,9 @@ public class MainMenu implements Screen {
 	private TextButton buttonLegatoTrainer;
 	private TextButton buttonMatcher;
 	private TextButton buttonMidiStream;
+	private TextButton buttonOldScroll;
 	private TextButton buttonParticles;
+	private TextButton buttonScroll;
 	private TextButton buttonSpectrum;
 	private TextButton buttonSynthesia;
 	private TextButton buttonExit;
@@ -98,6 +101,14 @@ public class MainMenu implements Screen {
 				((Game) Gdx.app.getApplicationListener()).setScreen(new MidiStreamScreen());
 			}
 		});
+		
+		buttonOldScroll = new TextButton("Old Scroll", skin);
+		buttonOldScroll.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				((Game) Gdx.app.getApplicationListener()).setScreen(new OldScrollScreen());
+			}
+		});
 
 		buttonParticles = new TextButton("Particles", skin);
 		buttonParticles.addListener(new ClickListener() {
@@ -114,6 +125,14 @@ public class MainMenu implements Screen {
 					}
 
 				}));
+			}
+		});
+		
+		buttonScroll = new TextButton("Scroll", skin);
+		buttonScroll.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				((Game) Gdx.app.getApplicationListener()).setScreen(new OldScrollScreen());
 			}
 		});
 
@@ -160,7 +179,10 @@ public class MainMenu implements Screen {
 		table.add(buttonMatcher).prefSize(200, 60);
 		table.add(buttonMidiStream).prefSize(200, 60);
 		table.row();
+		table.add(buttonOldScroll).prefSize(200, 60);
 		table.add(buttonParticles).prefSize(200, 60);
+		table.row();
+		table.add(buttonScroll).prefSize(200, 60);
 		table.add(buttonSpectrum).prefSize(200, 60);
 		table.row();
 		table.add(buttonSynthesia).prefSize(200, 60).padBottom(10);

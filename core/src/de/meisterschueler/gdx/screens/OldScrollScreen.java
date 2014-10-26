@@ -14,7 +14,7 @@ import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.utils.Utils;
 
-public class ScrollEffect extends MidiScreen {
+public class OldScrollScreen extends MidiScreen {
 
 	public class Bubble {
 		public Bubble(NoteOn noteOn) {
@@ -76,7 +76,7 @@ public class ScrollEffect extends MidiScreen {
 	List<Bubble> bubbles = new CopyOnWriteArrayList<Bubble>();
 	private float bubbleSpeed = 100;
 
-	public ScrollEffect() {
+	public OldScrollScreen() {
 		super();
 
 		background = new Background();
