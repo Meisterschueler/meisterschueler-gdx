@@ -24,7 +24,9 @@ public abstract class Derepeater {
 	}
 
 	public void noteOffEvent(NoteOff noteOff) {
-		pressed[noteOff.getNote()] = false;
-		onNoteOff(noteOff);
+		if (pressed[noteOff.getNote()] == true) {
+			pressed[noteOff.getNote()] = false;
+			onNoteOff(noteOff);
+		}
 	}
 }
