@@ -17,6 +17,7 @@ public abstract class Derepeater {
 			onNoteOn(noteOn);
 		} else if (noteOn.getVelocity() > 0 && pressed[noteOn.getNote()]) {
 			noteOffEvent(new NoteOff(noteOn.getTime(), noteOn.getCable(), noteOn.getChannel(), noteOn.getNote(), noteOn.getVelocity()));
+			pressed[noteOn.getNote()] = true;
 			onNoteOn(noteOn);
 		} else if (noteOn.getVelocity() == 0) {
 			noteOffEvent(new NoteOff(noteOn.getTime(), noteOn.getCable(), noteOn.getChannel(), noteOn.getNote(), noteOn.getVelocity()));

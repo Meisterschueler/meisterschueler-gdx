@@ -32,20 +32,21 @@ public class DerepeaterTest {
 		// Common case
 		derepeater.noteOnEvent(new NoteOn(0, 0, 0, 30, 64));
 		derepeater.noteOffEvent(new NoteOff(0, 0, 0, 30, 0));
-		assertEquals(counterNoteOn[30], 1);
-		assertEquals(counterNoteOff[30], 1);
+		assertEquals(1, counterNoteOn[30]);
+		assertEquals(1, counterNoteOff[30]);
 
 		// NoteOn with velocity 0 instead of NoteOff
 		derepeater.noteOnEvent(new NoteOn(0, 0, 0,  35, 64));
 		derepeater.noteOffEvent(new NoteOff(0, 0, 0, 35, 0));
-		assertEquals(counterNoteOn[35], 1);
-		assertEquals(counterNoteOff[35], 1);
+		assertEquals(1, counterNoteOn[35]);
+		assertEquals(1, counterNoteOff[35]);
 
 		// Multiple NoteOnEvents
 		derepeater.noteOnEvent(new NoteOn(0, 0, 0,  40, 64));
 		derepeater.noteOnEvent(new NoteOn(0, 0, 0,  40, 70));
-		assertEquals(counterNoteOn[40], 2);
-		assertEquals(counterNoteOff[40], 1);
+		derepeater.noteOnEvent(new NoteOn(0, 0, 0,  40, 68));
+		assertEquals(3, counterNoteOn[40]);
+		assertEquals(2, counterNoteOff[40]);
 
 		// Repeat notes
 		derepeater.noteOnEvent(new NoteOn(0, 0, 0,  50, 64));
@@ -54,12 +55,12 @@ public class DerepeaterTest {
 		derepeater.noteOffEvent(new NoteOff(0, 0, 0,  50, 64));
 		derepeater.noteOnEvent(new NoteOn(0, 0, 0,  50, 64));
 		derepeater.noteOffEvent(new NoteOff(0, 0, 0,  50, 64));
-		assertEquals(counterNoteOn[50], 3);
-		assertEquals(counterNoteOff[50], 3);
+		assertEquals(3, counterNoteOn[50]);
+		assertEquals(3, counterNoteOff[50]);
 
 		// NoteOff without NoteOn
 		derepeater.noteOffEvent(new NoteOff(0, 0, 0, 60, 64));
-		assertEquals(counterNoteOn[60], 0);
-		assertEquals(counterNoteOff[60], 0);
+		assertEquals(0, counterNoteOn[60]);
+		assertEquals(0, counterNoteOff[60]);
 	}
 }
