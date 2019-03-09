@@ -18,7 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.screens.MidiScreen;
-import de.meisterschueler.gdx.screens.ScrollEffect.Bubble;
+import de.meisterschueler.gdx.screens.OldScrollScreen.Bubble;
 import de.meisterschueler.utils.ClusterHandler;
 import de.meisterschueler.utils.Utils;
 

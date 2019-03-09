@@ -5,9 +5,9 @@ buildscript {
         maven { url 'http://dl.bintray.com/steffenschaefer/maven' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'com.android.tools.build:gradle:1.+'
         classpath 'com.github.jtakakura:gradle-robovm-plugin:0.0.10'
-        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.5'
+        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
     }
 }
 
@@ -18,21 +18,20 @@ allprojects {
     version = '1.0'
     ext {
         appName = 'meisterschueler-gdx'
-        gdxVersion = '1.4.1'
-        roboVMVersion = '0.0.14'
+        gdxVersion = '1.+'
+        roboVMVersion = '1.0.0'
     }
 
     repositories {
         mavenLocal()
         mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
         maven { url 'https://github.com/kshoji/USB-MIDI-Driver/raw/master/MIDIDriver/snapshots' }
     }
 }
 
 project(":desktop") {
     apply plugin: "java"
-
 
     dependencies {
         compile project(":core")

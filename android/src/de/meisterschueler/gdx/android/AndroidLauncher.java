@@ -26,16 +26,12 @@ import android.view.WindowManager;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.google.android.gms.games.Games;
-import com.google.example.games.basegameutils.GameHelper;
-import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 
 import de.meisterschueler.basic.ControlChange;
 import de.meisterschueler.basic.NoteOff;
 import de.meisterschueler.basic.NoteOn;
 import de.meisterschueler.gdx.Meisterschueler;
-import de.meisterschueler.gdx.MidiOutput;
-import de.meisterschueler.gpgs.ScoreService;
+import de.meisterschueler.utils.MidiOutput;
 
 /**
  * base Activity for using USB MIDI interface.
@@ -44,7 +40,7 @@ import de.meisterschueler.gpgs.ScoreService;
  * 
  * @author K.Shoji
  */
-public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceDetachedListener, OnMidiDeviceAttachedListener, OnMidiInputEventListener, MidiOutput, GameHelperListener, ScoreService {	
+public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceDetachedListener, OnMidiDeviceAttachedListener, OnMidiInputEventListener, MidiOutput {	
 	/**
 	 * Implementation for single device connections.
 	 * 
@@ -158,9 +154,6 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	Handler deviceDetachedHandler = null;
 	private MidiDeviceConnectionWatcher deviceConnectionWatcher = null;
 
-	// GPGS
-	private GameHelper gameHelper;
-
 	/*
 	 * (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -169,17 +162,10 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (gameHelper == null) {
-			gameHelper = new GameHelper(this, GameHelper.CLIENT_GAMES);
-			gameHelper.enableDebugLog(true);
-		}
-		gameHelper.setup(this);
-
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
 		//cfg.useGL20 = false;
 		Meisterschueler meisterschueler = new Meisterschueler(this);
-		meisterschueler.setScoreService(this);
 		initialize(meisterschueler, cfg);
 
 		UsbManager usbManager = (UsbManager) getApplicationContext().getSystemService(Context.USB_SERVICE);
@@ -390,84 +376,6 @@ public class AndroidLauncher extends AndroidApplication implements OnMidiDeviceD
 	@Override
 	public void sendNoteOff(NoteOff noteOff) {
 		getMidiOutputDevice().sendMidiNoteOff(noteOff.getCable(), noteOff.getChannel(), noteOff.getNote(), noteOff.getVelocity());
-	}
-
-	@Override
-	public boolean getSignedInGPGS() {
-		return gameHelper.isSignedIn();
-	}
-
-	@Override
-	public void loginGPGS() {
-		try {
-			runOnUiThread(new Runnable(){
-				public void run() {
-					gameHelper.beginUserInitiatedSignIn();
-				}
-			});
-		} catch (final Exception ex) {
-		}
-	}
-
-	@Override
-	public void submitEventGPGS(String id, int score) {
-		Games.Events.increment(gameHelper.getApiClient(), id, score);
-	}
-
-	@Override
-	public void submitScoreGPGS(String id, int score) {
-		Games.Leaderboards.submitScore(gameHelper.getApiClient(), id, score);
-	}
-
-	@Override
-	public void unlockAchievementGPGS(String achievementId) {
-		Games.Achievements.unlock(gameHelper.getApiClient(), achievementId);
-	}
-
-	@Override
-	public void getLeaderboardGPGS(String id) {
-		if (gameHelper.isSignedIn()) {
-			startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(), id), 100);
-		} else if (!gameHelper.isConnecting()) {
-			loginGPGS();
-		}
-	}
-
-	@Override
-	public void getAchievementsGPGS() {
-		if (gameHelper.isSignedIn()) {
-			startActivityForResult(Games.Achievements.getAchievementsIntent(gameHelper.getApiClient()), 101);
-		}
-		else if (!gameHelper.isConnecting()) {
-			loginGPGS();
-		}
-	}
-
-	@Override
-	public void onSignInFailed() {
-	}
-
-	@Override
-	public void onSignInSucceeded() {
-	}
-
-	@Override
-	public void submitEventGPGS_chromaticStart() {
-		submitEventGPGS(getString(R.string.event_started_chromatic_scale), 1);
-	}
-
-	@Override
-	public void submitScoreGPGS_chromatic(int score) {
-		submitScoreGPGS(getString(R.string.achievement_chromatic_master), score);
-	}
-
-	@Override
-	public void getLeaderboardGPGS_chromatic() {
-		if (gameHelper.isSignedIn()) {
-			startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(), getString(R.string.leaderboard_chromatic)), 100);
-		} else if (!gameHelper.isConnecting()) {
-			loginGPGS();
-		}
 	}
 }
 
